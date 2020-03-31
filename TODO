@@ -1,4 +1,4 @@
-# $Id: TODO 1288 $
+# $Id: TODO 1289 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 GUI app : OK
@@ -8,7 +8,19 @@ GUI .pack() -> .grid() OK
 W E
  S
 
+sauver, ouvrir : shelve OK
+
 si set.destination = False, next_turn = button.state='disabled' OK
+
+new game:
+    générer l'univers:
+        étoiles (liste de positions), [GUI: carte 2D]
+
+        planètes (liste : position, type, géopolitique, biens), [GUI: affichage des textes]
+
+        vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
+
+        quêtes (maybe later),
 
 https://www.geeksforgeeks.org/python-math-function-hypot/ OK
 https://docs.python.org/fr/3/library/math.html

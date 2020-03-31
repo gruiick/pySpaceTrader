@@ -5,24 +5,24 @@ python3 remake of SpaceTrader
 :date: 2018-12-19
 :modified: 2020-03-31
 :status: draft
-:version: $Id: README.rst 1288 $
+:version: $Id: README.rst 1289 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
 http://www.spronck.net/spacetrader/STFrames.html
+
 https://github.com/blind-coder/SpaceTrader
 
-I need something to work on my poor python skills. And it may differ from
-original games.
+I need something to work on my poor python skills. And it may differ from original games.
 
 disclaimer: early work in progress... It may never be finished.
 
 * Space Trader, python3/Tk, turn-based, basé sur :
-    https://www.benjamin-schieder.de/androidspacetrader.html
-    http://www.spronck.net/spacetrader/STFrames.html
-    https://github.com/blind-coder/SpaceTrader (java)
-    https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/res/drawable (png)
-    https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    * https://www.benjamin-schieder.de/androidspacetrader.html
+    * http://www.spronck.net/spacetrader/STFrames.html
+    * https://github.com/blind-coder/SpaceTrader (java)
+    * https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/res/drawable (png)
+    * https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 
 interface simple (Tk)
     mockup: (with onglets)
@@ -54,16 +54,9 @@ vaisseaux : hull type (small, medium, large, xtralarge)
             nb de pod attack/defense (laser, torpedo, shield), 
             nb de pod crew, 
             escape pod (x1 ou 0)
+            Hydrogen scoop: 0.5 parsec/turn (in case of empty fuel tank)
+
 capitaine/joueur (player) : gestion de réputation (avis de recherche, primes?, arrestations, amendes)
+
 gestion de combats spatiaux (rolldice)
 
-new game:
-    générer l'univers:
-        -étoiles (liste de positions), [GUI: carte 2D]-
-        planètes (liste : position, type, géopolitique, biens), [GUI: affichage des textes]
-        vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
-        quêtes (maybe later),
-
-sauver, ouvrir : shelve OK
-
-Hydrogen scoop: 0.5 parsec/turn (in case of empty fuel tank)
