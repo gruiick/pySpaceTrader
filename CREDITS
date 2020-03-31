@@ -1,0 +1,10 @@
+# $Id: CREDITS 1094 $
+# SPDX-License-Identifier: BSD-2-Clause
+
+Credits for python3 pySpaceTrader:
+
+Pieter Sproncks (original author of Space Trader for PalmOS)
+Benjamin Schieder (author and maintainer of Android port)
+Bryan Oakley (SimpleTable class)
+
+any good WebSearchEngine, stackoverflow and the python community

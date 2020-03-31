@@ -1,0 +1,36 @@
+# $Id: ROADMAP 1098 $
+# SPDX-License-Identifier: BSD-2-Clause
+
+SpaceTrader and beyond
+
+https://fr.wikipedia.org/wiki/Jeu_4X
+seulement les parties exploration et exploitation for now
+
+== before 0.1
+
+GUI mockups, cli tests OK
+save, open, create universe (cli) OK
+constants OK
+GUI App(), tk.grid() OK
+homeworld OK
+affiche planet (inline, outline) OK
+affiche planet.info: on_click OK
+selection planet OK
+create player, create ship OK
+handle turn = travel to planet, change current planet OK
+goods prices slip (stocks and prices) OK
+affiche prices slip(s) OK
+
+=== 0.1
+
+playable
+redimensionnable ? ou fixe, mais résolution en option ?
+fine tuning de tk (fonts, etc)
+
+=== 0.2
+
+
+
+== version 1.0
+
+full playable version
