@@ -1,7 +1,10 @@
-# $Id: TODO 1289 $
+# $Id: TODO 1290 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 GUI app : OK
+    tester PySimpleGUI
+    * https://pysimplegui.readthedocs.io/en/latest/
+    * https://pysimplegui.readthedocs.io/en/latest/cookbook/
 
 GUI .pack() -> .grid() OK
  N
@@ -12,15 +15,19 @@ sauver, ouvrir : shelve OK
 
 si set.destination = False, next_turn = button.state='disabled' OK
 
-new game:
-    générer l'univers:
-        étoiles (liste de positions), [GUI: carte 2D]
+new game: OK
+    générer l'univers: OK
+        étoiles (liste de positions), OK
+        [GUI: carte 2D] OK
 
-        planètes (liste : position, type, géopolitique, biens), [GUI: affichage des textes]
+        planètes (liste : position, type, géopolitique, biens), OK
+        [GUI: affichage des textes] OK
 
         vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
 
         quêtes (maybe later),
+
+gérer les stocks par planete OK
 
 https://www.geeksforgeeks.org/python-math-function-hypot/ OK
 https://docs.python.org/fr/3/library/math.html
@@ -39,8 +46,6 @@ implémenter les goods = OK pour les prix
 price via formula : base * regim * specialresources * techlevel * status OK
 bordereau de prix = price slip OK
 https://docs.python.org/fr/3/library/collections.html#collections.namedtuple
-
-gérer les stocks par planete OK
 
 
  * pour plus tard (bien plus tard) :

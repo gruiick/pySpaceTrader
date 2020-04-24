@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1098 $
+# $Id: ROADMAP 1099 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -25,7 +25,7 @@ affiche prices slip(s) OK
 
 playable
 redimensionnable ? ou fixe, mais résolution en option ?
-fine tuning de tk (fonts, etc)
+fine tuning de tk (fonts, etc) <- PySimpleGUI?
 
 === 0.2
 
@@ -33,4 +33,4 @@ fine tuning de tk (fonts, etc)
 
 == version 1.0
 
-full playable version
+full playable version, my way (not identical to original game)

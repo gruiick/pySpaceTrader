@@ -5,7 +5,7 @@ python3 remake of SpaceTrader
 :date: 2018-12-19
 :modified: 2020-03-31
 :status: draft
-:version: $Id: README.rst 1289 $
+:version: $Id: README.rst 1290 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -24,7 +24,7 @@ disclaimer: early work in progress... It may never be finished.
     * https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/res/drawable (png)
     * https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 
-interface simple (Tk)
+interface simple (Tk)  <- TODO have a test of PySimpleGUI
     mockup: (with onglets)
         local cluster (short range) map, circle = fuel capacity, full speed
         galactic map with grid (select local cluster)
