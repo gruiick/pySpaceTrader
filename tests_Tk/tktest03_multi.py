@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: tktest03_multi.py 926 $
+# $Id: tktest03_multi.py 1302 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 from tkinter import *

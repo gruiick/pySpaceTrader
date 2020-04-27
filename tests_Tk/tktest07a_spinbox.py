@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: tktest07a_spinbox.py 1099 $
+# $Id: tktest07a_spinbox.py 1302 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """

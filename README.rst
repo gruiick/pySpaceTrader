@@ -3,9 +3,8 @@ python3 remake of SpaceTrader
 =============================
 
 :date: 2018-12-19
-:modified: 2020-03-31
 :status: draft
-:version: $Id: README.rst 1290 $
+:version: $Id: README.rst 1303 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 

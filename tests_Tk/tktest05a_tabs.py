@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: tktest05a_tabs.py 1027 $
+# $Id: tktest05a_tabs.py 1302 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 # https://tkdocs.com/tutorial/morewidgets.html
