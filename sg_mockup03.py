@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1528 $
+# $Id: sg_mockup03.py 1530 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -382,7 +382,8 @@ def load_file():
                             ).replace('.db', '')
     # print(fname)
     univers = cli_01.load_game(fname=fname)
-    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
+    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
+    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
     captain = toto[0]
     draw_map()
     update_gui()
