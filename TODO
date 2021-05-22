@@ -1,8 +1,8 @@
-# $Id: TODO 1303 $
+# $Id: TODO 1529 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 GUI app : OK
-    tester PySimpleGUI
+    tester PySimpleGUI -> en cours
     * https://pysimplegui.readthedocs.io/en/latest/
     * https://pysimplegui.readthedocs.io/en/latest/cookbook/
 

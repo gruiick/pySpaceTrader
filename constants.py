@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1216 $
+# $Id: constants.py 1529 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
     Game constants, to be imported
     https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 """
+
+VERSION = "v0.0"
 
 OVERVIEW = ["Space Trader is a complex game, in which the player's aim", 
             "is to amass enough money to be able to buy a moon to retire",

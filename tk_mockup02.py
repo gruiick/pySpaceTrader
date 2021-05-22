@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: tk_mockup02.py 1303 $
+# $Id: tk_mockup02.py 1523 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -11,6 +11,8 @@ deuxième essai : même fenêtre avec ses menus, mais Class
     http://www.jchr.be/python/tkinter.htm
     http://tkinter.fdex.eu/doc/gp.html (pack() to grid())
     http://tkinter.fdex.eu/index.html
+
+TODO: séparer UI et logique de jeu
 
 """
 
@@ -323,7 +325,7 @@ class Application(tk.Tk):
                 #self.update_trading(self.destinationTradingInfo)
                 self.draw_map(rayon=rayon)
                 self.update_gui()
-                
+
         except AttributeError:
             self.box_alert(msg='Set a destination first.')
 

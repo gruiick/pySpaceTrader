@@ -4,7 +4,7 @@ python3 remake of SpaceTrader
 
 :date: 2018-12-19
 :status: draft
-:version: $Id: README.rst 1303 $
+:version: $Id: README.rst 1523 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -16,26 +16,27 @@ I need something to work on my poor python skills. And it may differ from origin
 
 disclaimer: early work in progress... It may never be finished.
 
-* Space Trader, python3/Tk, turn-based, basé sur :
+* Space Trader, python3/Tk, turn-based, based on:
     * https://www.benjamin-schieder.de/androidspacetrader.html
     * http://www.spronck.net/spacetrader/STFrames.html
     * https://github.com/blind-coder/SpaceTrader (java)
     * https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/res/drawable (png)
     * https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 
-interface simple (Tk)  <- TODO have a test of PySimpleGUI
-    mockup: (with onglets)
-        local cluster (short range) map, circle = fuel capacity, full speed
+simple interface (Tk) <- TODO have a test of PySimpleGUI
+    mockup: (with tabs)
+        local cluster (short range) map?, circle = fuel capacity, full speed
         galactic map with grid (select local cluster)
+        trading UI
 
-générateurs (planètes, situation géopolitique, routes, encounters, ...)
-    Objet : dict, tuple(s) (mutable/immutable)
+generators (planets, geopolitical env, space routes, encounters, ...)
+    Object : dict, tuple(s) (mutable/immutable)
 geopolitic: (mutable/immutable ?)
-    conflit = demande d'arme++, stable = loisirs, richesses (conso++ de drugs, games et robots), etc
+    conflict = weapons bid++, stable = leisures, wealth (more drugs, games and robots), etc
 routes:(mutable/immutable ?)
-    concentration/quantité de vaisseaux (4 différentes: light, medium, high, swarm)
+    concentration/quantity of ships (4 types: light, medium, high, swarm)
 
-gestion de transactions, profits/pertes, compte en banque
+transaction management, earnings/losses, bank account
     money: galactic credits (GCr)
     goods: 
         water
@@ -48,14 +49,15 @@ gestion de transactions, profits/pertes, compte en banque
         narcotics (mostly illegal)
         robots
 
-vaisseaux : hull type (small, medium, large, xtralarge) 
-            nb de pod cargo, 
-            nb de pod attack/defense (laser, torpedo, shield), 
-            nb de pod crew, 
-            escape pod (x1 ou 0)
+ships : hull type (small, medium, large, xtralarge) 
+        nb of cargo pod, 
+		nb of attack/defense pod (laser, torpedo, shield), 
+        nb of crew pod, 
+            escape pod (x1 or 0)
             Hydrogen scoop: 0.5 parsec/turn (in case of empty fuel tank)
 
-capitaine/joueur (player) : gestion de réputation (avis de recherche, primes?, arrestations, amendes)
+captain/player : reputation management (Wanted poster(s), bounty?, arrests, fines)
 
-gestion de combats spatiaux (rolldice)
+minimal spatial fights management (rolldice)
+
 
