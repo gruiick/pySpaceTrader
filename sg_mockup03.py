@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1535 $
+# $Id: sg_mockup03.py 1536 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -28,6 +28,7 @@ MAX = 60
 overview = ' '.join(constants.OVERVIEW)
 msg_overview = '\n'.join(['pySpaceTrader', constants.VERSION, overview])
 
+univers = []            # global container for game objects
 target = []             # items composing the 'target'
 limite = []             # item composing the limit circle
 clicked_position = ()   # keep temporary click position global
@@ -93,7 +94,7 @@ tab_galactic_map = [
         background_color='lightgrey',
         enable_events=True,
         key='-GRAPH-')],
-    [sg.Text('detected clic in X=, Y=',
+    [sg.StatusBar('detected clic in X=, Y=',
              size=(30,1),
              key='-IN-CLIC-')],
     ]
@@ -442,25 +443,46 @@ if __name__ == '__main__':
             save_as()
 
         elif event == '-GRAPH-':
-            on_click(values['-GRAPH-'])
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                on_click(values['-GRAPH-'])
 
         elif event == '-HOMEWORLD-':
-            show_homeworld()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                show_homeworld()
 
         elif event == '-LOCATION-':
-            show_location()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                show_location()
 
         elif event == '-DESTINATION-':
-            show_destination()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                show_destination()
 
         elif event == '-SETDEST-':
-            set_destination()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                set_destination()
 
         elif event == '-REFUEL-':
-            refuel()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                refuel()
 
         elif event == '-NEXT-TURN-':
-            next_turn()
+            if not univers:
+                sg.popup_error('No game loaded!')
+            else:
+                next_turn()
 
         elif event == 'About':
             sg.popup(msg_overview)
