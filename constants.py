@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1529 $
+# $Id: constants.py 1534 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """

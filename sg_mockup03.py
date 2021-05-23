@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1530 $
+# $Id: sg_mockup03.py 1535 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -35,34 +35,46 @@ clicked_position = ()   # keep temporary click position global
 ######################
 ## define GUI Elements
 # Menu first
-menu_def = [['&File',
-                ['&New', '&Load', '&Save', 'E&xit']
-            ],
-            ['&Help', '&About'],
-           ]
+menu_layout = [['&File',
+                ['&New',
+                 '&Load',
+                 '&Save_as',
+                 'E&xit']],
+                ['&Help',
+                 '&About'],]
 
 # Captain layout
 captain_layout = sg.Frame(
     layout = [
-        [sg.Text('display Captain infos', size=(30,2), key='-IN-CAPTAIN-')],
-        [sg.Button('homeworld', key='-HOMEWORLD-')],
-        [sg.Button('location', key='-LOCATION-')],
-        [sg.Button('destination', key='-DESTINATION-')],
-            ], title='Captain')
+        [sg.Text('display Captain info',
+                 size=(25,2),
+                 key='-IN-CAPTAIN-')],
+        [sg.Button('homeworld',
+                   key='-HOMEWORLD-')],
+        [sg.Button('location',
+                   key='-LOCATION-')],
+        [sg.Button('destination',
+                   key='-DESTINATION-')],
+        ], title='Captain')
 
 # info layout
 info_layout = sg.Frame(
     layout = [
-        [sg.Text('display planet infos', size=(30,5), key='-IN-PLANET-')],
-             ], title='Info')
+        [sg.Text('display Planet info',
+                 size=(25,7),
+                 key='-IN-PLANET-')],
+        ], title='Planet')
 
 # actions layout
 action_layout = sg.Frame(
     layout = [
-        [sg.Button('set destination', key='-SETDEST-')],
-        [sg.Button('refuel', key='-REFUEL-')],
-        [sg.Button('next turn', key='-NEXT-TURN-')],
-            ], title='Actions')
+        [sg.Button('set destination',
+                   key='-SETDEST-')],
+        [sg.Button('refuel',
+                   key='-REFUEL-')],
+        [sg.Button('next turn',
+                   key='-NEXT-TURN-')],
+        ], title='Actions')
 
 # first column's frame
 navigation_layout = sg.Frame(
@@ -70,7 +82,7 @@ navigation_layout = sg.Frame(
         [captain_layout],
         [info_layout],
         [action_layout],
-            ], title='Navigation')
+        ], title='Navigation')
 
 # one layout for each Tab
 tab_galactic_map = [
@@ -81,14 +93,21 @@ tab_galactic_map = [
         background_color='lightgrey',
         enable_events=True,
         key='-GRAPH-')],
-    [sg.Text('Detected clic in X=, Y=', size=(30,1), key='-IN-CLIC-')],
-                    ]
+    [sg.Text('detected clic in X=, Y=',
+             size=(30,1),
+             key='-IN-CLIC-')],
+    ]
 
+# TODO: trading layout, for real
 tab_trading = [
-               [sg.Text('This is inside tab 2:')],
-               [sg.Input(key='-IN-')], [sg.Button('update', key='Update')],
-               [sg.Text('', size=(10,1), key='-OUTPUT-')],
-              ]
+    [sg.Text('This is inside tab 2:')],
+    [sg.Input(key='-IN-')],
+    [sg.Button('update',
+               key='Update')],
+    [sg.Text('',
+             size=(10,1),
+             key='-OUTPUT-')],
+    ]
 
 # two columns
 left_column = sg.Column([[navigation_layout]],
@@ -96,23 +115,22 @@ left_column = sg.Column([[navigation_layout]],
                         element_justification='left',
                         vertical_alignment='top')
 
-right_column = sg.Column([
-                        [sg.TabGroup(
-                            [[
-                            sg.Tab('Galactic Map', tab_galactic_map),
-                            sg.Tab('Trading', tab_trading),
-                            ]],
-                        )],
-                        ],
-                        justification='right',
-                        element_justification='right',
-                        vertical_alignment='top')
+right_column = sg.Column(
+    [[sg.TabGroup([
+    [sg.Tab('Galactic Map',
+            tab_galactic_map),
+    sg.Tab('Trading',
+           tab_trading),
+    ]],
+    )],
+    ],
+    justification='right',
+    element_justification='right',
+    vertical_alignment='top')
 
 # final layout
-layout = [
-    [sg.Menu(menu_def, tearoff=True)],
-    [left_column, right_column],
-         ]
+layout = [[sg.Menu(menu_layout, tearoff=True)],
+          [left_column, right_column],]
 
 # create window
 window = sg.Window('mockup03', layout, auto_size_buttons=False)
@@ -123,46 +141,18 @@ graph = window['-GRAPH-']
 ############
 ## Functions
 
-def new_game():
-    """ nouveau jeu """
-    global univers, planetes, captain
-    # créer l'univers
-    univers = cli_01.create_universe()
-    # séparer la liste de planetes
-    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
-    # pprint(planetes)
-    # séparer le capitaine (tant qu'à faire)
-    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
-    captain = toto[0]
-    # pprint(captain)
-    draw_map()
-    update_gui()
-
-
 def draw_limite(position, rayon=None):
     """ erase and redraw the parsec limit
     position: positionnal tuple (x, y)
     rayon: int (or None)
     """
     if rayon is None:
-        rayon = 5  # int(captain.ship.model['fuel'] * MAXP)
-    # supprimer le cercle existant (if any)
+        rayon = int(captain.ship.model['fuel'] * MAXP)
     for item in limite:
+        # supprimer le cercle existant (if any)
         graph.delete_figure(item)
     limite.clear()
     limite.append(graph.draw_circle(position, rayon, line_color='red'))
-
-
-def draw_target(position):
-    """ erase and redraw the target
-    position: positionnal tuple (x, y)
-    """
-    x, y = position
-    for item in target:
-        graph.delete_figure(item)
-    target.clear()
-    target.append(graph.draw_line((x, 0), (x, MAXH), color='blue'))
-    target.append(graph.draw_line((0, y), (MAXW, y), color='blue'))
 
 
 def draw_map(rayon=None):
@@ -188,57 +178,16 @@ def draw_map(rayon=None):
     draw_target((x, y))
 
 
-def update_affiche(objet):
-    """ update text in labels
-    objet: Planet() or Captain()
+def draw_target(position):
+    """ erase and redraw the target
+    position: positionnal tuple (x, y)
     """
-    if isinstance(objet, cli_01.Planet):
-        description = ' '.join([objet.name, ':', str(objet.position), '\n', ' '.join(objet.gov)])
-        window['-IN-PLANET-'].update(description)
-    elif isinstance(objet, cli_01.Captain):
-        description = ' '.join([objet.name, 'from', objet.homeworld.name, '\n', str(objet.balance)])
-        window['-IN-CAPTAIN-'].update(description)
-
-
-def update_gui():
-    """ update GUI """
-    update_affiche(captain)
-    planete = captain.location
-    update_affiche(planete)
-
-    capacity = int(captain.ship.model['fuel'] * MAXP)
-    if captain.ship.reservoir < capacity:
-        window['-REFUEL-'].update(disabled=None)
-    else:
-        window['-REFUEL-'].update(disabled=True)
-
-    if captain.destination:
-        window['-SETDEST-'].update(disabled=False)
-        window['-NEXT-TURN-'].update(disabled=False)
-        # update trading tab
-        # update_trading()
-    else:
-        window['-SETDEST-'].update(disabled=False)
-        window['-NEXT-TURN-'].update(disabled=True)
-        # update trading tab
-        # update_trading()
-
-
-def show_homeworld():
-    """ set target on homeworld """
-    for planete in planetes:
-        if planete.homeworld:
-            position = planete.position
-            update_affiche(planete)
-            draw_target(position)
-
-
-def show_location():
-    """ set target on actual captain.location """
-    planete = captain.location
-    position = planete.position
-    update_affiche(planete)
-    draw_target(position)
+    x, y = position
+    for item in target:
+        graph.delete_figure(item)
+    target.clear()
+    target.append(graph.draw_line((x, 0), (x, MAXH), color='blue'))
+    target.append(graph.draw_line((0, y), (MAXW, y), color='blue'))
 
 
 def get_distance(source, target):
@@ -253,38 +202,38 @@ def get_distance(source, target):
     y = yb - ya
     return int(math.hypot(x, y))
 
-def save_as():
-    """ save to a new file """
-    fname = sg.popup_get_file('Save game to file',
-                            save_as = True,
-                            default_extension = '',
+
+def load_file():
+    """ load saved game """
+    global univers, planetes, captain
+    fname = sg.popup_get_file('Saved game to open',
+                            default_extension = '.db',
                             file_types = (('saved game(s)', '*.db'),
                                           ('all files', '*.*')),
                             ).replace('.db', '')
     # print(fname)
-    cli_01.save_game(univers, fname=fname)
+    univers = cli_01.load_game(fname=fname)
+    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
+    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
+    captain = toto[0]
+    draw_map()
+    update_gui()
 
 
-def set_destination():
-    """ save clicked position into captain.destination """
-    global captain, clicked_position
-    try:
-        distance = get_distance(captain.location.position, clicked_position.position)
-
-        if distance is 0:
-            sg.popup(f'Cannot set destination: Same as current location.')
-        elif distance < captain.ship.reservoir:
-            captain.destination = clicked_position
-            # update_trading(destinationTradingInfo, captain.destination)
-            # window['-SETDEST-'].update(disabled=False)
-            window['-NEXT-TURN-'].update(disabled=False)
-        elif distance > int(captain.ship.model['fuel'] * MAXP):
-            sg.popup(f'Cannot set destination: too far.')
-        else:
-            sg.popup(f'Cannot set destination: Not enought fuel.')
-
-    except AttributeError:
-        sg.popup(f'Cannot set destination: Same as current location.')
+def new_game():
+    """ new game """
+    global univers, planetes, captain
+    # create universe
+    univers = cli_01.create_universe()
+    # set planets apart
+    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
+    # pprint(planetes)
+    # set Captain apart too
+    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
+    captain = toto[0]
+    # pprint(captain.__dict__)
+    draw_map()
+    update_gui()
 
 
 def next_turn():
@@ -321,6 +270,20 @@ def next_turn():
         sg.popup(f'Set a destination first.')
 
 
+def on_click(position):
+    """ redraw graph with new clicked position """
+    global clicked_position
+    for planete in planetes:
+        if cli_01.collision(position, planete):
+            position = planete.position
+            clicked_position = planete
+            update_affiche(planete)
+            draw_target(position)
+
+    x, y = position
+    window['-IN-CLIC-'].update(value=f'Detected clic in X={x}, Y={y}')
+
+
 def refuel():
     """ refuel the captain.ship according to captain.balance
     and planete.fuel_price
@@ -347,93 +310,159 @@ def refuel():
         sg.popup(f'Cannot buy fuel: full capacity')
 
 
-def show_destination():
-    """ set/draw target on destination """
-    if captain.destination:
-        planete = captain.destination
-        position = planete.position
-        update_affiche(planete)
-        draw_target(position)
-    else:
-        sg.popup(f'Cannot show destination: None set.')
-
-
-def on_click(position):
-    """ redraw graph with new clicked position """
-    global clicked_position
-    for planete in planetes:
-        if cli_01.collision(position, planete):
-            position = planete.position
-            clicked_position = planete
-            update_affiche(planete)
-            draw_target(position)
-
-    x, y = position
-    window['-IN-CLIC-'].update(value=f'Detected clic in X={x}, Y={y}')
-
-
-def load_file():
-    """ load saved game """
-    global univers, planetes, captain
-    fname = sg.popup_get_file('Saved game to open',
-                            default_extension = '.db',
+def save_as():
+    """ save to a new file """
+    fname = sg.popup_get_file('Save game to file',
+                            save_as = True,
+                            default_extension = '',
                             file_types = (('saved game(s)', '*.db'),
                                           ('all files', '*.*')),
                             ).replace('.db', '')
     # print(fname)
-    univers = cli_01.load_game(fname=fname)
-    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
-    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
-    captain = toto[0]
-    draw_map()
-    update_gui()
+    cli_01.save_game(univers, fname=fname)
 
 
-# Event Loop
-while True:
-    event, values = window.read()
-    print(event, values)
+def set_destination():
+    """ save clicked position into captain.destination """
+    global captain, clicked_position
+    try:
+        distance = get_distance(captain.location.position, clicked_position.position)
 
-    if event == sg.WIN_CLOSED or event == 'Exit':
-        break
+        if distance is 0:
+            sg.popup(f'Cannot set destination: Same as current location.')
 
-    elif event == 'New':
-        new_game()
+        elif distance < captain.ship.reservoir:
+            captain.destination = clicked_position
+            # update_trading(destinationTradingInfo, captain.destination)
+            # window['-SETDEST-'].update(disabled=False)
+            window['-NEXT-TURN-'].update(disabled=False)
 
-    elif event == 'Update':
-        # Update the "output" text element to be the value of "input" element
-        window['-OUTPUT-'].update(values['-IN-'])
+        elif distance > int(captain.ship.model['fuel'] * MAXP):
+            sg.popup(f'Cannot set destination: too far.')
+        else:
+            sg.popup(f'Cannot set destination: Not enought fuel.')
 
-    elif event == 'Load':
-        load_file()
-
-    elif event == 'Save':
-        # TODO: SaveAs vs 'Save to existing'
-        save_as()
-
-    elif event == '-GRAPH-':
-        on_click(values['-GRAPH-'])
-
-    elif event == '-HOMEWORLD-':
-        show_homeworld()
-
-    elif event == '-LOCATION-':
-        show_location()
-
-    elif event == '-DESTINATION-':
-        show_destination()
-
-    elif event == '-SETDEST-':
-        set_destination()
-
-    elif event == '-REFUEL-':
-        refuel()
-
-    elif event == '-NEXT-TURN-':
-        next_turn()
-
-    elif event == 'About':
-        sg.popup(msg_overview)
+    except AttributeError:
+        sg.popup(f'Cannot set destination: Same as current location.')
 
 
-window.close()
+def show_destination():
+    """ set/draw target on destination """
+    if captain.destination:
+        planete = captain.destination
+        update_affiche(planete)
+        draw_target(planete.position)
+    else:
+        sg.popup(f'Cannot show destination: None set.')
+
+
+def show_homeworld():
+    """ set target on homeworld """
+    for planete in planetes:
+        if planete.homeworld:
+            update_affiche(planete)
+            draw_target(planete.position)
+
+
+def show_location():
+    """ set target on actual captain.location """
+    planete = captain.location
+    update_affiche(planete)
+    draw_target(planete.position)
+
+
+def update_affiche(objet):
+    """ update text in labels
+    objet: Planet() or Captain()
+    """
+    if isinstance(objet, cli_01.Planet):
+        description = ''.join([objet.name,
+                               ' : ',
+                               str(objet.position),
+                               '\n',
+                               '\n'.join(objet.gov)])
+        window['-IN-PLANET-'].update(description)
+
+    elif isinstance(objet, cli_01.Captain):
+        description = ''.join([objet.name,
+                               ' from ',
+                               objet.homeworld.name,
+                               '\n',
+                               str(objet.balance)])
+        window['-IN-CAPTAIN-'].update(description)
+
+
+def update_gui():
+    """ update all GUI """
+    update_affiche(captain)
+    planete = captain.location
+    update_affiche(planete)
+
+    capacity = int(captain.ship.model['fuel'] * MAXP)
+    if captain.ship.reservoir < capacity:
+        window['-REFUEL-'].update(disabled=None)
+    else:
+        window['-REFUEL-'].update(disabled=True)
+
+    if captain.destination:
+        window['-SETDEST-'].update(disabled=False)
+        window['-NEXT-TURN-'].update(disabled=False)
+        # update trading tab
+        # update_trading()
+    else:
+        window['-SETDEST-'].update(disabled=False)
+        window['-NEXT-TURN-'].update(disabled=True)
+        # update trading tab
+        # update_trading()
+
+
+if __name__ == '__main__':
+    # Event Loop
+    while True:
+        event, values = window.read()
+        print(event, values)
+
+        if event == sg.WIN_CLOSED or event == 'Exit':
+            break
+
+        elif event == 'New':
+            new_game()
+
+        elif event == 'Update':
+            # Example FIXME
+            window['-OUTPUT-'].update(values['-IN-'])
+
+        elif event == 'Load':
+            load_file()
+
+        elif event == 'Save_as':
+            # TODO: SaveAs vs 'Save to existing'
+            # if not fname -> Save_as
+            # else save in fname
+            save_as()
+
+        elif event == '-GRAPH-':
+            on_click(values['-GRAPH-'])
+
+        elif event == '-HOMEWORLD-':
+            show_homeworld()
+
+        elif event == '-LOCATION-':
+            show_location()
+
+        elif event == '-DESTINATION-':
+            show_destination()
+
+        elif event == '-SETDEST-':
+            set_destination()
+
+        elif event == '-REFUEL-':
+            refuel()
+
+        elif event == '-NEXT-TURN-':
+            next_turn()
+
+        elif event == 'About':
+            sg.popup(msg_overview)
+
+    window.close()

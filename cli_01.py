@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1215 $
+# $Id: cli_01.py 1531 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -233,7 +233,7 @@ def collision(target, objet):
     #  return true; else return false;
     (xt, yt) = target
     (x1, y1), (x2, y2) = objet.bbox
-    
+
     if (x1 < xt < x2) and (y1 < yt < y2):
         center_h = int((x2 - x1) / 2) + x1
         center_v = int((y2 - y1) / 2) + y1
