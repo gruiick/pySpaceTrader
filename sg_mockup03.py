@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1536 $
+# $Id: sg_mockup03.py 1541 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -24,6 +24,7 @@ MAXH = constants.MAXHEIGHT
 MAXP = constants.MAXPARSEC
 GOODS = constants.GOODS
 MAX = 60
+COLORS = constants.COLORS
 
 overview = ' '.join(constants.OVERVIEW)
 msg_overview = '\n'.join(['pySpaceTrader', constants.VERSION, overview])
@@ -35,7 +36,11 @@ clicked_position = ()   # keep temporary click position global
 
 ######################
 ## define GUI Elements
-# Menu first
+
+# Theme
+sg.theme('Default1')
+
+# Menu
 menu_layout = [['&File',
                 ['&New',
                  '&Load',
@@ -48,7 +53,7 @@ menu_layout = [['&File',
 captain_layout = sg.Frame(
     layout = [
         [sg.Text('display Captain info',
-                 size=(25,2),
+                 size=(25, 2),
                  key='-IN-CAPTAIN-')],
         [sg.Button('homeworld',
                    key='-HOMEWORLD-')],
@@ -56,13 +61,14 @@ captain_layout = sg.Frame(
                    key='-LOCATION-')],
         [sg.Button('destination',
                    key='-DESTINATION-')],
-        ], title='Captain')
+        ], title='Captain',
+        element_justification='center')
 
 # info layout
 info_layout = sg.Frame(
     layout = [
         [sg.Text('display Planet info',
-                 size=(25,7),
+                 size=(25, 7),
                  key='-IN-PLANET-')],
         ], title='Planet')
 
@@ -75,7 +81,9 @@ action_layout = sg.Frame(
                    key='-REFUEL-')],
         [sg.Button('next turn',
                    key='-NEXT-TURN-')],
-        ], title='Actions')
+        ], title='Actions',
+        size=(25, 3),
+        element_justification='center')
 
 # first column's frame
 navigation_layout = sg.Frame(
@@ -83,7 +91,8 @@ navigation_layout = sg.Frame(
         [captain_layout],
         [info_layout],
         [action_layout],
-        ], title='Navigation')
+        ], title='Navigation',
+    element_justification='center')
 
 # one layout for each Tab
 tab_galactic_map = [
@@ -91,7 +100,7 @@ tab_galactic_map = [
         (MAXW, MAXH),
         (0, 0),
         (MAXW, MAXH),
-        background_color='lightgrey',
+        background_color=COLORS['background'],
         enable_events=True,
         key='-GRAPH-')],
     [sg.StatusBar('detected clic in X=, Y=',
@@ -100,41 +109,82 @@ tab_galactic_map = [
     ]
 
 # TODO: trading layout, for real
+numrow = len(GOODS.keys())
+location_layout = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0]],
+                             headings= [' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                             auto_size_columns=True,
+                             display_row_numbers=False,
+                             num_rows=numrow,
+                             justification='center',
+                             hide_vertical_scroll=True,
+                             selected_row_colors=(COLORS['default'], 'white'),
+                             key='-LOC-TABLE-',
+                   )]],
+    title='Location',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+destination_layout = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0]],
+                             headings= [' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                             auto_size_columns=True,
+                             display_row_numbers=False,
+                             num_rows=numrow,
+                             justification='center',
+                             hide_vertical_scroll=True,
+                             selected_row_colors=(COLORS['default'], 'white'),
+                             key='-DEST-TABLE-',
+                   )]],
+    title='Destination',
+    title_location=sg.TITLE_LOCATION_TOP_RIGHT)
+
+# board_layout =
+
+# trading, two columns + 1 center
+trading_left_col = sg.Column([[location_layout]],
+                             justification='left',
+                             element_justification='left',
+                             vertical_alignment='top')
+
+trading_right_col = sg.Column([[destination_layout]],
+                             justification='right',
+                             element_justification='right',
+                             vertical_alignment='top'
+                             )
+
 tab_trading = [
-    [sg.Text('This is inside tab 2:')],
-    [sg.Input(key='-IN-')],
-    [sg.Button('update',
-               key='Update')],
-    [sg.Text('',
-             size=(10,1),
-             key='-OUTPUT-')],
+    [trading_left_col],
+    [trading_right_col],
+    [sg.HorizontalSeparator(color='red', pad=(1, 1))],
     ]
 
 # two columns
-left_column = sg.Column([[navigation_layout]],
+main_left_col = sg.Column([[navigation_layout]],
                         justification='left',
                         element_justification='left',
                         vertical_alignment='top')
 
-right_column = sg.Column(
+main_right_col = sg.Column(
     [[sg.TabGroup([
-    [sg.Tab('Galactic Map',
+        [sg.Tab('Galactic Map',
             tab_galactic_map),
-    sg.Tab('Trading',
+        sg.Tab('Trading',
            tab_trading),
-    ]],
-    )],
-    ],
+        ]],
+    )]],
     justification='right',
     element_justification='right',
     vertical_alignment='top')
 
-# final layout
-layout = [[sg.Menu(menu_layout, tearoff=True)],
-          [left_column, right_column],]
+# final layout assembly
+final_layout = [[sg.Menu(menu_layout, tearoff=True)],
+          [main_left_col, main_right_col],]
 
 # create window
-window = sg.Window('mockup03', layout, auto_size_buttons=False)
+window = sg.Window('mockup03',
+                   final_layout,
+                   auto_size_buttons=False,
+                   resizable=True)
 
 # simplify call for map objects
 graph = window['-GRAPH-']
@@ -153,7 +203,7 @@ def draw_limite(position, rayon=None):
         # supprimer le cercle existant (if any)
         graph.delete_figure(item)
     limite.clear()
-    limite.append(graph.draw_circle(position, rayon, line_color='red'))
+    limite.append(graph.draw_circle(position, rayon, line_color=COLORS['limit']))
 
 
 def draw_map(rayon=None):
@@ -165,11 +215,20 @@ def draw_map(rayon=None):
     for planete in planetes:
         x, y = planete.position
         if planete.homeworld:
-            graph.draw_circle((x, y), 2, fill_color='blue', line_color='blue')
+            graph.draw_circle((x, y),
+                              2,
+                              fill_color=COLORS['homeworld'],
+                              line_color=COLORS['homeworld'])
         elif planete.visited:
-            graph.draw_circle((x, y), 2, fill_color='green', line_color='green')
+            graph.draw_circle((x, y),
+                              2,
+                              fill_color=COLORS['visited'],
+                              line_color=COLORS['visited'])
         else:
-            graph.draw_circle((x, y), 2, fill_color='red', line_color='red')
+            graph.draw_circle((x, y),
+                              2,
+                              fill_color=COLORS['default'],
+                              line_color=COLORS['default'])
     # draw and update Captain location
     x, y = captain.location.position
     # trace fuel limit
@@ -187,8 +246,12 @@ def draw_target(position):
     for item in target:
         graph.delete_figure(item)
     target.clear()
-    target.append(graph.draw_line((x, 0), (x, MAXH), color='blue'))
-    target.append(graph.draw_line((0, y), (MAXW, y), color='blue'))
+    target.append(graph.draw_line((x, 0),
+                                  (x, MAXH),
+                                  color=COLORS['target']))
+    target.append(graph.draw_line((0, y),
+                                  (MAXW, y),
+                                  color=COLORS['target']))
 
 
 def get_distance(source, target):
@@ -286,7 +349,7 @@ def on_click(position):
 
 
 def refuel():
-    """ refuel the captain.ship according to captain.balance
+    """ refuel the captain.ship according to captain.balance, ship.reservoir
     and planete.fuel_price
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
@@ -311,6 +374,10 @@ def refuel():
         sg.popup(f'Cannot buy fuel: full capacity')
 
 
+def save():
+    """ save into the previously open/selected file """
+    pass
+
 def save_as():
     """ save to a new file """
     fname = sg.popup_get_file('Save game to file',
@@ -334,7 +401,7 @@ def set_destination():
 
         elif distance < captain.ship.reservoir:
             captain.destination = clicked_position
-            # update_trading(destinationTradingInfo, captain.destination)
+            update_trading(window['-DEST-TABLE-'], captain.destination)
             # window['-SETDEST-'].update(disabled=False)
             window['-NEXT-TURN-'].update(disabled=False)
 
@@ -408,19 +475,32 @@ def update_gui():
     if captain.destination:
         window['-SETDEST-'].update(disabled=False)
         window['-NEXT-TURN-'].update(disabled=False)
-        # update trading tab
-        # update_trading()
+        update_trading(window['-DEST-TABLE-'], captain.destination)
     else:
         window['-SETDEST-'].update(disabled=False)
         window['-NEXT-TURN-'].update(disabled=True)
-        # update trading tab
-        # update_trading()
+        # clear trading tab -DEST-TABLE-
+        update_trading(window['-DEST-TABLE-'])
+
+    update_trading(window['-LOC-TABLE-'], planete)
+    # update_spinboxes()
+    # update_board()
+
+
+def update_trading(element, planet=None):
+    """ update price slip in the tables """
+    if planet is None:
+        element.update(values=None)
+    else:
+        price_list = cli_01.slip_list(planet.price_slip)
+        element.update(values=price_list)
 
 
 if __name__ == '__main__':
     # Event Loop
     while True:
         event, values = window.read()
+        # debug:
         print(event, values)
 
         if event == sg.WIN_CLOSED or event == 'Exit':
@@ -428,10 +508,6 @@ if __name__ == '__main__':
 
         elif event == 'New':
             new_game()
-
-        elif event == 'Update':
-            # Example FIXME
-            window['-OUTPUT-'].update(values['-IN-'])
 
         elif event == 'Load':
             load_file()

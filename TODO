@@ -1,33 +1,43 @@
-# $Id: TODO 1529 $
+# $Id: TODO 1538 $
 # SPDX-License-Identifier: BSD-2-Clause
 
-GUI app : OK
-    tester PySimpleGUI -> en cours
+* sGUI : FIXME
+    tester PySimpleGUI -> OK
+    bascule *en cours*
     * https://pysimplegui.readthedocs.io/en/latest/
     * https://pysimplegui.readthedocs.io/en/latest/cookbook/
 
-GUI .pack() -> .grid() OK
+    afficher location.slip et destination.slip
+    afficher la Captain Board
+
+* rename cli_01.py en core.py et modifier *mockup*
+
+
+* tkGUI .pack() -> .grid() OK
  N
 W E
  S
 
-sauver, ouvrir : shelve OK
+* sauver, ouvrir : shelve OK
 
-si set.destination = False, next_turn = button.state='disabled' OK
+* si set.destination = False, next_turn = button.state='disabled'
+    tkGUI, sGUI: OK
 
-new game: OK
+* new game: OK
     générer l'univers: OK
         étoiles (liste de positions), OK
-        [GUI: carte 2D] OK
+        [tkGUI: carte 2D] OK
+        [sGUI: carte 2D] OK
 
         planètes (liste : position, type, géopolitique, biens), OK
-        [GUI: affichage des textes] OK
+        [tkGUI: affichage des textes] OK
+        [sGUI: affichage des textes] OK
 
         vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
 
         quêtes (maybe later),
 
-gérer les stocks par planete OK
+* gérer les stocks par planete OK -> PriceSlip class
 
 https://www.geeksforgeeks.org/python-math-function-hypot/ OK
 https://docs.python.org/fr/3/library/math.html
@@ -36,15 +46,16 @@ afficher un tableau en Tk:
 https://python.developpez.com/actu/127261/Creer-un-tableau-interactif-en-python-avec-Tkinter/
 https://tkdocs.com/tutorial/tree.html ?
 
+Captain Board:
 bank account ? credit (pour rembourser le ship) ?
 solde = balance (+gain, -loss)
 achat = purchase, buy
 vente = sale, sell (vendre)
 crédit = loan
 
-implémenter les goods = OK pour les prix
+* implémenter les goods = OK pour les prix
 price via formula : base * regim * specialresources * techlevel * status OK
-bordereau de prix = price slip OK
+bordereau de prix = PriceSlip OK
 https://docs.python.org/fr/3/library/collections.html#collections.namedtuple
 
 

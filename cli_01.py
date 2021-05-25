@@ -1,14 +1,28 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1531 $
+# $Id: cli_01.py 1539 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
-    générer un captain et son vaisseau
-    générer une liste de planètes
-    sauver les objets du jeu
-    ouvrir un fichier de sauvegarde
+    Core functions:
+
+    Captain class
+    Planet class
+    PriceSlip class
+    Ship class
+
+    generate universe
+        generate captain and ship
+        generate list of planets
+
+    collision(target, object, radius=None)
+
+    save game objects
+    open previously saved  objects
+
+    some debug (CLI)
+
 """
 
 import collections
@@ -94,6 +108,7 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
         """ """
         self.planet = planet
         self.goods = constants.GOODS
+        # pourquoi un namedtuple déjà ?
         TradeItem = collections.namedtuple('TradeItem',
                                            ['name',
                                             'tp',  # Tech level needed for production
@@ -224,8 +239,9 @@ class Ship:
         #print(len(self.cargo))
 
 
-def collision(target, objet):
+def collision(target, objet, radius=None):
     """ is (x, y) inside objet.bbox? """
+    # TODO: when creating Planet, radius should be bigger/doubled
     # TODO/FIXME octogonal bbox ?
     # bool Collision(int curseur_x,int curseur_y,AABB box)
     #  if (curseur_x >= box.x && curseur_x < box.x + box.w
@@ -244,6 +260,20 @@ def collision(target, objet):
         return True
     else:
         return False
+
+
+def slip_list(slip):
+    """ return a list of list  made from slip(dict) elements """
+    new_list = []
+
+    for key in slip.keys():
+        _interne = []
+        _interne.append(key)
+        _interne.extend(slip[key])
+        new_list.append(list(_interne))
+
+    print(new_list)
+    return new_list
 
 
 def create_planetes():
@@ -288,7 +318,7 @@ def create_universe():
 
 def load_game(fname=None):
     """ open the previously saved shelve and load the game data """
-    # TODO/FIXME use try/except?
+    # TODO use try/except
     poney = []
     if not fname:
         fname = 'savegame'
@@ -312,14 +342,13 @@ def print_universe(univers):
             print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__ ?
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
-    # pprint(PriceSlip.__dict__)
 
 
 def save_game(univers, fname=None):
-    """ open a new empty shelve (or overwrite previous one) to write
-        the game data
+    """ open a new empty shelve (or overwrite previous one)
+        to write the game data
     """
-    # TODO/FIXME use try/except?
+    # TODO use try/except
     if not fname:
         fname = 'savegame'
     with shelve.open(fname, 'n') as savefile:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1534 $
+# $Id: constants.py 1540 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -10,6 +10,23 @@
 """
 
 VERSION = "v0.0"
+
+# width, x = 640, height, y = 480 (Tk)
+GRIDMIN = -100
+GRIDMAX = 100
+XMIN = 0
+MAXWIDTH = 680
+YMIN = 0
+MAXHEIGHT = 480
+BOX = 15  # must be a multiple of 15
+MAXPARSEC = 120  # must be dividable by 15 or BOX
+
+COLORS = {'default': 'brown',
+          'limit': 'red',
+          'homeworld': 'blue',
+          'visited': 'green',
+          'target': 'grey',
+          'background': 'lightgrey'}
 
 OVERVIEW = ["Space Trader is a complex game, in which the player's aim", 
             "is to amass enough money to be able to buy a moon to retire",
@@ -147,16 +164,6 @@ MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
                  'Mercedez', 'Milete', 'Muri-L', 'Mystyc', 'Nandi',
                  'Orestes', 'Pancho', 'PS37', 'Quarck', 'Solo', 'Sosumi',
                  'Uma', 'Wesley', 'Wonton', 'Yorvick', 'Zeethibal']
-
-# width, x = 640, height, y = 480 (Tk)
-GRIDMIN = -100
-GRIDMAX = 100
-XMIN = 0
-MAXWIDTH = 680
-YMIN = 0
-MAXHEIGHT = 480
-BOX = 15  # must be a multiple of 15
-MAXPARSEC = 120  # must be dividable by 15 or BOX
 
 
 if __name__ == '__main__':
