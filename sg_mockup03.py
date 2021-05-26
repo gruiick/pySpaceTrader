@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1541 $
+# $Id: sg_mockup03.py 1543 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -94,7 +94,7 @@ navigation_layout = sg.Frame(
         ], title='Navigation',
     element_justification='center')
 
-# one layout for each Tab
+# Galactic Map Tab
 tab_galactic_map = [
     [sg.Graph(
         (MAXW, MAXH),
@@ -108,7 +108,7 @@ tab_galactic_map = [
              key='-IN-CLIC-')],
     ]
 
-# TODO: trading layout, for real
+# trading stuffs, before Tab
 numrow = len(GOODS.keys())
 location_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
@@ -138,9 +138,50 @@ destination_layout = sg.Frame(
     title='Destination',
     title_location=sg.TITLE_LOCATION_TOP_RIGHT)
 
-# board_layout =
+# Captain Board
+board_layout = sg.Frame(
+    layout=[
+            [sg.Text('Balance:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-BALANCE-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Credit:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-CREDIT-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Interests:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-INTERESTS-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Cargo:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-CARGO-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Value:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-VALUE-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+    ],
+    title='Captain board',
+    #size=(25, 15),
+    element_justification='right')
 
-# trading, two columns + 1 center
+# trading, two columns + 1 bottom center
 trading_left_col = sg.Column([[location_layout]],
                              justification='left',
                              element_justification='left',
@@ -152,11 +193,20 @@ trading_right_col = sg.Column([[destination_layout]],
                              vertical_alignment='top'
                              )
 
+trading_center_col = sg.Column([[board_layout]],
+                             justification='left',
+                             element_justification='left',
+                             vertical_alignment='bottom'
+                             )
+
 tab_trading = [
-    [trading_left_col],
-    [trading_right_col],
-    [sg.HorizontalSeparator(color='red', pad=(1, 1))],
+    [trading_left_col, trading_right_col],
+    [trading_center_col],
     ]
+
+tab_shipyard = [[sg.Text('Not yet implemented')]]
+
+tab_news = [[sg.Text('Not yet implemented')]]
 
 # two columns
 main_left_col = sg.Column([[navigation_layout]],
@@ -166,10 +216,10 @@ main_left_col = sg.Column([[navigation_layout]],
 
 main_right_col = sg.Column(
     [[sg.TabGroup([
-        [sg.Tab('Galactic Map',
-            tab_galactic_map),
-        sg.Tab('Trading',
-           tab_trading),
+        [sg.Tab('Galactic Map', tab_galactic_map),
+         sg.Tab('Trading', tab_trading),
+         sg.Tab('Shipyard', tab_shipyard),
+         sg.Tab('News', tab_news),
         ]],
     )]],
     justification='right',
@@ -321,12 +371,6 @@ def next_turn():
             captain.destination = None
             # print(captain.location.name)
             # update gui
-            window['-SETDEST-'].update(disabled=False)
-            window['-REFUEL-'].update(disabled=False)
-            window['-NEXT-TURN-'].update(disabled=True)
-            update_affiche(captain.location)
-            #self.update_trading(self.locationTradingInfo, self.captain.location)
-            #self.update_trading(self.destinationTradingInfo)
             draw_map(rayon=rayon)
             update_gui()
 
@@ -367,7 +411,7 @@ def refuel():
             update_affiche(captain)
             window['-REFUEL-'].update(disabled=True)
             # window['-NEXT-TURN-'].update(disabled=False)
-            # update_board()
+            update_board()
         else:
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
@@ -406,7 +450,7 @@ def set_destination():
             window['-NEXT-TURN-'].update(disabled=False)
 
         elif distance > int(captain.ship.model['fuel'] * MAXP):
-            sg.popup(f'Cannot set destination: too far.')
+            sg.popup(f'Cannot set destination: Too far.')
         else:
             sg.popup(f'Cannot set destination: Not enought fuel.')
 
@@ -460,37 +504,52 @@ def update_affiche(objet):
         window['-IN-CAPTAIN-'].update(description)
 
 
+def update_board():
+    """ update Captain board informations """
+    pods = 0
+    tpods = len(captain.ship.cargo)
+    overall = 0
+    for key in captain.ship.cargo.keys():
+        if captain.ship.cargo[key]['type']:
+            pods += 1
+            overall += captain.ship.cargo[key]['value']
+
+    window['-IN-BD-BALANCE-'].update(captain.balance)
+    window['-IN-BD-CARGO-'].update('/'.join([str(pods), str(tpods)]))
+    window['-IN-BD-VALUE-'].update(int(overall))
+
+
 def update_gui():
     """ update all GUI """
     update_affiche(captain)
-    planete = captain.location
-    update_affiche(planete)
+    update_affiche(captain.location)
 
     capacity = int(captain.ship.model['fuel'] * MAXP)
     if captain.ship.reservoir < capacity:
-        window['-REFUEL-'].update(disabled=None)
+        window['-REFUEL-'].update(disabled=False)
     else:
         window['-REFUEL-'].update(disabled=True)
 
     if captain.destination:
-        window['-SETDEST-'].update(disabled=False)
+        window['-SETDEST-'].update(disabled=True)
         window['-NEXT-TURN-'].update(disabled=False)
         update_trading(window['-DEST-TABLE-'], captain.destination)
     else:
         window['-SETDEST-'].update(disabled=False)
+        window['-REFUEL-'].update(disabled=False)
         window['-NEXT-TURN-'].update(disabled=True)
         # clear trading tab -DEST-TABLE-
         update_trading(window['-DEST-TABLE-'])
 
-    update_trading(window['-LOC-TABLE-'], planete)
+    update_trading(window['-LOC-TABLE-'], captain.location)
     # update_spinboxes()
-    # update_board()
+    update_board()
 
 
 def update_trading(element, planet=None):
     """ update price slip in the tables """
     if planet is None:
-        element.update(values=None)
+        element.update(values=[['None', 0, 0, 0]])
     else:
         price_list = cli_01.slip_list(planet.price_slip)
         element.update(values=price_list)

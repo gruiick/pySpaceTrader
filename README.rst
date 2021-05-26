@@ -4,7 +4,7 @@ python3 remake of SpaceTrader
 
 :date: 2018-12-19
 :status: draft
-:version: $Id: README.rst 1523 $
+:version: $Id: README.rst 1543 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -14,7 +14,9 @@ https://github.com/blind-coder/SpaceTrader
 
 I need something to work on my poor python skills. And it may differ from original games.
 
-disclaimer: early work in progress... It may never be finished.
+disclaimer: This is a toy project, early work in progress... It may never be finished.
+
+But you are very welcome to help, if you want to.
 
 * Space Trader, python3/Tk, turn-based, based on:
     * https://www.benjamin-schieder.de/androidspacetrader.html
@@ -37,8 +39,8 @@ routes:(mutable/immutable ?)
     concentration/quantity of ships (4 types: light, medium, high, swarm)
 
 transaction management, earnings/losses, bank account
-    money: galactic credits (GCr)
-    goods: 
+    money: galactic credits (Cr)
+    goods:
         water
         food
         furs
@@ -48,15 +50,17 @@ transaction management, earnings/losses, bank account
         machines
         narcotics (mostly illegal)
         robots
+        [fuel] (mandatory, for now)
 
 ships : hull type (small, medium, large, xtralarge) 
         nb of cargo pod, 
-		nb of attack/defense pod (laser, torpedo, shield), 
+        nb of attack/defense pod (laser, torpedo, shield), 
         nb of crew pod, 
             escape pod (x1 or 0)
             Hydrogen scoop: 0.5 parsec/turn (in case of empty fuel tank)
 
 captain/player : reputation management (Wanted poster(s), bounty?, arrests, fines)
+-> ships/shipyard, false identities
 
 minimal spatial fights management (rolldice)
 

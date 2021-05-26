@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1539 $
+# $Id: cli_01.py 1543 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -263,7 +263,7 @@ def collision(target, objet, radius=None):
 
 
 def slip_list(slip):
-    """ return a list of list  made from slip(dict) elements """
+    """ return a list of list made from slip(dict) elements """
     new_list = []
 
     for key in slip.keys():
@@ -272,7 +272,7 @@ def slip_list(slip):
         _interne.extend(slip[key])
         new_list.append(list(_interne))
 
-    print(new_list)
+    pprint(new_list)
     return new_list
 
 
