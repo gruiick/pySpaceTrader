@@ -4,7 +4,7 @@ python3 remake of SpaceTrader
 
 :date: 2018-12-19
 :status: draft
-:version: $Id: README.rst 1544 $
+:version: $Id: README.rst 1545 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -50,9 +50,19 @@ I try to use as less additionnal python3 modules as possible, but you will need 
 
     PySimpleGUI==4.41.2
 
+To run and test, simply:
+
+.. code-block:: bash
+
+
+    python3 sg_mockup03.py
+
 
 Memory pad
 ==========
+
+See also ``tests_CLI/snippets.py``.
+
 
 * Space Trader, based on:
     * https://www.benjamin-schieder.de/androidspacetrader.html
