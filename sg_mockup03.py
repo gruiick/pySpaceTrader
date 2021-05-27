@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1544 $
+# $Id: sg_mockup03.py 1547 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -46,7 +46,7 @@ menu_layout = [['&File',
                  '&Load',
                  '&Save_as',
                  'E&xit']],
-                ['&Help',
+                ['Help',
                  '&About'],]
 
 # Captain layout
@@ -55,11 +55,11 @@ captain_layout = sg.Frame(
         [sg.Text('display Captain info',
                  size=(25, 2),
                  key='-IN-CAPTAIN-')],
-        [sg.Button('homeworld',
+        [sg.Button('Homeworld',
                    key='-HOMEWORLD-')],
-        [sg.Button('location',
+        [sg.Button('Location',
                    key='-LOCATION-')],
-        [sg.Button('destination',
+        [sg.Button('Destination',
                    key='-DESTINATION-')],
         ], title='Captain',
         element_justification='center')
@@ -75,11 +75,11 @@ info_layout = sg.Frame(
 # actions layout
 action_layout = sg.Frame(
     layout = [
-        [sg.Button('set destination',
+        [sg.Button('Set destination',
                    key='-SETDEST-')],
-        [sg.Button('refuel',
+        [sg.Button('Refuel',
                    key='-REFUEL-')],
-        [sg.Button('next turn',
+        [sg.Button('Next turn',
                    key='-NEXT-TURN-')],
         ], title='Actions',
         size=(25, 3),
@@ -121,7 +121,7 @@ location_layout = sg.Frame(
                              selected_row_colors=(COLORS['default'], 'white'),
                              key='-LOC-TABLE-',
                    )]],
-    title='Location:',
+    title='Current location:',
     key='-LOC-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
@@ -150,20 +150,6 @@ board_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
             ],
-            [sg.Text('Credit:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-CREDIT-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
-            [sg.Text('Interests:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-INTERESTS-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
             [sg.Text('Cargo:', justification='left'),
             sg.Text('',
                      key='-IN-BD-CARGO-',
@@ -178,35 +164,82 @@ board_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
             ],
+            [sg.HorizontalSeparator(color=None, pad=(1, 1))],
+            [sg.Text('Credit:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-CREDIT-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Interests:', justification='left'),
+            sg.Text('',
+                     key='-IN-BD-INTERESTS-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
     ],
     title='Captain board',
     #size=(25, 15),
     element_justification='right')
 
-# trading, two columns + 1 bottom center
-trading_left_col = sg.Column([[location_layout]],
+cargo_layout = sg.Frame(
+    layout=[[sg.Text('Goods:'),
+             sg.Combo(values=[None],
+                     default_value=None,
+                     readonly=True,
+                     enable_events=True,
+                     key='-IN-GOODS-',
+                     )],
+            [sg.Text('Quantity:'),
+             # ça devrait plutot être un sg.Spin
+             # de 0 à max(avail.pods)|max(good[-1])
+             sg.Combo(values=[None],
+             default_value=None,
+             readonly=True,
+             enable_events=True,
+             key='-IN-QTY-',
+             )],
+             [sg.Button('buy cargo',
+                   key='-BUY-CARGO-',
+                   disabled=True)],
+             ],
+    title='Cargo',)
+
+
+
+# trading, 2 columns top + 2 columns bottom
+trading_loc_col = sg.Column([[location_layout]],
                              justification='left',
                              element_justification='left',
                              vertical_alignment='top')
 
-trading_right_col = sg.Column([[destination_layout]],
+trading_dest_col = sg.Column([[destination_layout]],
                              justification='right',
                              element_justification='right',
-                             vertical_alignment='top'
-                             )
+                             vertical_alignment='top')
 
-trading_center_col = sg.Column([[board_layout]],
+trading_cargo_col = sg.Column([[cargo_layout]],
                              justification='left',
                              element_justification='left',
-                             vertical_alignment='bottom'
-                             )
+                             vertical_alignment='top')
+
+trading_board_col = sg.Column([[board_layout]],
+                             justification='right',
+                             element_justification='right',
+                             vertical_alignment='top')
 
 tab_trading = [
-    [trading_left_col,
+    [trading_loc_col,
      sg.VerticalSeparator(color='red', pad=(1, 1)),
-     trading_right_col],
+     trading_dest_col],
+
     [sg.HorizontalSeparator(color='red', pad=(1, 1))],
-    [trading_center_col],
+
+    [trading_cargo_col,
+     sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_board_col],
     ]
 
 tab_bank = [[sg.Text('Not yet implemented')]]
@@ -456,6 +489,7 @@ def set_destination():
             # update Trading tab
             window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
             update_trading(window['-DEST-TABLE-'], captain.destination)
+            update_cargo(captain.destination)
             # allow next_turn()
             window['-NEXT-TURN-'].update(disabled=False)
 
@@ -514,6 +548,22 @@ def update_affiche(objet):
         window['-IN-CAPTAIN-'].update(description)
 
 
+def update_cargo(planet):
+    """ update values in combo's Cargo frame """
+    # il faut une boucle de rétroaction
+    # la qty doit changer en fonction de select(goods)
+    # de avail(pods) à max(pods)
+
+    _key_list = []
+    _value_list = []
+    for key, value in planet.price_slip.items():
+        _key_list.append(key)
+        _value_list.append(value[-1])  # only stock qty
+
+    window['-IN-GOODS-'].update(values=_key_list)
+    window['-IN-QTY-'].update(values=_value_list)
+
+
 def update_board():
     """ update Captain board informations """
     pods = 0
@@ -553,9 +603,9 @@ def update_gui():
         window['-DEST-TITLE-'].update(value='Destination:')
         update_trading(window['-DEST-TABLE-'])
 
-    window['-LOC-TITLE-'].update(value=f'Location: {captain.location.name}')
+    window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
-    # update_spinboxes()
+    update_cargo(captain.location)
     update_board()
 
 

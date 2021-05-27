@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1544 $
+# $Id: cli_01.py 1547 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -101,7 +101,10 @@ class Planet:
 
 
 class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
-    """ for each good, calculate prices and update planete.price_slip """
+    """ for each good, calculate prices and update planete.price_slip 
+
+    dict object {good: [buying price, selling price, stock],}
+    """
     # TODO: refaire plus propre, beaucul plus propre
     # les calculs originaux dans le init ou @classmethod ?
     # les updates en .function()
