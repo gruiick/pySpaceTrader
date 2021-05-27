@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1547 $
+# $Id: cli_01.py 1548 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
-    Core functions:
+    Core Classes & functions (not UI related):
 
     Captain class
     Planet class
@@ -16,9 +16,9 @@
         generate captain and ship
         generate list of planets
 
-    collision(target, object, radius=None)
+    collision(target, object.bbox, radius=None)
 
-    slip_list(slip_dict)
+    slip_list(Planet.price_slip)
 
     save game objects
     open previously saved  objects

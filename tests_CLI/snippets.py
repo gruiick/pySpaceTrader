@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1544 $
+# $Id: snippets.py 1548 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -294,3 +294,22 @@ class TradeItem:
     }
     }
 """
+
+
+# https://stackoverflow.com/questions/509211/understanding-slice-notation
+
+def update_cargo(planet):
+    """ update values in combo's Cargo frame """
+    # il faut une boucle de rétroaction
+    # la qty doit changer en fonction de select(goods)
+    # de avail(pods) à max(pods)
+
+    _key_list = []
+    _value_list = []
+    for key, value in planet.price_slip.items():
+        _key_list.append(key)
+        _value_list.append(value[-1])  # only stock qty
+
+    window['-IN-GOODS-'].update(values=_key_list)
+    window['-IN-QTY-'].update(values=_value_list)
+    window['-BUY-CARGO-'].update(disabled=False)

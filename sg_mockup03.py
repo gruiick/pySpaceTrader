@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1547 $
+# $Id: sg_mockup03.py 1548 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -41,7 +41,7 @@ clicked_position = ()   # keep temporary click position global
 sg.theme('Default1')
 
 # Menu
-menu_layout = [['&File',
+menu_layout = [['&Game',
                 ['&New',
                  '&Load',
                  '&Save_as',
@@ -489,7 +489,7 @@ def set_destination():
             # update Trading tab
             window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
             update_trading(window['-DEST-TABLE-'], captain.destination)
-            update_cargo(captain.destination)
+            update_cargo_goods(captain.destination)
             # allow next_turn()
             window['-NEXT-TURN-'].update(disabled=False)
 
@@ -548,19 +548,29 @@ def update_affiche(objet):
         window['-IN-CAPTAIN-'].update(description)
 
 
-def update_cargo(planet):
-    """ update values in combo's Cargo frame """
-    # il faut une boucle de rétroaction
-    # la qty doit changer en fonction de select(goods)
-    # de avail(pods) à max(pods)
-
+def update_cargo_goods(planet):
+    """ update values in combo's goods Cargo frame """
     _key_list = []
-    _value_list = []
+
     for key, value in planet.price_slip.items():
-        _key_list.append(key)
-        _value_list.append(value[-1])  # only stock qty
+        # if no stock, don't bother adding to picklist
+        if value[-1] != 0:
+            _key_list.append(key)
 
     window['-IN-GOODS-'].update(values=_key_list)
+
+
+def update_cargo_qty(good):
+    """ update picklist in combo's quantity Cargo frame """
+    # FIXME: total_pods -> avail_pods
+    total_pods = captain.ship.model['cargo']
+    _qty_max = captain.location.price_slip[good][-1]
+    # _value_list = []
+    if _qty_max < total_pods:
+        _value_list = list(range(1, _qty_max + 1))
+    else:
+        _value_list = list(range(1, total_pods + 1))
+
     window['-IN-QTY-'].update(values=_value_list)
 
 
@@ -605,7 +615,7 @@ def update_gui():
 
     window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
-    update_cargo(captain.location)
+    update_cargo_goods(captain.location)
     update_board()
 
 
@@ -681,6 +691,12 @@ if __name__ == '__main__':
                 sg.popup_error('No game loaded!')
             else:
                 next_turn()
+
+        elif event == '-IN-GOODS-':
+            update_cargo_qty(values['-IN-GOODS-'])
+
+        elif event == '-IN-QTY-':
+            window['-BUY-CARGO-'].update(disabled=False)
 
         elif event == 'About':
             sg.popup(msg_overview)
