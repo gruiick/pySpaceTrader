@@ -1,5 +1,5 @@
 #
-# $Id: BORDEL.py 1288 $
+# $Id: snippets.py 1544 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java

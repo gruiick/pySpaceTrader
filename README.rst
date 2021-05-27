@@ -4,21 +4,57 @@ python3 remake of SpaceTrader
 
 :date: 2018-12-19
 :status: draft
-:version: $Id: README.rst 1543 $
+:version: $Id: README.rst 1544 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
-http://www.spronck.net/spacetrader/STFrames.html
+A little remake of Space Trader, with python3/Tk, as a toy project.
 
-https://github.com/blind-coder/SpaceTrader
+Turn-based strategy/trading small game.
 
-I need something to work on my poor python skills. And it may differ from original games.
+References
+==========
 
-disclaimer: This is a toy project, early work in progress... It may never be finished.
+* https://www.benjamin-schieder.de/androidspacetrader.html
 
-But you are very welcome to help, if you want to.
+* http://www.spronck.net/spacetrader/STFrames.html
 
-* Space Trader, python3/Tk, turn-based, based on:
+* https://github.com/blind-coder/SpaceTrader
+
+Contributing
+============
+
+I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
+
+disclaimer: This is a toy project, early work in progress... It may never be finished and it may differ from original games.
+
+But you are very welcome to help, if you want to (See CONTRIBUTING.rst).
+
+
+Use and tests
+=============
+
+At the moment, you'll need:
+
+
+.. code-block:: bash
+
+    .
+    ├── cli_01.py
+    ├── constants.py
+    └── sg_mockup03.py
+
+I try to use as less additionnal python3 modules as possible, but you will need these:
+
+.. code-block:: python
+
+    PySimpleGUI==4.41.2
+
+
+Memory pad
+==========
+
+* Space Trader, based on:
     * https://www.benjamin-schieder.de/androidspacetrader.html
     * http://www.spronck.net/spacetrader/STFrames.html
     * https://github.com/blind-coder/SpaceTrader (java)
@@ -63,5 +99,4 @@ captain/player : reputation management (Wanted poster(s), bounty?, arrests, fine
 -> ships/shipyard, false identities
 
 minimal spatial fights management (rolldice)
-
 

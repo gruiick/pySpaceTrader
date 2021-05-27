@@ -18,8 +18,6 @@
 
     collision(target, object, radius=None)
 
-    slip_list(slip_dict)
-
     save game objects
     open previously saved  objects
 
@@ -170,9 +168,6 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
     def calculate_prices(self):
         """ calculate initial prices (and stocks) of a good, on a planet """
 
-        # FIXME it should be stock first, then price
-        # bug: selling price without stock!
-        # enhancement: if no stock, buying price is higher
         buy = self.buying_price()
         sell = self.selling_price()
         if sell == 0:
@@ -197,7 +192,7 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
     def selling_price(self):
         """ calculate initial selling price of a good, on a planet """
-        # If a system can't produce something, its price is zero.
+        # If a system can't produce something, its price is zero
         coin = self.tradeitem
         if self.planet.tech_level < coin.tp and coin.name not in 'fuel':
             sell_price = 0

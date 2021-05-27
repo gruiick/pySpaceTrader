@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1543 $
+# $Id: sg_mockup03.py 1544 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -121,7 +121,8 @@ location_layout = sg.Frame(
                              selected_row_colors=(COLORS['default'], 'white'),
                              key='-LOC-TABLE-',
                    )]],
-    title='Location',
+    title='Location:',
+    key='-LOC-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 destination_layout = sg.Frame(
@@ -135,8 +136,9 @@ destination_layout = sg.Frame(
                              selected_row_colors=(COLORS['default'], 'white'),
                              key='-DEST-TABLE-',
                    )]],
-    title='Destination',
-    title_location=sg.TITLE_LOCATION_TOP_RIGHT)
+    title='Destination:',
+    key='-DEST-TITLE-',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 # Captain Board
 board_layout = sg.Frame(
@@ -200,15 +202,20 @@ trading_center_col = sg.Column([[board_layout]],
                              )
 
 tab_trading = [
-    [trading_left_col, trading_right_col],
+    [trading_left_col,
+     sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_right_col],
+    [sg.HorizontalSeparator(color='red', pad=(1, 1))],
     [trading_center_col],
     ]
+
+tab_bank = [[sg.Text('Not yet implemented')]]
 
 tab_shipyard = [[sg.Text('Not yet implemented')]]
 
 tab_news = [[sg.Text('Not yet implemented')]]
 
-# two columns
+# Main, two columns
 main_left_col = sg.Column([[navigation_layout]],
                         justification='left',
                         element_justification='left',
@@ -218,6 +225,7 @@ main_right_col = sg.Column(
     [[sg.TabGroup([
         [sg.Tab('Galactic Map', tab_galactic_map),
          sg.Tab('Trading', tab_trading),
+         sg.Tab('Bank', tab_bank),
          sg.Tab('Shipyard', tab_shipyard),
          sg.Tab('News', tab_news),
         ]],
@@ -445,8 +453,10 @@ def set_destination():
 
         elif distance < captain.ship.reservoir:
             captain.destination = clicked_position
+            # update Trading tab
+            window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
             update_trading(window['-DEST-TABLE-'], captain.destination)
-            # window['-SETDEST-'].update(disabled=False)
+            # allow next_turn()
             window['-NEXT-TURN-'].update(disabled=False)
 
         elif distance > int(captain.ship.model['fuel'] * MAXP):
@@ -533,21 +543,24 @@ def update_gui():
     if captain.destination:
         window['-SETDEST-'].update(disabled=True)
         window['-NEXT-TURN-'].update(disabled=False)
+        window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
         update_trading(window['-DEST-TABLE-'], captain.destination)
     else:
         window['-SETDEST-'].update(disabled=False)
-        window['-REFUEL-'].update(disabled=False)
+        # window['-REFUEL-'].update(disabled=False)
         window['-NEXT-TURN-'].update(disabled=True)
         # clear trading tab -DEST-TABLE-
+        window['-DEST-TITLE-'].update(value='Destination:')
         update_trading(window['-DEST-TABLE-'])
 
+    window['-LOC-TITLE-'].update(value=f'Location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
     # update_spinboxes()
     update_board()
 
 
 def update_trading(element, planet=None):
-    """ update price slip in the tables """
+    """ update price slip in the Trading tab tables """
     if planet is None:
         element.update(values=[['None', 0, 0, 0]])
     else:

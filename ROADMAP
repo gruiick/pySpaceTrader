@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1543 $
+# $Id: ROADMAP 1544 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -25,8 +25,8 @@ Trading tab:
     buy and sell ?
     refresh cargo pods ?
 
-fine tuning de tk (fonts, etc) <- migrate to PySimpleGUI
-    mostly done
+fine tuning of tk (fonts, etc) <- migrate to PySimpleGUI
+    DONE OK
 
 === 0.1
 
@@ -36,8 +36,8 @@ mostly playable:
     refuel system               OK
     refresh Trading tab         ?
     separate Bank tab           ?
+
 redimensionnable ? ou fixe, mais résolution en option ?
-fine tuning de tk (fonts, etc) <- PySimpleGUI?
 
 === 0.2
 
@@ -59,3 +59,4 @@ space fights!
 == version 1.0
 
 full playable version, my way (may not be identical to original game)
+
