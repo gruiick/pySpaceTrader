@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1548 $
+# $Id: snippets.py 1550 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -313,3 +313,6 @@ def update_cargo(planet):
     window['-IN-GOODS-'].update(values=_key_list)
     window['-IN-QTY-'].update(values=_value_list)
     window['-BUY-CARGO-'].update(disabled=False)
+
+
+'-PROFIT-TABLE-' # default values = [[0]]

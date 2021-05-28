@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1548 $
+# $Id: sg_mockup03.py 1550 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -112,7 +112,7 @@ tab_galactic_map = [
 numrow = len(GOODS.keys())
 location_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
-                             headings= [' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                             headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
                              auto_size_columns=True,
                              display_row_numbers=False,
                              num_rows=numrow,
@@ -127,7 +127,7 @@ location_layout = sg.Frame(
 
 destination_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
-                             headings= [' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                             headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
                              auto_size_columns=True,
                              display_row_numbers=False,
                              num_rows=numrow,
@@ -139,6 +139,20 @@ destination_layout = sg.Frame(
     title='Destination:',
     key='-DEST-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+profit_layout = sg.Frame(
+    layout=[[sg.Table(values=[[0]],
+                      headings=['profit'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-PROFIT-TABLE-',
+                      )]],
+    title=None,)
+
 
 # Captain Board
 board_layout = sg.Frame(
@@ -215,6 +229,11 @@ trading_loc_col = sg.Column([[location_layout]],
                              element_justification='left',
                              vertical_alignment='top')
 
+trading_profit_col = sg.Column([[profit_layout]],
+                               justification='center',
+                               element_justification='center',
+                               vertical_alignment='bottom')
+
 trading_dest_col = sg.Column([[destination_layout]],
                              justification='right',
                              element_justification='right',
@@ -232,7 +251,8 @@ trading_board_col = sg.Column([[board_layout]],
 
 tab_trading = [
     [trading_loc_col,
-     sg.VerticalSeparator(color='red', pad=(1, 1)),
+     #sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_profit_col,
      trading_dest_col],
 
     [sg.HorizontalSeparator(color='red', pad=(1, 1))],
@@ -489,7 +509,7 @@ def set_destination():
             # update Trading tab
             window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
             update_trading(window['-DEST-TABLE-'], captain.destination)
-            update_cargo_goods(captain.destination)
+            update_profit(captain.destination)
             # allow next_turn()
             window['-NEXT-TURN-'].update(disabled=False)
 
@@ -619,6 +639,16 @@ def update_gui():
     update_board()
 
 
+def update_profit(planet):
+    """ update profit element """
+    if planet is None:
+        window['-PROFIT-TABLE-'].update(values=[[0]])
+    else:
+        valeurs = cli_01.calculate_profit_pod(captain.location, planet)
+        print(valeurs)
+        window['-PROFIT-TABLE-'].update(values=valeurs)
+
+
 def update_trading(element, planet=None):
     """ update price slip in the Trading tab tables """
     if planet is None:
@@ -696,7 +726,10 @@ if __name__ == '__main__':
             update_cargo_qty(values['-IN-GOODS-'])
 
         elif event == '-IN-QTY-':
-            window['-BUY-CARGO-'].update(disabled=False)
+            if values['-IN-QTY-'] is None :
+                window['-BUY-CARGO-'].update(disabled=True)
+            else:
+                window['-BUY-CARGO-'].update(disabled=False)
 
         elif event == 'About':
             sg.popup(msg_overview)

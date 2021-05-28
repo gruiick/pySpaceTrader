@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1548 $
+# $Id: cli_01.py 1550 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -282,6 +282,22 @@ def slip_list(slip):
 
     pprint(new_list)
     return new_list
+
+
+def calculate_profit_pod(location, destination):
+    """ calculate net profit by good (for one pod) between location planet and destination planet 
+
+    return a list of list
+    """
+    _profit = []
+    for key in destination.price_slip.keys():
+        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][2] != 0 :
+            benefit = destination.price_slip[key][0] - location.price_slip[key][1]
+            _profit.append([benefit])
+        else:
+            _profit.append([0])
+
+    return _profit
 
 
 def create_planetes():
