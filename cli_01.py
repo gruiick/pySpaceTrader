@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1550 $
+# $Id: cli_01.py 1551 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -247,6 +247,22 @@ class Ship:
         #print(len(self.cargo))
 
 
+def calculate_profit_pod(location, destination):
+    """ calculate net profit by good (for one pod) between location planet and destination planet
+
+    return a list of list
+    """
+    _profit = []
+    for key in destination.price_slip.keys():
+        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][2] != 0 :
+            benefit = destination.price_slip[key][0] - location.price_slip[key][1]
+            _profit.append([benefit])
+        else:
+            _profit.append([0])
+
+    return _profit
+
+
 def collision(target, objet, radius=None):
     """ is (x, y) inside objet.bbox? """
     # TODO: when creating Planet, radius should be bigger/doubled
@@ -268,36 +284,6 @@ def collision(target, objet, radius=None):
         return True
     else:
         return False
-
-
-def slip_list(slip):
-    """ return a list of list made from slip(dict) elements """
-    new_list = []
-
-    for key in slip.keys():
-        _interne = []
-        _interne.append(key)
-        _interne.extend(slip[key])
-        new_list.append(list(_interne))
-
-    pprint(new_list)
-    return new_list
-
-
-def calculate_profit_pod(location, destination):
-    """ calculate net profit by good (for one pod) between location planet and destination planet 
-
-    return a list of list
-    """
-    _profit = []
-    for key in destination.price_slip.keys():
-        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][2] != 0 :
-            benefit = destination.price_slip[key][0] - location.price_slip[key][1]
-            _profit.append([benefit])
-        else:
-            _profit.append([0])
-
-    return _profit
 
 
 def create_planetes():
@@ -378,6 +364,20 @@ def save_game(univers, fname=None):
     with shelve.open(fname, 'n') as savefile:
         savefile['univers'] = univers
         savefile.close()
+
+
+def slip_list(slip):
+    """ return a list of list made from slip(dict) elements """
+    new_list = []
+
+    for key in slip.keys():
+        _interne = []
+        _interne.append(key)
+        _interne.extend(slip[key])
+        new_list.append(list(_interne))
+
+    pprint(new_list)
+    return new_list
 
 
 if __name__ == '__main__':

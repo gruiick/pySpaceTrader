@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1550 $
+# $Id: sg_mockup03.py 1551 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -645,7 +645,6 @@ def update_profit(planet):
         window['-PROFIT-TABLE-'].update(values=[[0]])
     else:
         valeurs = cli_01.calculate_profit_pod(captain.location, planet)
-        print(valeurs)
         window['-PROFIT-TABLE-'].update(values=valeurs)
 
 
