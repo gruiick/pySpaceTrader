@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1550 $
+# $Id: snippets.py 1551 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -112,6 +112,7 @@ print(planete.__dict__.keys(), planete.__dict__.values())
         # Carte galactique => tabs
 
 TradeItem = collections.namedtuple() ?
+# pourquoi namedtuple() ?
 
 TradeItem = collections.namedtuple('TradeItem',
                                    ['name',

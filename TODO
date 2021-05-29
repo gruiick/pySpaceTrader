@@ -1,17 +1,49 @@
-# $Id: TODO 1538 $
+# $Id: TODO 1539 $
 # SPDX-License-Identifier: BSD-2-Clause
 
-* sGUI : FIXME
-    tester PySimpleGUI -> OK
-    bascule *en cours*
+====
+TODO
+====
+
+* séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py ?
+
+* Captain Board:
+    -> bank account ? credit (pour rembourser le ship) ?
+solde = balance (+gain, -loss)
+achat = purchase, buy
+vente = sale, sell (vendre)
+crédit = loan (+compute interests every turn)
+
+* Bank tab
+    * transactions log ?
+    * invoices ? (goods, qty, price) -> profit/loss ?
+
+Later:
+======
+    * vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
+    * quêtes (tribbles!)
+
+    * pour plus tard (bien plus tard) :
+octogonal bounding box (ou disque)
+https://forums.futura-sciences.com/programmation-langages-algorithmique/736071-python-animer-points-a-linterieur-dun-cercle.html
+http://xymaths.free.fr/Informatique-Programmation/python/Construction-1er-programme.php
+https://www.piger-lesmaths.fr/polygone-regulier/
+https://zestedesavoir.com/tutoriels/2835/theorie-des-collisions/
+
+
+Done:
+=====
+
+* sGUI :
+    tester PySimpleGUI  -> OK
+    bascule *en cours*  -> OK
     * https://pysimplegui.readthedocs.io/en/latest/
     * https://pysimplegui.readthedocs.io/en/latest/cookbook/
 
-    afficher location.slip et destination.slip
-    afficher la Captain Board
+    afficher location.slip et destination.slip -> OK
+    afficher la Captain Board -> OK
 
-* rename cli_01.py en core.py et modifier *mockup*
-
+* rename cli_01.py en core.py et modifier *mockup*  -> OK
 
 * tkGUI .pack() -> .grid() OK
  N
@@ -33,36 +65,18 @@ W E
         [tkGUI: affichage des textes] OK
         [sGUI: affichage des textes] OK
 
-        vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
-
-        quêtes (maybe later),
-
 * gérer les stocks par planete OK -> PriceSlip class
 
+* collision, bbox -> OK
 https://www.geeksforgeeks.org/python-math-function-hypot/ OK
 https://docs.python.org/fr/3/library/math.html
 
-afficher un tableau en Tk:
+afficher un tableau en Tk -> OK
 https://python.developpez.com/actu/127261/Creer-un-tableau-interactif-en-python-avec-Tkinter/
 https://tkdocs.com/tutorial/tree.html ?
-
-Captain Board:
-bank account ? credit (pour rembourser le ship) ?
-solde = balance (+gain, -loss)
-achat = purchase, buy
-vente = sale, sell (vendre)
-crédit = loan
 
 * implémenter les goods = OK pour les prix
 price via formula : base * regim * specialresources * techlevel * status OK
 bordereau de prix = PriceSlip OK
 https://docs.python.org/fr/3/library/collections.html#collections.namedtuple
-
-
- * pour plus tard (bien plus tard) :
-octogonal bounding box (ou disque)
-https://forums.futura-sciences.com/programmation-langages-algorithmique/736071-python-animer-points-a-linterieur-dun-cercle.html
-http://xymaths.free.fr/Informatique-Programmation/python/Construction-1er-programme.php
-https://www.piger-lesmaths.fr/polygone-regulier/
-https://zestedesavoir.com/tutoriels/2835/theorie-des-collisions/
 
