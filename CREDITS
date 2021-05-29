@@ -1,10 +1,10 @@
-# $Id: CREDITS 1094 $
+# $Id: CREDITS 1095 $
 # SPDX-License-Identifier: BSD-2-Clause
 
-Credits for python3 pySpaceTrader:
+Credits for pySpaceTrader:
 
+Benjamin Schieder (author and maintainer of Space Trader, Android port)
 Pieter Sproncks (original author of Space Trader for PalmOS)
-Benjamin Schieder (author and maintainer of Android port)
-Bryan Oakley (SimpleTable class)
+David J. Webb (author of PalmPilot game SolarWars)
+Matt Lee (author of DopeWars game for Palm)
 
-any good WebSearchEngine, stackoverflow and the python community
