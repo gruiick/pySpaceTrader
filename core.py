@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1551 $
+# $Id: core.py 1552 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -376,7 +376,7 @@ def slip_list(slip):
         _interne.extend(slip[key])
         new_list.append(list(_interne))
 
-    pprint(new_list)
+    # pprint(new_list)
     return new_list
 
 

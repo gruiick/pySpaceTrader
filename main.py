@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sg_mockup03.py 1551 $
+# $Id: main.py 1552 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -14,7 +14,7 @@ import PySimpleGUI as sg
 import math
 
 import constants
-import cli_01
+import core
 
 from pprint import pprint
 
@@ -292,7 +292,7 @@ final_layout = [[sg.Menu(menu_layout, tearoff=True)],
           [main_left_col, main_right_col],]
 
 # create window
-window = sg.Window('mockup03',
+window = sg.Window('pySpaceTrader',
                    final_layout,
                    auto_size_buttons=False,
                    resizable=True)
@@ -387,9 +387,9 @@ def load_file():
                                           ('all files', '*.*')),
                             ).replace('.db', '')
     # print(fname)
-    univers = cli_01.load_game(fname=fname)
-    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
-    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
+    univers = core.load_game(fname=fname)
+    planetes = [x for x in univers if isinstance(x, core.Planet)]
+    toto = [x for x in univers if isinstance(x, core.Captain)]
     captain = toto[0]
     draw_map()
     update_gui()
@@ -399,12 +399,12 @@ def new_game():
     """ new game """
     global univers, planetes, captain
     # create universe
-    univers = cli_01.create_universe()
+    univers = core.create_universe()
     # set planets apart
-    planetes = [x for x in univers if isinstance(x, cli_01.Planet)]
+    planetes = [x for x in univers if isinstance(x, core.Planet)]
     # pprint(planetes)
     # set Captain apart too
-    toto = [x for x in univers if isinstance(x, cli_01.Captain)]
+    toto = [x for x in univers if isinstance(x, core.Captain)]
     captain = toto[0]
     # pprint(captain.__dict__)
     draw_map()
@@ -443,7 +443,7 @@ def on_click(position):
     """ redraw graph with new clicked position """
     global clicked_position
     for planete in planetes:
-        if cli_01.collision(position, planete):
+        if core.collision(position, planete):
             position = planete.position
             clicked_position = planete
             update_affiche(planete)
@@ -492,7 +492,7 @@ def save_as():
                                           ('all files', '*.*')),
                             ).replace('.db', '')
     # print(fname)
-    cli_01.save_game(univers, fname=fname)
+    core.save_game(univers, fname=fname)
 
 
 def set_destination():
@@ -551,7 +551,7 @@ def update_affiche(objet):
     """ update text in labels
     objet: Planet() or Captain()
     """
-    if isinstance(objet, cli_01.Planet):
+    if isinstance(objet, core.Planet):
         description = ''.join([objet.name,
                                ' : ',
                                str(objet.position),
@@ -559,7 +559,7 @@ def update_affiche(objet):
                                '\n'.join(objet.gov)])
         window['-IN-PLANET-'].update(description)
 
-    elif isinstance(objet, cli_01.Captain):
+    elif isinstance(objet, core.Captain):
         description = ''.join([objet.name,
                                ' from ',
                                objet.homeworld.name,
@@ -644,7 +644,7 @@ def update_profit(planet):
     if planet is None:
         window['-PROFIT-TABLE-'].update(values=[[0]])
     else:
-        valeurs = cli_01.calculate_profit_pod(captain.location, planet)
+        valeurs = core.calculate_profit_pod(captain.location, planet)
         window['-PROFIT-TABLE-'].update(values=valeurs)
 
 
@@ -653,7 +653,7 @@ def update_trading(element, planet=None):
     if planet is None:
         element.update(values=[['None', 0, 0, 0]])
     else:
-        price_list = cli_01.slip_list(planet.price_slip)
+        price_list = core.slip_list(planet.price_slip)
         element.update(values=price_list)
 
 
