@@ -1,30 +1,34 @@
-=============================
-python3 remake of SpaceTrader
-=============================
+===================
+python3 SpaceTrader
+===================
 
 :date: 2018-12-19
-:status: draft
-:version: $Id: README.rst 1548 $
+:status: work in progress
+:version: $Id: README.rst 1549 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
-A little remake of Space Trader, with python3/Tk, as a toy project.
+A little game inspired by `Space Trader <https://www.benjamin-schieder.de/androidspacetrader.html>`_, in python3/Tk, as a toy project.
 
-Turn-based strategy/trading small game.
+Turn-based 'strategy' game. This is neither a python port nor a full copy of original(s) Space Trader.
+
+``Space Trader is an Android strategy game in space by Benjamin Schieder. It is a port of the Palm Pilot game "Space Trader" by Pieter Spronck, which is inspired by David J. Webb’s PalmPilot game SolarWars (which in turn is based on Matt Lee’s game DopeWars) and the 80’s classic 3D strategy game Elite (though it does not have Elite’s 3D flight mode).``
+
 
 References
 ==========
 
 * https://www.benjamin-schieder.de/androidspacetrader.html
 
+* https://github.com/blind-coder/SpaceTrader
+
 * http://www.spronck.net/spacetrader/STFrames.html
 
-* https://github.com/blind-coder/SpaceTrader
 
 Contributing
 ============
 
-Disclaimer: This is a toy project, early work in progress... It may never be finished and it may differ from original games.
+Disclaimer: This is a toy project, early work in progress... It may never be finished and it will differ from original games.
 
 I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
 
