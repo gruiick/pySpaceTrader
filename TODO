@@ -1,4 +1,4 @@
-# $Id: TODO 1539 $
+# $Id: TODO 1540 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -8,15 +8,17 @@ TODO
 * séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py ?
 
 * Captain Board:
-    -> bank account ? credit (pour rembourser le ship) ?
+    -> different from bank account (See Bank Tab)
 solde = balance (+gain, -loss)
-achat = purchase, buy
+achat = purchase, buy -> cargo qty, cargo value
 vente = sale, sell (vendre)
-crédit = loan (+compute interests every turn)
 
 * Bank tab
     * transactions log ?
     * invoices ? (goods, qty, price) -> profit/loss ?
+
+    * ? credit (pour rembourser le ship) ?
+    crédit = loan (+compute interests every turn)
 
 Later:
 ======
