@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1553 $
+# $Id: main.py 1554 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -762,7 +762,9 @@ if __name__ == '__main__':
                 window['-BUY-CARGO-'].update(disabled=True)
             else:
                 update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
-                # window['-BUY-CARGO-'].update(disabled=False)
+
+        elif event == '-BUY-CARGO-':
+            pass
 
         elif event == 'About':
             sg.popup(msg_overview)
