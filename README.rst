@@ -4,7 +4,7 @@ python3 remake of SpaceTrader
 
 :date: 2018-12-19
 :status: draft
-:version: $Id: README.rst 1547 $
+:version: $Id: README.rst 1548 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -24,11 +24,11 @@ References
 Contributing
 ============
 
+Disclaimer: This is a toy project, early work in progress... It may never be finished and it may differ from original games.
+
 I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
 
-disclaimer: This is a toy project, early work in progress... It may never be finished and it may differ from original games.
-
-But you are very welcome to help, if you want to (See CONTRIBUTING.rst).
+That being said, you are *very welcome* to help, if you want to (See CONTRIBUTING.rst).
 
 
 Use and tests
