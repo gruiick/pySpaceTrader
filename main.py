@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1552 $
+# $Id: main.py 1553 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -178,43 +178,39 @@ board_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
             ],
-            [sg.HorizontalSeparator(color=None, pad=(1, 1))],
-            [sg.Text('Credit:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-CREDIT-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
-            [sg.Text('Interests:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-INTERESTS-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
+            # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
     ],
     title='Captain board',
     #size=(25, 15),
     element_justification='right')
 
 cargo_layout = sg.Frame(
-    layout=[[sg.Text('Goods:'),
+    layout=[[sg.Text('Goods:',
+                     justification='left'),
              sg.Combo(values=[None],
                      default_value=None,
                      readonly=True,
                      enable_events=True,
-                     key='-IN-GOODS-',
-                     )],
-            [sg.Text('Quantity:'),
+                     key='-IN-GOODS-',)
+            ],
+            [sg.Text('Quantity:',
+                     justification='left'),
              # ça devrait plutot être un sg.Spin
              # de 0 à max(avail.pods)|max(good[-1])
              sg.Combo(values=[None],
-             default_value=None,
-             readonly=True,
-             enable_events=True,
-             key='-IN-QTY-',
-             )],
+                      default_value=None,
+                      readonly=True,
+                      enable_events=True,
+                      key='-IN-QTY-',)
+             ],
+             [sg.Text('Invoice (Cr):',
+                      justification='left'),
+              sg.Text('',
+                      key='-IN-INVOICE-',
+                      size=(6, 1),
+                      justification='right',
+                      relief='sunken'),
+             ],
              [sg.Button('buy cargo',
                    key='-BUY-CARGO-',
                    disabled=True)],
@@ -262,7 +258,31 @@ tab_trading = [
      trading_board_col],
     ]
 
-tab_bank = [[sg.Text('Not yet implemented')]]
+# Bank layout
+bank_board = sg.Frame(
+    layout=[
+            [sg.Text('Credit:', justification='left'),
+            sg.Text('',
+                     key='-IN-BK-CREDIT-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Interests:', justification='left'),
+            sg.Text('',
+                     key='-IN-BK-INTERESTS-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+        ],
+    title='Bank board',
+    #size=(25, 15),
+    element_justification='left')
+
+# tab_bank = [[sg.Text('Not yet implemented')]]
+tab_bank = [[sg.Text('Not yet implemented')], 
+            [bank_board]]
 
 tab_shipyard = [[sg.Text('Not yet implemented')]]
 
@@ -639,6 +659,19 @@ def update_gui():
     update_board()
 
 
+def update_invoice(good_type, qty):
+    """ """
+    good_price = captain.location.price_slip[good_type][1]
+    invoice = good_price * qty
+
+    if invoice > captain.balance:
+        window['-IN-INVOICE-'].update(value=invoice, text_color='red')
+        window['-BUY-CARGO-'].update(disabled=True)
+    else:
+        window['-IN-INVOICE-'].update(value=invoice)
+        window['-BUY-CARGO-'].update(disabled=False)
+
+
 def update_profit(planet):
     """ update profit element """
     if planet is None:
@@ -728,7 +761,8 @@ if __name__ == '__main__':
             if values['-IN-QTY-'] is None :
                 window['-BUY-CARGO-'].update(disabled=True)
             else:
-                window['-BUY-CARGO-'].update(disabled=False)
+                update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
+                # window['-BUY-CARGO-'].update(disabled=False)
 
         elif event == 'About':
             sg.popup(msg_overview)

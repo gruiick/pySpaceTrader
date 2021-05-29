@@ -1,4 +1,4 @@
-# $Id: TODO 1540 $
+# $Id: TODO 1541 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -15,10 +15,18 @@ vente = sale, sell (vendre)
 
 * Bank tab
     * transactions log ?
-    * invoices ? (goods, qty, price) -> profit/loss ?
+    * invoices ? (goods, qty, price) -> profit/loss ? <- detailed?
+        warning: in case of illegal goods, you don't want StarPolice to find 
+        your detailed invoices
+    * incomes (profits) vs expenses (fuel)
 
     * ? credit (pour rembourser le ship) ?
     crédit = loan (+compute interests every turn)
+
+* Universe as an object ?
+    which turn are we? (in case of saved game)
+    ease save/load ? (only one object to deal with?)
+
 
 Later:
 ======
