@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1554 $
+# $Id: main.py 1555 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -51,8 +51,7 @@ menu_layout = [['&Game',
 
 # Captain layout
 captain_layout = sg.Frame(
-    layout = [
-        [sg.Text('display Captain info',
+    layout = [[sg.Text('display Captain info',
                  size=(25, 2),
                  key='-IN-CAPTAIN-')],
         [sg.Button('Homeworld',
@@ -66,17 +65,15 @@ captain_layout = sg.Frame(
 
 # info layout
 info_layout = sg.Frame(
-    layout = [
-        [sg.Text('display Planet info',
-                 size=(25, 7),
-                 key='-IN-PLANET-')],
+    layout = [[sg.Text('display Planet info',
+                       size=(25, 7),
+                       key='-IN-PLANET-')],
         ], title='Planet')
 
 # actions layout
 action_layout = sg.Frame(
-    layout = [
-        [sg.Button('Set destination',
-                   key='-SETDEST-')],
+    layout = [[sg.Button('Set destination',
+                         key='-SETDEST-')],
         [sg.Button('Refuel',
                    key='-REFUEL-')],
         [sg.Button('Next turn',
@@ -120,7 +117,8 @@ location_layout = sg.Frame(
                              hide_vertical_scroll=True,
                              selected_row_colors=(COLORS['default'], 'white'),
                              key='-LOC-TABLE-',
-                   )]],
+                             ),
+            ]],
     title='Current location:',
     key='-LOC-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
@@ -135,7 +133,8 @@ destination_layout = sg.Frame(
                              hide_vertical_scroll=True,
                              selected_row_colors=(COLORS['default'], 'white'),
                              key='-DEST-TABLE-',
-                   )]],
+                             ),
+            ]],
     title='Destination:',
     key='-DEST-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
@@ -150,14 +149,14 @@ profit_layout = sg.Frame(
                       hide_vertical_scroll=True,
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-PROFIT-TABLE-',
-                      )]],
+                      ),
+            ]],
     title=None,)
-
 
 # Captain Board
 board_layout = sg.Frame(
-    layout=[
-            [sg.Text('Balance:', justification='left'),
+    layout=[[sg.Text('Balance:',
+                     justification='left'),
             sg.Text('',
                      key='-IN-BD-BALANCE-',
                      size=(20, 1),
@@ -218,7 +217,6 @@ cargo_layout = sg.Frame(
     title='Cargo',)
 
 
-
 # trading, 2 columns top + 2 columns bottom
 trading_loc_col = sg.Column([[location_layout]],
                              justification='left',
@@ -260,8 +258,8 @@ tab_trading = [
 
 # Bank layout
 bank_board = sg.Frame(
-    layout=[
-            [sg.Text('Credit:', justification='left'),
+    layout=[[sg.Text('Credit:',
+                     justification='left'),
             sg.Text('',
                      key='-IN-BK-CREDIT-',
                      size=(20, 1),
@@ -281,7 +279,7 @@ bank_board = sg.Frame(
     element_justification='left')
 
 # tab_bank = [[sg.Text('Not yet implemented')]]
-tab_bank = [[sg.Text('Not yet implemented')], 
+tab_bank = [[sg.Text('Not yet implemented')],
             [bank_board]]
 
 tab_shipyard = [[sg.Text('Not yet implemented')]]
