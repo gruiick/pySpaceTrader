@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1557 $
+# $Id: main.py 1558 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -57,19 +57,19 @@ def buy_cargo(facture):
     print(f'avail: {available_cargo}')
 
     if qty > available_cargo:
-        sg.popup_error('Cannot buy that quantity, not enought cargo space!')
+        sg.popup_error('Cannot buy, not enought cargo space!')
     else:
         for index in range(0, qty):
             captain.ship.cargo[index]['type'] = good_type
             captain.ship.cargo[index]['value'] = good_price
             available_cargo -= 1
             captain.location.price_slip[good_type][-1] -= 1
-        captain.balance -= cargo_value
+        captain.cash -= cargo_value
         update_trading(window['-LOC-TABLE-'], captain.location)
-        update_captain_board()
-        update_cargo_board(captain.location)
+        update_cargo_board()
+        update_docks_board(captain.location)
 
-    # TODO log invoice in bank account
+    # TODO log invoice into bank account
 
 
 def draw_limite(position, rayon=None):
@@ -223,25 +223,28 @@ def on_click(position):
 
 
 def refuel():
-    """ refuel the captain.ship according to captain.balance, ship.reservoir
-    and planete.fuel_price
+    """ refuel the captain.ship according to captain.cash, 
+    ship.reservoir and planete.fuel_price
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
     # TODO: quantity available on planete ?
+    # captain.location.price_slip['fuel'][2]
     if captain.ship.reservoir < capacity:
         deficit = capacity - captain.ship.reservoir
+        print(f'fuel: {deficit}')
         price = deficit * captain.location.fuel_price
-        # print(price)
-        if price <= captain.balance:
-            captain.balance = captain.balance - price
+        print(f'fuel price: {price}')
+        if price <= captain.cash:
+            captain.cash = captain.cash - price
             captain.ship.reservoir = capacity  # or reservoir + deficit
             rayon = capacity
-            # TODO: update (planete.price_slip[goods['fuel']][2]) - deficit)
+            captain.location.price_slip['fuel'][2] -= deficit
             draw_limite(captain.location.position, rayon)
             update_affiche(captain)
+            update_trading(window['-LOC-TABLE-'], captain.location)
             window['-REFUEL-'].update(disabled=True)
             # window['-NEXT-TURN-'].update(disabled=False)
-            update_captain_board()
+            update_cargo_board()
         else:
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
@@ -333,19 +336,13 @@ def update_affiche(objet):
         description = ''.join([objet.name,
                                ' from ',
                                objet.homeworld.name,
-                               '\n',
-                               str(objet.balance)])
+                               ])
         window['-IN-CAPTAIN-'].update(description)
+        balance = objet.balance
+        window['-IN-BALANCE-'].update(value=f'Balance: {balance}')
 
 
-def update_cargo_board(planet):
-    """ clear values in Cargo frame's elements """
-    update_cargo_goods(planet)
-    update_cargo_qty(good=None)
-    window['-IN-INVOICE-'].update(value='')
-
-
-def update_cargo_goods(planet):
+def update_buy_goods(planet):
     """ update values in combo's goods Cargo frame """
     _key_list = []
 
@@ -357,7 +354,7 @@ def update_cargo_goods(planet):
     window['-IN-GOODS-'].update(values=_key_list)
 
 
-def update_cargo_qty(good=None):
+def update_buy_qty(good=None):
     """ update picklist in combo's quantity Cargo frame """
     # FIXME: clear=False, instead of good=None
     # redo this algo
@@ -381,8 +378,8 @@ def update_cargo_qty(good=None):
     window['-IN-QTY-'].update(values=_value_list)
 
 
-def update_captain_board():
-    """ update Captain board informations GUI element """
+def update_cargo_board():
+    """ update Cargo board informations GUI element """
     pods = 0
     tpods = len(captain.ship.cargo)
     overall = 0
@@ -391,13 +388,23 @@ def update_captain_board():
             pods += 1
             overall += captain.ship.cargo[key]['value']
 
-    window['-IN-BD-BALANCE-'].update(captain.balance)
+    window['-IN-BD-CASH-'].update(captain.cash)
     window['-IN-BD-CARGO-'].update('/'.join([str(pods), str(tpods)]))
     window['-IN-BD-VALUE-'].update(int(overall))
 
 
+def update_docks_board(planet):
+    """ clear values in Docks frame's elements """
+    update_buy_goods(planet)
+    update_buy_qty(good=None)
+    window['-IN-INVOICE-'].update(value='')
+
+
 def update_gui():
-    """ update all GUI elements """
+    """ update all GUI elements 
+
+    FIXME need a clear() subfunction (new game bug)
+    """
     update_affiche(captain)
     update_affiche(captain.location)
 
@@ -422,14 +429,15 @@ def update_gui():
 
     window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
-    update_cargo_goods(captain.location)
-    update_captain_board()
+    update_buy_goods(captain.location)
+    update_cargo_board()
 
 
 def update_invoice(good_type, qty):
     """ calculate the invoice, update the relevant GUI elements
 
     return a tuple(good_type, good_price, qty, cargo_value)
+    FIXME need a clear() subfunction?
     """
     good_price = captain.location.price_slip[good_type][1]
     cargo_value = good_price * qty
@@ -440,7 +448,7 @@ def update_invoice(good_type, qty):
         window['-IN-INVOICE-'].update(value=cargo_value, text_color='red')
         window['-BUY-CARGO-'].update(disabled=True)
     else:
-        window['-IN-INVOICE-'].update(value=cargo_value)
+        window['-IN-INVOICE-'].update(value=cargo_value, text_color='black')
         window['-BUY-CARGO-'].update(disabled=False)
 
     return invoice
@@ -529,7 +537,8 @@ if __name__ == '__main__':
                 next_turn()
 
         elif event == '-IN-GOODS-':
-            update_cargo_qty(values['-IN-GOODS-'])
+            update_buy_qty(values['-IN-GOODS-'])
+            window['-IN-INVOICE-'].update(value='', text_color='black')
 
         elif event == '-IN-QTY-':
             if values['-IN-QTY-'] is None:

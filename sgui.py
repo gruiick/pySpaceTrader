@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1557 $
+# $Id: sgui.py 1558 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -38,8 +38,16 @@ menu_layout = [['&Game',
 # Captain layout
 captain_layout = sg.Frame(
     layout=[[sg.Text('display Captain info',
-                     size=(25, 2),
-                     key='-IN-CAPTAIN-')],
+                     size=(25, 1),
+                     key='-IN-CAPTAIN-',
+                     ),
+            ],
+            [sg.Text('Balance: ',
+                     size=(25, 1),
+                     key='-IN-BALANCE-',
+                     justification='left',
+                     ),
+            ],
         [sg.Button('Homeworld',
                    key='-HOMEWORLD-')],
         [sg.Button('Location',
@@ -139,16 +147,19 @@ profit_layout = sg.Frame(
     ]],
     title=None,)
 
-# Captain Board
+
+
+# Cargo Board
 board_layout = sg.Frame(
-    layout=[[sg.Text('Balance:',
+    layout=[[sg.Text('Cash (Cr):',
                      justification='left'),
                sg.Text('',
-                       key='-IN-BD-BALANCE-',
+                       key='-IN-BD-CASH-',
                        size=(20, 1),
                        justification='right',
                        relief='sunken'),
                ],
+               # TODO table with all pods, good type & value
                [sg.Text('Cargo:', justification='left'),
                 sg.Text('',
                         key='-IN-BD-CARGO-',
@@ -156,7 +167,7 @@ board_layout = sg.Frame(
                         justification='right',
                         relief='sunken'),
                 ],
-                [sg.Text('Value:', justification='left'),
+                [sg.Text('Cargo Value (Cr):', justification='left'),
                  sg.Text('',
                          key='-IN-BD-VALUE-',
                          size=(20, 1),
@@ -165,11 +176,11 @@ board_layout = sg.Frame(
                  ],
                  # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
     ],
-    title='Captain board',
+    title='Cargo manifest',
     # size=(25, 15),
     element_justification='right')
 
-cargo_layout = sg.Frame(
+buy_cargo_layout = sg.Frame(
     layout=[[sg.Text('Goods:',
                      justification='left'),
              sg.Combo(values=[None],
@@ -196,11 +207,11 @@ cargo_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
              ],
-             [sg.Button('buy cargo',
+             [sg.Button('Buy',
                         key='-BUY-CARGO-',
                         disabled=True)],
     ],
-    title='Cargo',)
+    title='Docks',)
 
 
 # trading, 2 columns top + 2 columns bottom
@@ -219,7 +230,7 @@ trading_dest_col = sg.Column([[destination_layout]],
                              element_justification='right',
                              vertical_alignment='top')
 
-trading_cargo_col = sg.Column([[cargo_layout]],
+trading_cargo_col = sg.Column([[buy_cargo_layout]],
                              justification='left',
                              element_justification='left',
                              vertical_alignment='top')

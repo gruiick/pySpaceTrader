@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1553 $
+# $Id: core.py 1554 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -50,7 +50,20 @@ class Captain:
         #                'reputation': '',
         #                'record': '',
         #                }
-        self.balance = 15000
+        self.cash = 15000
+
+    @property
+    def balance(self):
+        # self.cash replace initial balance
+        _lst = []
+        liste_pods = [x for x in self.ship.cargo.keys() if self.ship.cargo[x]['value'] is not None]
+        for idx in liste_pods:
+            _lst.append(self.ship.cargo[idx]['value'])
+
+        cargo_value = sum(_lst)
+        balance = cargo_value + self.cash
+
+        return balance
 
 
 class Planet:
