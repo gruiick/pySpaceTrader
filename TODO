@@ -1,4 +1,4 @@
-# $Id: TODO 1541 $
+# $Id: TODO 1542 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -32,6 +32,8 @@ Later:
 ======
     * vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
     * quêtes (tribbles!)
+
+    * tribbles will reproduce a lot, filling empty cargo pod, eating (emptying) food, medecine, narcotics, even furs, if there is nothing else. They are a plage. The only ways to get rid of it are to sell the ship, or destroy it in a space fight.
 
     * pour plus tard (bien plus tard) :
 octogonal bounding box (ou disque)
