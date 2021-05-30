@@ -4,7 +4,7 @@ python3 SpaceTrader
 
 :date: 2018-12-19
 :status: work in progress
-:version: $Id: README.rst 1549 $
+:version: $Id: README.rst 1550 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -46,6 +46,7 @@ At the moment, you'll need:
     .
     ├── core.py
     ├── constants.py
+    ├── sgui.py
     └── main.py
 
 

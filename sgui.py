@@ -1,0 +1,297 @@
+#!/usr/bin/env python3
+# coding: utf-8
+#
+# $Id: sgui.py 1557 $
+# SPDX-License-Identifier: BSD-2-Clause
+
+"""
+PySimpleGUI layout for pySpaceTrader
+"""
+
+import PySimpleGUI as sg
+
+import constants
+
+# Globals
+MAXW = constants.MAXWIDTH
+MAXH = constants.MAXHEIGHT
+MAXP = constants.MAXPARSEC
+GOODS = constants.GOODS
+
+COLORS = constants.COLORS
+
+# GUI Elements
+
+# Theme
+sg.theme('Default1')
+
+# Menu
+menu_layout = [['&Game',
+                ['&New',
+                 '&Load',
+                 '&Save_as',
+                 'E&xit']],
+                ['Help',
+                 '&About'],
+                ]
+
+# Captain layout
+captain_layout = sg.Frame(
+    layout=[[sg.Text('display Captain info',
+                     size=(25, 2),
+                     key='-IN-CAPTAIN-')],
+        [sg.Button('Homeworld',
+                   key='-HOMEWORLD-')],
+        [sg.Button('Location',
+                   key='-LOCATION-')],
+        [sg.Button('Destination',
+                   key='-DESTINATION-')],
+        ], title='Captain',
+        element_justification='center')
+
+# info layout
+info_layout = sg.Frame(
+    layout=[[sg.Text('display Planet info',
+                     size=(25, 7),
+                     key='-IN-PLANET-')],
+        ], title='Planet')
+
+# actions layout
+action_layout = sg.Frame(
+    layout=[[sg.Button('Set destination',
+                       key='-SETDEST-')],
+        [sg.Button('Refuel',
+                   key='-REFUEL-')],
+        [sg.Button('Next turn',
+                   key='-NEXT-TURN-')],
+        ], title='Actions',
+        size=(25, 3),
+        element_justification='center')
+
+# first column's frame
+navigation_layout = sg.Frame(
+    layout=[
+        [captain_layout],
+        [info_layout],
+        [action_layout],
+        ], title='Navigation',
+    element_justification='center')
+
+# Galactic Map Tab
+tab_galactic_map = [
+    [sg.Graph(
+        (MAXW, MAXH),
+        (0, 0),
+        (MAXW, MAXH),
+        background_color=COLORS['background'],
+        enable_events=True,
+        key='-GRAPH-')],
+    [sg.StatusBar('detected clic in X=, Y=',
+             size=(30, 1),
+             key='-IN-CLIC-')],
+    ]
+
+# trading stuffs, before Tab
+numrow = len(GOODS.keys())
+location_layout = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0]],
+                      headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-LOC-TABLE-',
+                      ),
+    ]],
+    title='Current location:',
+    key='-LOC-TITLE-',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+destination_layout = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0]],
+                      headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-DEST-TABLE-',
+                      ),
+    ]],
+    title='Destination:',
+    key='-DEST-TITLE-',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+profit_layout = sg.Frame(
+    layout=[[sg.Table(values=[[0]],
+                      headings=['profit'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-PROFIT-TABLE-',
+                      ),
+    ]],
+    title=None,)
+
+# Captain Board
+board_layout = sg.Frame(
+    layout=[[sg.Text('Balance:',
+                     justification='left'),
+               sg.Text('',
+                       key='-IN-BD-BALANCE-',
+                       size=(20, 1),
+                       justification='right',
+                       relief='sunken'),
+               ],
+               [sg.Text('Cargo:', justification='left'),
+                sg.Text('',
+                        key='-IN-BD-CARGO-',
+                        size=(6, 1),
+                        justification='right',
+                        relief='sunken'),
+                ],
+                [sg.Text('Value:', justification='left'),
+                 sg.Text('',
+                         key='-IN-BD-VALUE-',
+                         size=(20, 1),
+                         justification='right',
+                         relief='sunken'),
+                 ],
+                 # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
+    ],
+    title='Captain board',
+    # size=(25, 15),
+    element_justification='right')
+
+cargo_layout = sg.Frame(
+    layout=[[sg.Text('Goods:',
+                     justification='left'),
+             sg.Combo(values=[None],
+                      default_value=None,
+                      readonly=True,
+                      enable_events=True,
+                      key='-IN-GOODS-',),
+             ],
+            [sg.Text('Quantity:',
+                     justification='left'),
+             # ça devrait plutot être un sg.Spin ?
+             # de 0 à max(avail.pods)|max(good[-1])
+             sg.Combo(values=[None],
+                      default_value=None,
+                      readonly=True,
+                      enable_events=True,
+                      key='-IN-QTY-',),
+             ],
+             [sg.Text('Invoice (Cr):',
+                      justification='left'),
+             sg.Text('',
+                     key='-IN-INVOICE-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+             ],
+             [sg.Button('buy cargo',
+                        key='-BUY-CARGO-',
+                        disabled=True)],
+    ],
+    title='Cargo',)
+
+
+# trading, 2 columns top + 2 columns bottom
+trading_loc_col = sg.Column([[location_layout]],
+                            justification='left',
+                            element_justification='left',
+                            vertical_alignment='top')
+
+trading_profit_col = sg.Column([[profit_layout]],
+                               justification='center',
+                               element_justification='center',
+                               vertical_alignment='bottom')
+
+trading_dest_col = sg.Column([[destination_layout]],
+                             justification='right',
+                             element_justification='right',
+                             vertical_alignment='top')
+
+trading_cargo_col = sg.Column([[cargo_layout]],
+                             justification='left',
+                             element_justification='left',
+                             vertical_alignment='top')
+
+trading_board_col = sg.Column([[board_layout]],
+                             justification='right',
+                             element_justification='right',
+                             vertical_alignment='top')
+
+tab_trading = [
+    [trading_loc_col,
+     # sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_profit_col,
+     trading_dest_col],
+
+    [sg.HorizontalSeparator(color='red', pad=(1, 1))],
+
+    [trading_cargo_col,
+     sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_board_col],
+    ]
+
+# Bank layout
+bank_board = sg.Frame(
+    layout=[[sg.Text('Credit:',
+                     justification='left'),
+             sg.Text('',
+                     key='-IN-BK-CREDIT-',
+                     size=(20, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Interests:',
+                      justification='left'),
+              sg.Text('',
+                      key='-IN-BK-INTERESTS-',
+                      size=(20, 1),
+                      justification='right',
+                      relief='sunken'),
+            ],
+    ],
+    title='Bank board',
+    # size=(25, 15),
+    element_justification='left')
+
+# tab_bank = [[sg.Text('Not yet implemented')]]
+tab_bank = [[sg.Text('Not yet implemented')],
+            [bank_board]]
+
+tab_shipyard = [[sg.Text('Not yet implemented')]]
+
+tab_news = [[sg.Text('Not yet implemented')]]
+
+# Main, two columns
+main_left_col = sg.Column([[navigation_layout]],
+                          justification='left',
+                          element_justification='left',
+                          vertical_alignment='top')
+
+main_right_col = sg.Column(
+    [[sg.TabGroup([
+        [sg.Tab('Galactic Map', tab_galactic_map),
+         sg.Tab('Trading', tab_trading),
+         sg.Tab('Bank', tab_bank),
+         sg.Tab('Shipyard', tab_shipyard),
+         sg.Tab('News', tab_news),
+         ]],
+    )]],
+    justification='right',
+    element_justification='right',
+    vertical_alignment='top')
+
+# final layout assembly
+final_layout = [[sg.Menu(menu_layout, tearoff=True)],
+                [main_left_col, main_right_col], ]
