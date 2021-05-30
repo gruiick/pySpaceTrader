@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1552 $
+# $Id: core.py 1553 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -244,6 +244,7 @@ class Ship:
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
+        # self.available_cargo = self.model['cargo']
         #print(len(self.cargo))
 
 

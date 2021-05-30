@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1555 $
+# $Id: main.py 1556 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -16,7 +16,7 @@ import math
 import constants
 import core
 
-from pprint import pprint
+# from pprint import pprint
 
 # Globals
 MAXW = constants.MAXWIDTH
@@ -34,8 +34,8 @@ target = []             # items composing the 'target'
 limite = []             # item composing the limit circle
 clicked_position = ()   # keep temporary click position global
 
-######################
-## define GUI Elements
+# *********************
+# * define GUI Elements
 
 # Theme
 sg.theme('Default1')
@@ -47,13 +47,14 @@ menu_layout = [['&Game',
                  '&Save_as',
                  'E&xit']],
                 ['Help',
-                 '&About'],]
+                 '&About'],
+                ]
 
 # Captain layout
 captain_layout = sg.Frame(
-    layout = [[sg.Text('display Captain info',
-                 size=(25, 2),
-                 key='-IN-CAPTAIN-')],
+    layout=[[sg.Text('display Captain info',
+                     size=(25, 2),
+                     key='-IN-CAPTAIN-')],
         [sg.Button('Homeworld',
                    key='-HOMEWORLD-')],
         [sg.Button('Location',
@@ -65,15 +66,15 @@ captain_layout = sg.Frame(
 
 # info layout
 info_layout = sg.Frame(
-    layout = [[sg.Text('display Planet info',
-                       size=(25, 7),
-                       key='-IN-PLANET-')],
+    layout=[[sg.Text('display Planet info',
+                     size=(25, 7),
+                     key='-IN-PLANET-')],
         ], title='Planet')
 
 # actions layout
 action_layout = sg.Frame(
-    layout = [[sg.Button('Set destination',
-                         key='-SETDEST-')],
+    layout=[[sg.Button('Set destination',
+                       key='-SETDEST-')],
         [sg.Button('Refuel',
                    key='-REFUEL-')],
         [sg.Button('Next turn',
@@ -101,7 +102,7 @@ tab_galactic_map = [
         enable_events=True,
         key='-GRAPH-')],
     [sg.StatusBar('detected clic in X=, Y=',
-             size=(30,1),
+             size=(30, 1),
              key='-IN-CLIC-')],
     ]
 
@@ -109,32 +110,32 @@ tab_galactic_map = [
 numrow = len(GOODS.keys())
 location_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
-                             headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
-                             auto_size_columns=True,
-                             display_row_numbers=False,
-                             num_rows=numrow,
-                             justification='center',
-                             hide_vertical_scroll=True,
-                             selected_row_colors=(COLORS['default'], 'white'),
-                             key='-LOC-TABLE-',
-                             ),
-            ]],
+                      headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-LOC-TABLE-',
+                      ),
+    ]],
     title='Current location:',
     key='-LOC-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 destination_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
-                             headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
-                             auto_size_columns=True,
-                             display_row_numbers=False,
-                             num_rows=numrow,
-                             justification='center',
-                             hide_vertical_scroll=True,
-                             selected_row_colors=(COLORS['default'], 'white'),
-                             key='-DEST-TABLE-',
-                             ),
-            ]],
+                      headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-DEST-TABLE-',
+                      ),
+    ]],
     title='Destination:',
     key='-DEST-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
@@ -150,78 +151,78 @@ profit_layout = sg.Frame(
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-PROFIT-TABLE-',
                       ),
-            ]],
+    ]],
     title=None,)
 
 # Captain Board
 board_layout = sg.Frame(
     layout=[[sg.Text('Balance:',
                      justification='left'),
-            sg.Text('',
-                     key='-IN-BD-BALANCE-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
-            [sg.Text('Cargo:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-CARGO-',
-                     size=(6, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
-            [sg.Text('Value:', justification='left'),
-            sg.Text('',
-                     key='-IN-BD-VALUE-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
-            ],
-            # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
+               sg.Text('',
+                       key='-IN-BD-BALANCE-',
+                       size=(20, 1),
+                       justification='right',
+                       relief='sunken'),
+               ],
+               [sg.Text('Cargo:', justification='left'),
+                sg.Text('',
+                        key='-IN-BD-CARGO-',
+                        size=(6, 1),
+                        justification='right',
+                        relief='sunken'),
+                ],
+                [sg.Text('Value:', justification='left'),
+                 sg.Text('',
+                         key='-IN-BD-VALUE-',
+                         size=(20, 1),
+                         justification='right',
+                         relief='sunken'),
+                 ],
+                 # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
     ],
     title='Captain board',
-    #size=(25, 15),
+    # size=(25, 15),
     element_justification='right')
 
 cargo_layout = sg.Frame(
     layout=[[sg.Text('Goods:',
                      justification='left'),
              sg.Combo(values=[None],
-                     default_value=None,
-                     readonly=True,
-                     enable_events=True,
-                     key='-IN-GOODS-',)
-            ],
+                      default_value=None,
+                      readonly=True,
+                      enable_events=True,
+                      key='-IN-GOODS-',),
+             ],
             [sg.Text('Quantity:',
                      justification='left'),
-             # ça devrait plutot être un sg.Spin
+             # ça devrait plutot être un sg.Spin ?
              # de 0 à max(avail.pods)|max(good[-1])
              sg.Combo(values=[None],
                       default_value=None,
                       readonly=True,
                       enable_events=True,
-                      key='-IN-QTY-',)
+                      key='-IN-QTY-',),
              ],
              [sg.Text('Invoice (Cr):',
                       justification='left'),
-              sg.Text('',
-                      key='-IN-INVOICE-',
-                      size=(6, 1),
-                      justification='right',
-                      relief='sunken'),
+             sg.Text('',
+                     key='-IN-INVOICE-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
              ],
              [sg.Button('buy cargo',
-                   key='-BUY-CARGO-',
-                   disabled=True)],
-             ],
+                        key='-BUY-CARGO-',
+                        disabled=True)],
+    ],
     title='Cargo',)
 
 
 # trading, 2 columns top + 2 columns bottom
 trading_loc_col = sg.Column([[location_layout]],
-                             justification='left',
-                             element_justification='left',
-                             vertical_alignment='top')
+                            justification='left',
+                            element_justification='left',
+                            vertical_alignment='top')
 
 trading_profit_col = sg.Column([[profit_layout]],
                                justification='center',
@@ -245,7 +246,7 @@ trading_board_col = sg.Column([[board_layout]],
 
 tab_trading = [
     [trading_loc_col,
-     #sg.VerticalSeparator(color='red', pad=(1, 1)),
+     # sg.VerticalSeparator(color='red', pad=(1, 1)),
      trading_profit_col,
      trading_dest_col],
 
@@ -260,22 +261,23 @@ tab_trading = [
 bank_board = sg.Frame(
     layout=[[sg.Text('Credit:',
                      justification='left'),
-            sg.Text('',
+             sg.Text('',
                      key='-IN-BK-CREDIT-',
                      size=(20, 1),
                      justification='right',
                      relief='sunken'),
             ],
-            [sg.Text('Interests:', justification='left'),
-            sg.Text('',
-                     key='-IN-BK-INTERESTS-',
-                     size=(20, 1),
-                     justification='right',
-                     relief='sunken'),
+            [sg.Text('Interests:',
+                      justification='left'),
+              sg.Text('',
+                      key='-IN-BK-INTERESTS-',
+                      size=(20, 1),
+                      justification='right',
+                      relief='sunken'),
             ],
-        ],
+    ],
     title='Bank board',
-    #size=(25, 15),
+    # size=(25, 15),
     element_justification='left')
 
 # tab_bank = [[sg.Text('Not yet implemented')]]
@@ -288,9 +290,9 @@ tab_news = [[sg.Text('Not yet implemented')]]
 
 # Main, two columns
 main_left_col = sg.Column([[navigation_layout]],
-                        justification='left',
-                        element_justification='left',
-                        vertical_alignment='top')
+                          justification='left',
+                          element_justification='left',
+                          vertical_alignment='top')
 
 main_right_col = sg.Column(
     [[sg.TabGroup([
@@ -299,7 +301,7 @@ main_right_col = sg.Column(
          sg.Tab('Bank', tab_bank),
          sg.Tab('Shipyard', tab_shipyard),
          sg.Tab('News', tab_news),
-        ]],
+         ]],
     )]],
     justification='right',
     element_justification='right',
@@ -307,7 +309,7 @@ main_right_col = sg.Column(
 
 # final layout assembly
 final_layout = [[sg.Menu(menu_layout, tearoff=True)],
-          [main_left_col, main_right_col],]
+                [main_left_col, main_right_col], ]
 
 # create window
 window = sg.Window('pySpaceTrader',
@@ -318,8 +320,35 @@ window = sg.Window('pySpaceTrader',
 # simplify call for map objects
 graph = window['-GRAPH-']
 
-############
-## Functions
+# ***********
+# * Functions
+
+
+def buy_cargo(facture):
+    """ load into cargo pods whats in the incoming invoice """
+
+    good_type, good_price, qty, cargo_value = facture
+
+    _none_cargo = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
+    available_cargo = len(_none_cargo)
+    print(f'pod(s): {_none_cargo}')
+    print(f'avail: {available_cargo}')
+
+    if qty > available_cargo:
+        sg.popup_error('Cannot buy that quantity, not enought cargo space!')
+    else:
+        for index in range(0, qty):
+            captain.ship.cargo[index]['type'] = good_type
+            captain.ship.cargo[index]['value'] = good_price
+            available_cargo -= 1
+            captain.location.price_slip[good_type][-1] -= 1
+        captain.balance -= cargo_value
+        update_trading(window['-LOC-TABLE-'], captain.location)
+        update_captain_board()
+        update_cargo_board(captain.location)
+
+    # TODO log invoice in bank account
+
 
 def draw_limite(position, rayon=None):
     """ erase and redraw the parsec limit
@@ -400,15 +429,15 @@ def load_file():
     """ load saved game """
     global univers, planetes, captain
     fname = sg.popup_get_file('Saved game to open',
-                            default_extension = '.db',
-                            file_types = (('saved game(s)', '*.db'),
+                              default_extension='.db',
+                              file_types=(('saved game(s)', '*.db'),
                                           ('all files', '*.*')),
-                            ).replace('.db', '')
+                              ).replace('.db', '')
     # print(fname)
     univers = core.load_game(fname=fname)
     planetes = [x for x in univers if isinstance(x, core.Planet)]
-    toto = [x for x in univers if isinstance(x, core.Captain)]
-    captain = toto[0]
+    _toto = [x for x in univers if isinstance(x, core.Captain)]
+    captain = _toto[0]
     draw_map()
     update_gui()
 
@@ -422,8 +451,8 @@ def new_game():
     planetes = [x for x in univers if isinstance(x, core.Planet)]
     # pprint(planetes)
     # set Captain apart too
-    toto = [x for x in univers if isinstance(x, core.Captain)]
-    captain = toto[0]
+    _toto = [x for x in univers if isinstance(x, core.Captain)]
+    captain = _toto[0]
     # pprint(captain.__dict__)
     draw_map()
     update_gui()
@@ -490,7 +519,7 @@ def refuel():
             update_affiche(captain)
             window['-REFUEL-'].update(disabled=True)
             # window['-NEXT-TURN-'].update(disabled=False)
-            update_board()
+            update_captain_board()
         else:
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
@@ -501,14 +530,15 @@ def save():
     """ save into the previously open/selected file """
     pass
 
+
 def save_as():
     """ save to a new file """
     fname = sg.popup_get_file('Save game to file',
-                            save_as = True,
-                            default_extension = '',
-                            file_types = (('saved game(s)', '*.db'),
+                              save_as=True,
+                              default_extension='',
+                              file_types=(('saved game(s)', '*.db'),
                                           ('all files', '*.*')),
-                            ).replace('.db', '')
+                              ).replace('.db', '')
     # print(fname)
     core.save_game(univers, fname=fname)
 
@@ -519,7 +549,7 @@ def set_destination():
     try:
         distance = get_distance(captain.location.position, clicked_position.position)
 
-        if distance is 0:
+        if distance == 0:
             sg.popup(f'Cannot set destination: Same as current location.')
 
         elif distance < captain.ship.reservoir:
@@ -586,6 +616,13 @@ def update_affiche(objet):
         window['-IN-CAPTAIN-'].update(description)
 
 
+def update_cargo_board(planet):
+    """ clear values in Cargo frame's elements """
+    update_cargo_goods(planet)
+    update_cargo_qty(good=None)
+    window['-IN-INVOICE-'].update(value='')
+
+
 def update_cargo_goods(planet):
     """ update values in combo's goods Cargo frame """
     _key_list = []
@@ -598,22 +635,32 @@ def update_cargo_goods(planet):
     window['-IN-GOODS-'].update(values=_key_list)
 
 
-def update_cargo_qty(good):
+def update_cargo_qty(good=None):
     """ update picklist in combo's quantity Cargo frame """
-    # FIXME: total_pods -> avail_pods
-    total_pods = captain.ship.model['cargo']
-    _qty_max = captain.location.price_slip[good][-1]
-    # _value_list = []
-    if _qty_max < total_pods:
-        _value_list = list(range(1, _qty_max + 1))
+    # FIXME: clear=False, instead of good=None
+    # redo this algo
+    _none_cargo = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
+    avail_pods = len(_none_cargo)
+
+    if good is not None:
+        _qty_max = captain.location.price_slip[good][-1]
+        # _value_list = []
+        if _qty_max < avail_pods:
+            _value_list = list(range(1, _qty_max + 1))
+        else:
+            _value_list = list(range(1, avail_pods + 1))
+
     else:
-        _value_list = list(range(1, total_pods + 1))
+        if avail_pods != 0:
+            _value_list = list(range(1, avail_pods + 1))
+        else:
+            _value_list = ''
 
     window['-IN-QTY-'].update(values=_value_list)
 
 
-def update_board():
-    """ update Captain board informations """
+def update_captain_board():
+    """ update Captain board informations GUI element """
     pods = 0
     tpods = len(captain.ship.cargo)
     overall = 0
@@ -628,7 +675,7 @@ def update_board():
 
 
 def update_gui():
-    """ update all GUI """
+    """ update all GUI elements """
     update_affiche(captain)
     update_affiche(captain.location)
 
@@ -654,24 +701,31 @@ def update_gui():
     window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
     update_cargo_goods(captain.location)
-    update_board()
+    update_captain_board()
 
 
 def update_invoice(good_type, qty):
-    """ """
-    good_price = captain.location.price_slip[good_type][1]
-    invoice = good_price * qty
+    """ calculate the invoice, update the relevant GUI elements
 
-    if invoice > captain.balance:
-        window['-IN-INVOICE-'].update(value=invoice, text_color='red')
+    return a tuple(good_type, good_price, qty, cargo_value)
+    """
+    good_price = captain.location.price_slip[good_type][1]
+    cargo_value = good_price * qty
+
+    invoice = (good_type, good_price, qty, cargo_value)
+
+    if cargo_value > captain.balance:
+        window['-IN-INVOICE-'].update(value=cargo_value, text_color='red')
         window['-BUY-CARGO-'].update(disabled=True)
     else:
-        window['-IN-INVOICE-'].update(value=invoice)
+        window['-IN-INVOICE-'].update(value=cargo_value)
         window['-BUY-CARGO-'].update(disabled=False)
+
+    return invoice
 
 
 def update_profit(planet):
-    """ update profit element """
+    """ update profit GUI element """
     if planet is None:
         window['-PROFIT-TABLE-'].update(values=[[0]])
     else:
@@ -756,13 +810,13 @@ if __name__ == '__main__':
             update_cargo_qty(values['-IN-GOODS-'])
 
         elif event == '-IN-QTY-':
-            if values['-IN-QTY-'] is None :
+            if values['-IN-QTY-'] is None:
                 window['-BUY-CARGO-'].update(disabled=True)
             else:
-                update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
+                invoice = update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
 
         elif event == '-BUY-CARGO-':
-            pass
+            buy_cargo(invoice)
 
         elif event == 'About':
             sg.popup(msg_overview)
