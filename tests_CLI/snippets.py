@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1551 $
+# $Id: snippets.py 1552 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -25,6 +25,10 @@ if not any(temp.name in planete.__dict__.values() for planete in planetes):
 #  return true; else return false;
 
 print(planete.__dict__.keys(), planete.__dict__.values())
+
+planetes = [x for x in univers if isinstance(x, core.Planet)]
+
+pod_vides = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
 
 # http://effbot.org/pyfaq/how-do-i-get-a-list-of-all-instances-of-a-given-class.htm
 # trier les objets en fonction de leur class : isinstance()
