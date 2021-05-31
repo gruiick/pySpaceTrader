@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1558 $
+# $Id: sgui.py 1559 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -101,6 +101,7 @@ tab_galactic_map = [
 
 # trading stuffs, before Tab
 numrow = len(GOODS.keys())
+
 location_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
                       headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
@@ -116,6 +117,20 @@ location_layout = sg.Frame(
     title='Current location:',
     key='-LOC-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+profit_layout = sg.Frame(
+    layout=[[sg.Table(values=[[0]],
+                      headings=['profit'],
+                      auto_size_columns=True,
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='center',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-PROFIT-TABLE-',
+                      ),
+    ]],
+    title=None,)
 
 destination_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
@@ -133,24 +148,12 @@ destination_layout = sg.Frame(
     key='-DEST-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
-profit_layout = sg.Frame(
-    layout=[[sg.Table(values=[[0]],
-                      headings=['profit'],
-                      auto_size_columns=True,
-                      display_row_numbers=False,
-                      num_rows=numrow,
-                      justification='center',
-                      hide_vertical_scroll=True,
-                      selected_row_colors=(COLORS['default'], 'white'),
-                      key='-PROFIT-TABLE-',
-                      ),
-    ]],
-    title=None,)
-
-
+# TODO: destination(s) in range
+# combo list of planets within ship range
+# same selector as galactic map, for -SETDEST-
 
 # Cargo Board
-board_layout = sg.Frame(
+cargo_layout = sg.Frame(
     layout=[[sg.Text('Cash (Cr):',
                      justification='left'),
                sg.Text('',
@@ -158,14 +161,26 @@ board_layout = sg.Frame(
                        size=(20, 1),
                        justification='right',
                        relief='sunken'),
+               sg.Text('Pod(s):',
+                       justification='left'),
+               sg.Text('',
+                       key='-IN-BD-CARGO-',
+                       size=(6, 1),
+                       justification='right',
+                       relief='sunken'),
                ],
                # TODO table with all pods, good type & value
-               [sg.Text('Cargo:', justification='left'),
-                sg.Text('',
-                        key='-IN-BD-CARGO-',
-                        size=(6, 1),
-                        justification='right',
-                        relief='sunken'),
+               [sg.Table(values=[[0, 0]],
+                         headings=['type', 'value (Cr)'],
+                         auto_size_columns=True,
+                         display_row_numbers=False,
+                         num_rows=1,
+                         justification='right',
+                         hide_vertical_scroll=True,
+                         selected_row_colors=(COLORS['default'], 'white'),
+                         key='-MANIFEST-',
+                         ),
+               # TODO: checkbox list, one for each row...
                 ],
                 [sg.Text('Cargo Value (Cr):', justification='left'),
                  sg.Text('',
@@ -180,7 +195,7 @@ board_layout = sg.Frame(
     # size=(25, 15),
     element_justification='right')
 
-buy_cargo_layout = sg.Frame(
+docks_layout = sg.Frame(
     layout=[[sg.Text('Goods:',
                      justification='left'),
              sg.Combo(values=[None],
@@ -230,12 +245,12 @@ trading_dest_col = sg.Column([[destination_layout]],
                              element_justification='right',
                              vertical_alignment='top')
 
-trading_cargo_col = sg.Column([[buy_cargo_layout]],
+trading_cargo_col = sg.Column([[docks_layout]],
                              justification='left',
                              element_justification='left',
                              vertical_alignment='top')
 
-trading_board_col = sg.Column([[board_layout]],
+trading_board_col = sg.Column([[cargo_layout]],
                              justification='right',
                              element_justification='right',
                              vertical_alignment='top')

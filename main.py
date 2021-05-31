@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1558 $
+# $Id: main.py 1559 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -59,7 +59,7 @@ def buy_cargo(facture):
     if qty > available_cargo:
         sg.popup_error('Cannot buy, not enought cargo space!')
     else:
-        for index in range(0, qty):
+        for index in range(_none_cargo[0], _none_cargo[0] + qty):
             captain.ship.cargo[index]['type'] = good_type
             captain.ship.cargo[index]['value'] = good_price
             available_cargo -= 1
@@ -381,16 +381,24 @@ def update_buy_qty(good=None):
 def update_cargo_board():
     """ update Cargo board informations GUI element """
     pods = 0
-    tpods = len(captain.ship.cargo)
-    overall = 0
+    tbl_pod = []
+    total_pods = len(captain.ship.cargo)
+    total_value = 0
     for key in captain.ship.cargo.keys():
         if captain.ship.cargo[key]['type']:
             pods += 1
-            overall += captain.ship.cargo[key]['value']
+            total_value += captain.ship.cargo[key]['value']
+            tbl_pod.append([captain.ship.cargo[key]['type'],
+                            captain.ship.cargo[key]['value']])
 
     window['-IN-BD-CASH-'].update(captain.cash)
-    window['-IN-BD-CARGO-'].update('/'.join([str(pods), str(tpods)]))
-    window['-IN-BD-VALUE-'].update(int(overall))
+    window['-IN-BD-CARGO-'].update('/'.join([str(pods),
+                                             str(total_pods)]))
+    window['-IN-BD-VALUE-'].update(int(total_value))
+    window['-MANIFEST-'].update(values=tbl_pod,
+                                num_rows=pods)
+    if pods == total_pods:
+        window['-BUY-CARGO-'].update(disabled=True)
 
 
 def update_docks_board(planet):
