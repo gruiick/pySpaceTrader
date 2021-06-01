@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1559 $
+# $Id: main.py 1560 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -388,15 +388,16 @@ def update_cargo_board():
         if captain.ship.cargo[key]['type']:
             pods += 1
             total_value += captain.ship.cargo[key]['value']
-            tbl_pod.append([captain.ship.cargo[key]['type'],
+            tbl_pod.append([key,
+                            captain.ship.cargo[key]['type'],
                             captain.ship.cargo[key]['value']])
 
     window['-IN-BD-CASH-'].update(captain.cash)
     window['-IN-BD-CARGO-'].update('/'.join([str(pods),
                                              str(total_pods)]))
     window['-IN-BD-VALUE-'].update(int(total_value))
-    window['-MANIFEST-'].update(values=tbl_pod,
-                                num_rows=pods)
+    window['-MANIFEST-'].update(values=tbl_pod)
+
     if pods == total_pods:
         window['-BUY-CARGO-'].update(disabled=True)
 

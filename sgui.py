@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1559 $
+# $Id: sgui.py 1560 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -169,18 +169,20 @@ cargo_layout = sg.Frame(
                        justification='right',
                        relief='sunken'),
                ],
-               # TODO table with all pods, good type & value
-               [sg.Table(values=[[0, 0]],
-                         headings=['type', 'value (Cr)'],
-                         auto_size_columns=True,
-                         display_row_numbers=False,
-                         num_rows=1,
-                         justification='right',
-                         hide_vertical_scroll=True,
-                         selected_row_colors=(COLORS['default'], 'white'),
-                         key='-MANIFEST-',
-                         ),
-               # TODO: checkbox list, one for each row...
+               # TODO something with all pods, good type & value
+               [sg.Text('[pod][type][value (Cr)]',
+                        # size=(20, 1),
+                        justification='right'),],
+                [sg.Listbox(values=[],
+                           default_values=None,
+                           size=(20, 10),
+                           no_scrollbar=True,
+                           auto_size_text=True,
+                           select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE,
+                           enable_events=True,
+                           key='-MANIFEST-',
+                           ),
+               # TODO: size should be (20, total_pods)
                 ],
                 [sg.Text('Cargo Value (Cr):', justification='left'),
                  sg.Text('',
