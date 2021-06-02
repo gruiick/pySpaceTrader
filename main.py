@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1560 $
+# $Id: main.py 1561 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -132,6 +132,13 @@ def draw_target(position):
     target.append(graph.draw_line((0, y),
                                   (MAXW, y),
                                   color=COLORS['target']))
+
+
+def dump_cargo(pods):
+    """ dump good from pods """
+    # empty pod, loose value
+    # empty manifest
+    pass
 
 
 def get_distance(source, target):
@@ -266,6 +273,17 @@ def save_as():
                               ).replace('.db', '')
     # print(fname)
     core.save_game(univers, fname=fname)
+
+
+def sell_cargo(pods):
+    """ sell good from list of pods """
+    # dérouler la liste
+    # pour chaque pod
+    #   ajouter au stock de location
+    #   ajouter value à cash
+    #   vider pod
+    #   retirer de MANIFEST
+    pass
 
 
 def set_destination():
@@ -557,6 +575,12 @@ if __name__ == '__main__':
 
         elif event == '-BUY-CARGO-':
             buy_cargo(invoice)
+
+        elif event == '-SELL-':
+            sell_cargo(values['-MANIFEST-'])
+
+        elif event == '-DUMP-':
+            pass
 
         elif event == 'About':
             sg.popup(msg_overview)
