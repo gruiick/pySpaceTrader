@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1560 $
+# $Id: sgui.py 1561 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -172,17 +172,16 @@ cargo_layout = sg.Frame(
                # TODO something with all pods, good type & value
                [sg.Text('[pod][type][value (Cr)]',
                         # size=(20, 1),
-                        justification='right'),],
+                        justification='center'),],
                 [sg.Listbox(values=[],
                            default_values=None,
                            size=(20, 10),
-                           no_scrollbar=True,
+                           no_scrollbar=False,
                            auto_size_text=True,
                            select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE,
                            enable_events=True,
                            key='-MANIFEST-',
                            ),
-               # TODO: size should be (20, total_pods)
                 ],
                 [sg.Text('Cargo Value (Cr):', justification='left'),
                  sg.Text('',
@@ -195,7 +194,7 @@ cargo_layout = sg.Frame(
     ],
     title='Cargo manifest',
     # size=(25, 15),
-    element_justification='right')
+    element_justification='left')
 
 docks_layout = sg.Frame(
     layout=[[sg.Text('Goods:',
@@ -224,11 +223,22 @@ docks_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
              ],
-             [sg.Button('Buy',
+    ],
+    title='Docks',
+    element_justification='right')
+
+docks_btn_layout = sg.Frame(
+    layout=[[sg.Button('Buy',
                         key='-BUY-CARGO-',
                         disabled=True)],
+            [sg.Button('Sell',
+                       key='-SELL-')],
+            [sg.Button('Dump',
+                       key='-DUMP-')],
     ],
-    title='Docks',)
+    title='Manage cargo:',
+    size=(25, 3),
+    element_justification='center')
 
 
 # trading, 2 columns top + 2 columns bottom
@@ -247,12 +257,13 @@ trading_dest_col = sg.Column([[destination_layout]],
                              element_justification='right',
                              vertical_alignment='top')
 
-trading_cargo_col = sg.Column([[docks_layout]],
+trading_cargo_col = sg.Column([[cargo_layout]],
                              justification='left',
                              element_justification='left',
                              vertical_alignment='top')
 
-trading_board_col = sg.Column([[cargo_layout]],
+trading_board_col = sg.Column([[docks_layout],
+                               [docks_btn_layout]],
                              justification='right',
                              element_justification='right',
                              vertical_alignment='top')
