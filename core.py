@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1554 $
+# $Id: core.py 1555 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -188,17 +188,18 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
         # FIXME it should be stock first, then price
         # bug: selling price without stock!
-        # enhancement: if no stock, buying price is higher
+        # enhancement: if no stock, buying price is higher and no selling price
+        #              if large stock, prices are low
         buy = self.buying_price()
         sell = self.selling_price()
         if sell == 0:
             stock = 0
         else:
-            stock = self.calculate_stock()
+            stock = self.calculate_init_stock()
 
         return [buy, sell, stock]
 
-    def calculate_stock(self):
+    def calculate_init_stock(self):
         """ calculate initial stock of a good """
         # random quantity * systemsize * techlevel (hence, it can be zero)
         size = self.planet.system_size

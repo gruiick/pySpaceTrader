@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1562 $
+# $Id: main.py 1563 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -63,7 +63,7 @@ def buy_cargo(facture):
             captain.ship.cargo[index]['type'] = good_type
             captain.ship.cargo[index]['value'] = good_price
             available_cargo -= 1
-            captain.location.price_slip[good_type][-1] -= 1
+            captain.location.price_slip[good_type][2] -= 1
         captain.cash -= cargo_value
         update_trading(window['-LOC-TABLE-'], captain.location)
         update_cargo_board()
@@ -228,25 +228,34 @@ def refuel():
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
     quantity = captain.location.price_slip['fuel'][2]
+    fuel_price = captain.location.price_slip['fuel'][1]
+    reserve = captain.ship.reservoir
 
-    if captain.ship.reservoir < capacity:
-        fuel_deficit = capacity - captain.ship.reservoir
-        print(f'fuel: {fuel_deficit}')
-        price = fuel_deficit * captain.location.fuel_price
-        print(f'fuel price: {price}')
-        if price <= captain.cash:
-            captain.cash = captain.cash - price
-            captain.ship.reservoir = capacity  # or reservoir + fuel_deficit
-            rayon = capacity
-            # TODO: quantity available on planete ?
+    if reserve < capacity:
+        fuel_deficit = capacity - reserve
+
+        if fuel_deficit > quantity:
+            fuel_deficit = quantity
+
+        fuel_invoice = fuel_deficit * fuel_price
+        print(f'fuel: {fuel_deficit}l')
+        print(f'fuel price: {fuel_invoice} Cr')
+
+        if fuel_invoice <= captain.cash:
+            captain.cash = captain.cash - fuel_invoice
+            _refuel = reserve + fuel_deficit
+            captain.ship.reservoir = _refuel
+            rayon = _refuel
             captain.location.price_slip['fuel'][2] -= fuel_deficit
             draw_limite(captain.location.position, rayon)
-            update_affiche(captain)
             update_trading(window['-LOC-TABLE-'], captain.location)
-            window['-REFUEL-'].update(disabled=True)
-            # window['-NEXT-TURN-'].update(disabled=False)
+            update_affiche(captain)
             update_cargo_board()
+            window['-REFUEL-'].update(disabled=True)
+
         else:
+            # FIXME/TODO: how much can I buy?
+            # and buy only that much
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
         sg.popup(f'Cannot buy fuel: full capacity')
@@ -274,12 +283,13 @@ def sell_cargo(pods, dump=False):
     for elements in pods:
         _index, _good_type, _good_value = elements
         # TODO update planet(stock, prices)
-        captain.location.price_slip[_good_type][-1] += 1
+        captain.location.price_slip[_good_type][2] += 1
         captain.ship.cargo[_index]['type'] = None
         captain.ship.cargo[_index]['value'] = None
         if not dump:
             captain.cash += captain.location.price_slip[_good_type][0]
 
+    update_trading(window['-LOC-TABLE-'], captain.location)
     update_cargo_board()
     update_affiche(captain)
 
@@ -341,21 +351,23 @@ def update_affiche(objet):
     objet: Planet() or Captain()
     """
     if isinstance(objet, core.Planet):
-        description = ''.join([objet.name,
+        _description = ''.join([objet.name,
                                ' : ',
                                str(objet.position),
                                '\n',
                                '\n'.join(objet.gov)])
-        window['-IN-PLANET-'].update(description)
+        window['-IN-PLANET-'].update(_description)
 
     elif isinstance(objet, core.Captain):
-        description = ''.join([objet.name,
+        _description = ''.join([objet.name,
                                ' from ',
                                objet.homeworld.name,
                                ])
-        window['-IN-CAPTAIN-'].update(description)
-        balance = objet.balance
-        window['-IN-BALANCE-'].update(value=f'Balance: {balance}')
+        window['-IN-CAPTAIN-'].update(_description)
+        _balance = objet.balance
+        window['-IN-BALANCE-'].update(value=f'{_balance}')
+        _reserve = objet.ship.reservoir
+        window['-IN-RESERVE-'].update(value=f'{_reserve}')
 
 
 def update_buy_goods(planet):

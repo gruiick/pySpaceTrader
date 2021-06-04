@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1561 $
+# $Id: sgui.py 1562 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -38,15 +38,30 @@ menu_layout = [['&Game',
 # Captain layout
 captain_layout = sg.Frame(
     layout=[[sg.Text('display Captain info',
-                     size=(25, 1),
+                     size=(20, 1),
+                     justification='left',
                      key='-IN-CAPTAIN-',
                      ),
             ],
-            [sg.Text('Balance: ',
-                     size=(25, 1),
-                     key='-IN-BALANCE-',
+            [sg.Text('Balance (Cr): ',
+                     size=(10, 1),
                      justification='left',
                      ),
+             sg.Text('',
+                    key='-IN-BALANCE-',
+                    size=(10, 1),
+                    justification='right',
+                    relief='sunken'),
+            ],
+            [sg.Text('Fuel (T): ',
+                     size=(10, 1),
+                     justification='left',
+                     ),
+             sg.Text('',
+                    key='-IN-RESERVE-',
+                    size=(10, 1),
+                    justification='right',
+                    relief='sunken'),
             ],
         [sg.Button('Homeworld',
                    key='-HOMEWORLD-')],

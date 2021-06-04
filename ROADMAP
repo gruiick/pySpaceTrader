@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1545 $
+# $Id: ROADMAP 1546 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -29,16 +29,21 @@ Trading tab:
 fine tuning of tk (fonts, etc) <- migrate to PySimpleGUI
     DONE OK
 
+planet.update_prices()
+
+planet.update_production() -> new stocks (fuel!!)
+
+
 === 0.1
 
 mostly playable:
     handle turn(s)              OK
     go from planet to planet    OK
-    refuel system               NOOK
+    refuel system               OK
     refresh Trading tab         OK
+    Trading tab GUI             NOOK
     separate Bank tab           TODO
 
-redimensionnable ? ou fixe, mais résolution en option ?
 
 === 0.2
 
@@ -56,6 +61,11 @@ functional quests (-> tribbles!)
 === 0.4
 
 space fights!
+
+=== 0.5
+
+debug, debug, debug
+gameplay, gameplay, gameplay
 
 == version 1.0
 
