@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1544 $
+# $Id: ROADMAP 1545 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -22,8 +22,9 @@ handle turn = travel to planet, change current planet OK
 Trading tab:
     goods prices slip (stocks and prices) OK
     affiche prices slip(s) OK
-    buy and sell ?
-    refresh cargo pods ?
+    buy and sell OK
+    refresh cargo pods OK
+    -> I'm not happy with the GUI of this tab
 
 fine tuning of tk (fonts, etc) <- migrate to PySimpleGUI
     DONE OK
@@ -33,9 +34,9 @@ fine tuning of tk (fonts, etc) <- migrate to PySimpleGUI
 mostly playable:
     handle turn(s)              OK
     go from planet to planet    OK
-    refuel system               OK
-    refresh Trading tab         ?
-    separate Bank tab           ?
+    refuel system               NOOK
+    refresh Trading tab         OK
+    separate Bank tab           TODO
 
 redimensionnable ? ou fixe, mais résolution en option ?
 
