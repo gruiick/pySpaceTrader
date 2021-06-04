@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1561 $
+# $Id: main.py 1562 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -134,13 +134,6 @@ def draw_target(position):
                                   color=COLORS['target']))
 
 
-def dump_cargo(pods):
-    """ dump good from pods """
-    # empty pod, loose value
-    # empty manifest
-    pass
-
-
 def get_distance(source, target):
     """ calculate distance between source and target
     source: positionnal tuple (x, y)
@@ -231,21 +224,22 @@ def on_click(position):
 
 def refuel():
     """ refuel the captain.ship according to captain.cash, 
-    ship.reservoir and planete.fuel_price
+    captain.ship.reservoir and planete.fuel_price
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
-    # TODO: quantity available on planete ?
-    # captain.location.price_slip['fuel'][2]
+    quantity = captain.location.price_slip['fuel'][2]
+
     if captain.ship.reservoir < capacity:
-        deficit = capacity - captain.ship.reservoir
-        print(f'fuel: {deficit}')
-        price = deficit * captain.location.fuel_price
+        fuel_deficit = capacity - captain.ship.reservoir
+        print(f'fuel: {fuel_deficit}')
+        price = fuel_deficit * captain.location.fuel_price
         print(f'fuel price: {price}')
         if price <= captain.cash:
             captain.cash = captain.cash - price
-            captain.ship.reservoir = capacity  # or reservoir + deficit
+            captain.ship.reservoir = capacity  # or reservoir + fuel_deficit
             rayon = capacity
-            captain.location.price_slip['fuel'][2] -= deficit
+            # TODO: quantity available on planete ?
+            captain.location.price_slip['fuel'][2] -= fuel_deficit
             draw_limite(captain.location.position, rayon)
             update_affiche(captain)
             update_trading(window['-LOC-TABLE-'], captain.location)
@@ -275,15 +269,19 @@ def save_as():
     core.save_game(univers, fname=fname)
 
 
-def sell_cargo(pods):
-    """ sell good from list of pods """
-    # dérouler la liste
-    # pour chaque pod
-    #   ajouter au stock de location
-    #   ajouter value à cash
-    #   vider pod
-    #   retirer de MANIFEST
-    pass
+def sell_cargo(pods, dump=False):
+    """ sell (or dump) good from list of pods """
+    for elements in pods:
+        _index, _good_type, _good_value = elements
+        # TODO update planet(stock, prices)
+        captain.location.price_slip[_good_type][-1] += 1
+        captain.ship.cargo[_index]['type'] = None
+        captain.ship.cargo[_index]['value'] = None
+        if not dump:
+            captain.cash += captain.location.price_slip[_good_type][0]
+
+    update_cargo_board()
+    update_affiche(captain)
 
 
 def set_destination():
@@ -453,6 +451,7 @@ def update_gui():
         # clear trading tab -DEST-TABLE-
         window['-DEST-TITLE-'].update(value='Destination:')
         update_trading(window['-DEST-TABLE-'])
+        update_profit()
 
     window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
@@ -481,7 +480,7 @@ def update_invoice(good_type, qty):
     return invoice
 
 
-def update_profit(planet):
+def update_profit(planet=None):
     """ update profit GUI element """
     if planet is None:
         window['-PROFIT-TABLE-'].update(values=[[0]])
@@ -580,7 +579,7 @@ if __name__ == '__main__':
             sell_cargo(values['-MANIFEST-'])
 
         elif event == '-DUMP-':
-            pass
+            sell_cargo(values['-MANIFEST-'], dump=True)
 
         elif event == 'About':
             sg.popup(msg_overview)
