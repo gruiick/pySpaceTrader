@@ -3,14 +3,14 @@ Contributing
 ============
 
 
-Althought this is a toy project, I do accept contributions of any kind (except for money or job offers):
+Althought this is a toy project, I do accept contributions of any kind (except money and job offers):
 
-You can test it and open issues,
+* You can test and open issues,
 
-You can fork and propose via Pull Requests,
+* You can fork and propose your modifications via Pull Requests,
 
-You can write any kind of documentation,
+* You can also write any kind of documentation,
 
-You will have to use any licence compatible with "BSD 2 clauses" licence.
+* You will have to use any licence compatible with "BSD 2 clauses" licence.
 
-I may take a day or two to respond.
+I may take a few days to respond.
