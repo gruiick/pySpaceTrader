@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1555 $
+# $Id: core.py 1556 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -50,7 +50,7 @@ class Captain:
         #                'reputation': '',
         #                'record': '',
         #                }
-        self.cash = 15000
+        self.cash = constants.CASH
 
     @property
     def balance(self):
@@ -160,7 +160,7 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
                                        )
             # print(self.tradeitem)
             # relire sam&max
-            self.planet.price_slip.update({good: self.calculate_prices()})
+            self.planet.price_slip.update({good: self.calculate_prices(good)})
 
     def buying_price(self):
         """ calculate initial buying price of a good, on a planet """
@@ -168,10 +168,13 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
         # Special status and resources price adaptation
         if self.planet.status in [self.tradeitem.dps]:
             buy_price = (buy_price * 5) / 3
+
         elif self.planet.special in [self.tradeitem.cr]:
             buy_price = (buy_price * 3) / 4
+
         elif self.planet.special in [self.tradeitem.er]:
             buy_price = (buy_price * 4) / 3
+
         # randomize a bit
         moins = random.randrange(self.tradeitem.var)
         plus = random.randrange(self.tradeitem.var)
@@ -183,23 +186,27 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
         return int(buy_price)
 
-    def calculate_prices(self):
+    def calculate_prices(self, good=None):
         """ calculate initial prices (and stocks) of a good, on a planet """
 
-        # FIXME it should be stock first, then price
-        # bug: selling price without stock!
-        # enhancement: if no stock, buying price is higher and no selling price
-        #              if large stock, prices are low
+        stock = self.calculate_init_stock(good)
         buy = self.buying_price()
-        sell = self.selling_price()
-        if sell == 0:
-            stock = 0
-        else:
-            stock = self.calculate_init_stock()
+
+        if stock == 0:
+            sell = 0
+            buy = buy + (buy * 0.5)
+
+        elif stock < 500:
+            # mild bug: stock, without selling price
+            sell = self.selling_price()
+        elif stock >= 500:
+            # higher production, lower prices
+            sell = self.selling_price() / 2
+            buy = buy - (buy * 0.5)
 
         return [buy, sell, stock]
 
-    def calculate_init_stock(self):
+    def calculate_init_stock(self, good=None):
         """ calculate initial stock of a good """
         # random quantity * systemsize * techlevel (hence, it can be zero)
         size = self.planet.system_size
@@ -209,6 +216,10 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
         # SPECIALRESOURCES add 50% production
         if self.planet.special in [self.tradeitem.cr]:
             stock = stock + (stock * 0.5)
+
+        # enhancement: difficulty levels should affect fuel stocks
+        if good in ['fuel']:
+            stock = stock * 10
 
         return int(stock)
 
@@ -269,7 +280,7 @@ def calculate_profit_pod(location, destination):
     """
     _profit = []
     for key in destination.price_slip.keys():
-        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][2] != 0 :
+        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][1] != 0 and location.price_slip[key][2] != 0 :
             benefit = destination.price_slip[key][0] - location.price_slip[key][1]
             _profit.append([benefit])
         else:
