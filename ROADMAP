@@ -1,10 +1,10 @@
-# $Id: ROADMAP 1546 $
+# $Id: ROADMAP 1547 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
 
 https://fr.wikipedia.org/wiki/Jeu_4X
-seulement les parties exploration et exploitation for now
+Only 'eXplore' and 'eXploit' for now
 
 == before 0.1
 
@@ -24,14 +24,20 @@ Trading tab:
     affiche prices slip(s) OK
     buy and sell OK
     refresh cargo pods OK
-    -> I'm not happy with the GUI of this tab
+    -> I'm not happy with the UI of this tab
 
-fine tuning of tk (fonts, etc) <- migrate to PySimpleGUI
-    DONE OK
+Bank tab:
+    display balance (cash + pods values - (refund + due interests)
+    display loan (credence, due interests)
+    display last operations
+        buy cargo (invoices)
+        sell cargo (incomes)
+        buy fuel (expenses)
+        pay mercenary (expenses)
 
-planet.update_prices()
-
-planet.update_production() -> new stocks (fuel!!)
+planet.update_production()
+    -> new stocks (fuel!!)
+    -> planet.update_prices()
 
 
 === 0.1
@@ -41,8 +47,8 @@ mostly playable:
     go from planet to planet    OK
     refuel system               OK
     refresh Trading tab         OK
-    Trading tab GUI             NOOK
-    separate Bank tab           TODO
+    Trading tab GUI             <- NOOK
+    separate Bank tab           <- TODO
 
 
 === 0.2
