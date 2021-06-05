@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1562 $
+# $Id: sgui.py 1563 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -44,33 +44,57 @@ captain_layout = sg.Frame(
                      ),
             ],
             [sg.Text('Balance (Cr): ',
-                     size=(10, 1),
+                     size=(12, 1),
                      justification='left',
                      ),
              sg.Text('',
                     key='-IN-BALANCE-',
-                    size=(10, 1),
+                    size=(16, 1),
                     justification='right',
                     relief='sunken'),
             ],
             [sg.Text('Fuel (T): ',
-                     size=(10, 1),
+                     size=(12, 1),
                      justification='left',
                      ),
              sg.Text('',
                     key='-IN-RESERVE-',
-                    size=(10, 1),
+                    size=(16, 1),
                     justification='right',
                     relief='sunken'),
             ],
-        [sg.Button('Homeworld',
+        ], title='Captain',
+        element_justification='center')
+
+# location btn
+location_btn = sg.Frame(
+    layout=[[sg.Button('Homeworld',
                    key='-HOMEWORLD-')],
         [sg.Button('Location',
                    key='-LOCATION-')],
         [sg.Button('Destination',
                    key='-DESTINATION-')],
-        ], title='Captain',
+        ],
+        title='Locations',
         element_justification='center')
+
+# action btn
+action_btn = sg.Frame(
+    layout=[[sg.Button('Set destination',
+                       key='-SETDEST-')],
+        [sg.Button('Refuel',
+                   key='-REFUEL-')],
+        [sg.Button('Next turn',
+                   key='-NEXT-TURN-')],
+        ],
+        title='Actions',
+        # size=(25, 3),
+        element_justification='center')
+
+btn_column = sg.Column([[location_btn, action_btn]],
+                            justification='left',
+                            element_justification='left',
+                            vertical_alignment='top')
 
 # info layout
 info_layout = sg.Frame(
@@ -79,24 +103,13 @@ info_layout = sg.Frame(
                      key='-IN-PLANET-')],
         ], title='Planet')
 
-# actions layout
-action_layout = sg.Frame(
-    layout=[[sg.Button('Set destination',
-                       key='-SETDEST-')],
-        [sg.Button('Refuel',
-                   key='-REFUEL-')],
-        [sg.Button('Next turn',
-                   key='-NEXT-TURN-')],
-        ], title='Actions',
-        size=(25, 3),
-        element_justification='center')
 
 # first column's frame
 navigation_layout = sg.Frame(
     layout=[
         [captain_layout],
+        [btn_column],
         [info_layout],
-        [action_layout],
         ], title='Navigation',
     element_justification='center')
 
@@ -166,6 +179,14 @@ destination_layout = sg.Frame(
 # TODO: destination(s) in range
 # combo list of planets within ship range
 # same selector as galactic map, for -SETDEST-
+planet_selector = sg.Frame(
+    layout=[[sg.Text('',
+                     justification='left'),
+            ],
+    ],
+    title = 'Nearest(s) planet(s)',
+    key = '-IN-PLNT-SELECTOR-',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 # Cargo Board
 cargo_layout = sg.Frame(
@@ -173,19 +194,19 @@ cargo_layout = sg.Frame(
                      justification='left'),
                sg.Text('',
                        key='-IN-BD-CASH-',
-                       size=(20, 1),
+                       size=(16, 1),
                        justification='right',
                        relief='sunken'),
                sg.Text('Pod(s):',
                        justification='left'),
                sg.Text('',
                        key='-IN-BD-CARGO-',
-                       size=(6, 1),
+                       size=(5, 1),
                        justification='right',
                        relief='sunken'),
                ],
                # TODO something with all pods, good type & value
-               [sg.Text('[pod][type][value (Cr)]',
+               [sg.Text('[pod n°][type][value (Cr)]',
                         # size=(20, 1),
                         justification='center'),],
                 [sg.Listbox(values=[],
@@ -234,7 +255,7 @@ docks_layout = sg.Frame(
                       justification='left'),
              sg.Text('',
                      key='-IN-INVOICE-',
-                     size=(6, 1),
+                     size=(16, 1),
                      justification='right',
                      relief='sunken'),
              ],
@@ -284,16 +305,15 @@ trading_board_col = sg.Column([[docks_layout],
                              vertical_alignment='top')
 
 tab_trading = [
-    [trading_loc_col,
-     # sg.VerticalSeparator(color='red', pad=(1, 1)),
-     trading_profit_col,
-     trading_dest_col],
+    [planet_selector, trading_cargo_col,
+     sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_board_col],
 
     [sg.HorizontalSeparator(color='red', pad=(1, 1))],
 
-    [trading_cargo_col,
-     sg.VerticalSeparator(color='red', pad=(1, 1)),
-     trading_board_col],
+    [trading_loc_col,
+     trading_profit_col,
+     trading_dest_col],
     ]
 
 # Bank layout
