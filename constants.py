@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1540 $
+# $Id: constants.py 1541 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -20,6 +20,8 @@ YMIN = 0
 MAXHEIGHT = 480
 BOX = 15  # must be a multiple of 15
 MAXPARSEC = 120  # must be dividable by 15 or BOX
+CASH = 15000
+
 
 COLORS = {'default': 'brown',
           'limit': 'red',
