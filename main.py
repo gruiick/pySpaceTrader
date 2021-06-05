@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1563 $
+# $Id: main.py 1564 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -23,8 +23,6 @@ import sgui
 MAXW = constants.MAXWIDTH
 MAXH = constants.MAXHEIGHT
 MAXP = constants.MAXPARSEC
-GOODS = constants.GOODS
-# MAX = 60
 COLORS = constants.COLORS
 
 overview = ' '.join(constants.OVERVIEW)
@@ -50,6 +48,9 @@ def buy_cargo(facture):
     """ load into cargo pods whats in the incoming invoice """
 
     good_type, good_price, qty, cargo_value = facture
+
+    # TODO if cargo_value is > captain.cash, propose a loan
+    # and start computing interests (bank account)
 
     _none_cargo = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
     available_cargo = len(_none_cargo)
@@ -181,8 +182,7 @@ def new_game():
 
 
 def next_turn():
-    """ step forward """
-    # is there a destination set? ->AttributeError
+    """ compute next turn """
     try:
         distance = get_distance(captain.location.position, captain.destination.position)
 
@@ -199,11 +199,11 @@ def next_turn():
             # switch captain position
             captain.location = captain.destination
             captain.destination = None
-            # print(captain.location.name)
             # update gui
             draw_map(rayon=rayon)
             update_gui()
 
+    # if there is no destination set ->AttributeError
     except AttributeError:
         sg.popup(f'Set a destination first.')
 
@@ -223,7 +223,7 @@ def on_click(position):
 
 
 def refuel():
-    """ refuel the captain.ship according to captain.cash, 
+    """ refuel the captain.ship according to captain.cash,
     captain.ship.reservoir and planete.fuel_price
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
@@ -255,7 +255,7 @@ def refuel():
 
         else:
             # FIXME/TODO: how much can I buy?
-            # and buy only that much
+            # and buy only that much or else
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
         sg.popup(f'Cannot buy fuel: full capacity')
@@ -376,7 +376,7 @@ def update_buy_goods(planet):
 
     for key, value in planet.price_slip.items():
         # if no stock, don't bother adding to picklist
-        if value[-1] != 0:
+        if value[2] != 0:
             _key_list.append(key)
 
     window['-IN-GOODS-'].update(values=_key_list)
@@ -390,7 +390,7 @@ def update_buy_qty(good=None):
     avail_pods = len(_none_cargo)
 
     if good is not None:
-        _qty_max = captain.location.price_slip[good][-1]
+        _qty_max = captain.location.price_slip[good][2]
         # _value_list = []
         if _qty_max < avail_pods:
             _value_list = list(range(1, _qty_max + 1))
@@ -482,7 +482,7 @@ def update_invoice(good_type, qty):
 
     invoice = (good_type, good_price, qty, cargo_value)
 
-    if cargo_value > captain.balance:
+    if cargo_value > captain.cash:
         window['-IN-INVOICE-'].update(value=cargo_value, text_color='red')
         window['-BUY-CARGO-'].update(disabled=True)
     else:
