@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1556 $
+# $Id: core.py 1557 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -36,12 +36,12 @@ from pprint import pprint
 import constants
 
 
-class Captain:
+class Captain():
     """
     This is captain speaking
     """
     def __init__(self):
-        self.name = 'Speaking'  # As in "This is Captain speaking..."
+        self.name = 'Speaking'  # As in "This is Captain speaking...", got it?
         self.homeworld = ()
         self.location = ()
         self.destination = ()
@@ -66,15 +66,15 @@ class Captain:
         return balance
 
 
-class Planet:
+class Planet():
     """
-    une planète : nom
+    a planet : name
     position (x, y)
-    gouvernement = taille, régime, techlevel, status
-    visitée/inconnue (True/False)
+    governement = size, regime, techlevel, status
+    visited/unknown (True/False)
     homeworld (True/False)
     boundingbox
-    bordereau de prix (price slip)
+    price slip (bordereau de prix)
     """
     def __init__(self):
         """ create a planet """
@@ -110,7 +110,7 @@ class Planet:
         self.price_slip = {}
         PriceSlip(self)
 
-        self.fuel_price = self.price_slip['fuel'][1]  # by unit of ship.reservoir
+        self.fuel_price = self.price_slip['fuel'][1]  # by unit of ship.reservoir (T)
 
 
 class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
@@ -118,9 +118,10 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
     dict object {good: [buying price, selling price, stock],}
     """
-    # TODO: refaire plus propre, beaucul plus propre
-    # les calculs originaux dans le init ou @classmethod ?
-    # les updates en .function()
+    # TODO: need love, and proper redo
+    # maybe @classmethod?
+    # need a refresh function for stock and prices
+    # depending on TradeItem modificators
 
     def __init__(self, planet):  # planet=planete
         """ """
@@ -164,7 +165,7 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
     def buying_price(self):
         """ calculate initial buying price of a good, on a planet """
-        buy_price = self.standard_price()
+        buy_price = self.standard_init_price()
         # Special status and resources price adaptation
         if self.planet.status in [self.tradeitem.dps]:
             buy_price = (buy_price * 5) / 3
@@ -217,7 +218,7 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
         if self.planet.special in [self.tradeitem.cr]:
             stock = stock + (stock * 0.5)
 
-        # enhancement: difficulty levels should affect fuel stocks
+        # TODO enhancement: difficulty levels should affect fuel stocks
         if good in ['fuel']:
             stock = stock * 10
 
@@ -226,26 +227,26 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
     def selling_price(self):
         """ calculate initial selling price of a good, on a planet """
         # If a system can't produce something, its price is zero.
-        coin = self.tradeitem
-        if self.planet.tech_level < coin.tp and coin.name not in 'fuel':
+        _good = self.tradeitem
+        if self.planet.tech_level < _good.tp and _good.name not in 'fuel':
             sell_price = 0
         else:
-            sell_price = self.standard_price()
+            sell_price = self.standard_init_price()
             # raise a bit, randomized
             sell_price = sell_price + random.randrange(self.tradeitem.var)
 
         return int(sell_price)
 
-    def standard_price(self):
+    def standard_init_price(self):
         """ calculate standard price of a good, on a planet """
         # If a system can't use something, its price is zero.
-        trade = self.tradeitem
-        if self.planet.tech_level < trade.tu and trade.name not in 'fuel':
+        _good = self.tradeitem
+        if self.planet.tech_level < _good.tu and _good.name not in 'fuel':
             base_price = 0
         else:
-            base_price = trade.plt + (self.planet.tech_level * trade.pi)
+            base_price = _good.plt + (self.planet.tech_level * _good.pi)
             # if good is highly requested, increase the price
-            if self.planet.status in [trade.dps]:
+            if self.planet.status in [_good.dps]:
                 base_price = base_price + (base_price * 0.5)
             # large system: high production decreases prices
             base_price = (base_price * (100 - self.planet.system_size)) / 100
@@ -258,19 +259,19 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
 
 
 class Ship:
-    """ a ship """
+    """ a ship
+        simplest for now
+    """
     def __init__(self):
         # first ship is always a flea type
         self.__type = 'flea'
         self.model = constants.SHIPTYPES[self.__type]
         self.reservoir = self.model['fuel'] * constants.MAXPARSEC
         self.gadget = 'escapepod'
-        # gestion des pods ?
+        # pods management
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
-        # self.available_cargo = self.model['cargo']
-        #print(len(self.cargo))
 
 
 def calculate_profit_pod(location, destination):
@@ -292,7 +293,7 @@ def calculate_profit_pod(location, destination):
 def collision(target, objet, radius=None):
     """ is (x, y) inside objet.bbox? """
     # TODO: when creating Planet, radius should be bigger/doubled
-    # TODO/FIXME octogonal bbox ?
+    # FIXME octogonal bbox ?
     # bool Collision(int curseur_x,int curseur_y,AABB box)
     #  if (curseur_x >= box.x && curseur_x < box.x + box.w
     #      && curseur_y >= box.y && curseur_y < box.y + box.h)
@@ -321,7 +322,7 @@ def create_planetes():
         for planete in planetes:
             # planete.name has to be uniq
             if not any(temp.name in planete.__dict__.values() for planete in planetes):
-                # planetes should not be too close
+                # planetes should not be too close (-> radius)
                 if not collision(temp.position, planete):
                     planetes.append(temp)
 
@@ -335,8 +336,8 @@ def create_planetes():
 
 def create_universe():
     """ create the whole universe and stuffz """
-    # L'univers est une grande liste, on différencie les planetes et le 
-    # reste avec type() et isinstance(object, ClassInfo)
+    # Universe is a large list, planets and others things are separated using
+    # type() and isinstance(object, ClassInfo)
     univers = []
     captain = Captain()
     captain.ship = Ship()
@@ -371,11 +372,11 @@ def print_universe(univers):
     print('Debug Universe:')
     for truc in univers:
         if isinstance(truc, Planet):
-            print('{} : {}'.format(truc.name, ' '.join(truc.gov)))  # __repr__ ?
+            print('{} : {}'.format(truc.name, ' '.join(truc.gov)))  # __repr__?
             pprint(truc.__dict__)
 
         elif isinstance(truc, Captain):
-            print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__ ?
+            print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
 
@@ -393,7 +394,9 @@ def save_game(univers, fname=None):
 
 
 def slip_list(slip):
-    """ return a list of list made from slip(dict) elements """
+    """ return a list of list made from slip(dict) elements 
+        needed by PySimpleGUI using only lists
+    """
     new_list = []
 
     for key in slip.keys():

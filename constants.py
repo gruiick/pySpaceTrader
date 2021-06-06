@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1541 $
+# $Id: constants.py 1542 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
     Game constants, to be imported
-    https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+
+    Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 """
 
 VERSION = "v0.0"
@@ -21,7 +22,7 @@ MAXHEIGHT = 480
 BOX = 15  # must be a multiple of 15
 MAXPARSEC = 120  # must be dividable by 15 or BOX
 CASH = 15000
-
+MAXPLANET = 50
 
 COLORS = {'default': 'brown',
           'limit': 'red',
@@ -137,7 +138,6 @@ GOODS = {'water': {'tp': 0, 'tu': 0, 'ttp': 2, 'plt': 30, 'pi': +3, 'var': 4, 'd
          'fuel': {'tp': 4, 'tu': 0, 'ttp': 7, 'plt': 17, 'pi': -1, 'var': 15, 'dps': 'war', 'cr': 'warlike', 'er': None, 'mintp': 17, 'maxtp': 5000, 'ro': 1},
          }
 
-MAXPLANET = 50
 # STARTYPES = []
 # PLANETTYPES = []
 SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'fuel': 1, 'hull': 500, 'tribbles': False},

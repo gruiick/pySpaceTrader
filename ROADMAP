@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1547 $
+# $Id: ROADMAP 1548 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -63,6 +63,7 @@ News tab (informations about universe, quests)
 === 0.3
 
 functional quests (-> tribbles!)
+add NPJ (mercenaries, Space Police, pirates)
 
 === 0.4
 

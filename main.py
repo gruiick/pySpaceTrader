@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1564 $
+# $Id: main.py 1565 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -255,7 +255,7 @@ def refuel():
 
         else:
             # FIXME/TODO: how much can I buy?
-            # and buy only that much or else
+            # and buy only that much or else 'not enought Cr'
             sg.popup(f'Cannot buy fuel: not enought credit')
     else:
         sg.popup(f'Cannot buy fuel: full capacity')
@@ -282,10 +282,12 @@ def sell_cargo(pods, dump=False):
     """ sell (or dump) good from list of pods """
     for elements in pods:
         _index, _good_type, _good_value = elements
-        # TODO update planet(stock, prices)
+
         captain.location.price_slip[_good_type][2] += 1
+        # TODO update planet(prices)
         captain.ship.cargo[_index]['type'] = None
         captain.ship.cargo[_index]['value'] = None
+
         if not dump:
             captain.cash += captain.location.price_slip[_good_type][0]
 

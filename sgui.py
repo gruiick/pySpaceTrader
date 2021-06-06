@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1563 $
+# $Id: sgui.py 1564 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -17,7 +17,6 @@ MAXW = constants.MAXWIDTH
 MAXH = constants.MAXHEIGHT
 MAXP = constants.MAXPARSEC
 GOODS = constants.GOODS
-
 COLORS = constants.COLORS
 
 # GUI Elements
@@ -369,3 +368,5 @@ main_right_col = sg.Column(
 # final layout assembly
 final_layout = [[sg.Menu(menu_layout, tearoff=True)],
                 [main_left_col, main_right_col], ]
+
+# window creation take place in main.py
