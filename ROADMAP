@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1548 $
+# $Id: ROADMAP 1549 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -13,15 +13,15 @@ save, open, create universe (cli) OK
 constants OK
 GUI App(), tk.grid() OK
 homeworld OK
-affiche planet (inline, outline) OK
-affiche planet.info: on_click OK
+display planet (inline, outline) OK
+display planet.info: on_click OK
 selection planet OK
 create player, create ship OK
 handle turn = travel to planet, change current planet OK
 
 Trading tab:
     goods prices slip (stocks and prices) OK
-    affiche prices slip(s) OK
+    display prices slip(s) OK
     buy and sell OK
     refresh cargo pods OK
     -> I'm not happy with the UI of this tab
