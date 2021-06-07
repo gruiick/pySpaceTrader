@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1557 $
+# $Id: core.py 1558 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -31,12 +31,23 @@ import collections
 import random
 import shelve
 
+from dataclasses import dataclass
 from pprint import pprint
 
 import constants
 
 
-class Captain():
+class BankAccount:
+    """
+    Quick & Dirty bank account log
+    """
+    def __init__(self):
+        self.owner = ''
+        self.homeworld = ''
+        self.log = []
+
+
+class Captain:
     """
     This is captain speaking
     """
@@ -66,7 +77,7 @@ class Captain():
         return balance
 
 
-class Planet():
+class Planet:
     """
     a planet : name
     position (x, y)
@@ -272,6 +283,22 @@ class Ship:
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
+
+@dataclass
+class Transaction:
+    """ a transaction of some sort
+    used to store any buy/sell operation
+
+    See dataclass
+    https://docs.python.org/3.7/library/dataclasses.html
+    """
+    good_type: str
+    good_price: float
+    quantity: int = 0
+
+    @property
+    def total_value(self) -> float:
+        return self.good_price * self.quantity
 
 
 def calculate_profit_pod(location, destination):

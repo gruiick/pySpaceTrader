@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1565 $
+# $Id: main.py 1566 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -47,7 +47,11 @@ graph = window['-GRAPH-']
 def buy_cargo(facture):
     """ load into cargo pods whats in the incoming invoice """
 
-    good_type, good_price, qty, cargo_value = facture
+    # unpack incoming invoice
+    good_type = facture.good_type
+    good_price = facture.good_price
+    qty = facture.quantity
+    cargo_value = facture.total_value
 
     # TODO if cargo_value is > captain.cash, propose a loan
     # and start computing interests (bank account)
@@ -58,7 +62,7 @@ def buy_cargo(facture):
     print(f'avail: {available_cargo}')
 
     if qty > available_cargo:
-        sg.popup_error('Cannot buy, not enought cargo space!')
+        sg.popup_error(f'Cannot buy, not enought cargo space!')
     else:
         for index in range(_none_cargo[0], _none_cargo[0] + qty):
             captain.ship.cargo[index]['type'] = good_type
@@ -238,7 +242,7 @@ def refuel():
             fuel_deficit = quantity
 
         fuel_invoice = fuel_deficit * fuel_price
-        print(f'fuel: {fuel_deficit}l')
+        print(f'fuel: {fuel_deficit}T')
         print(f'fuel price: {fuel_invoice} Cr')
 
         if fuel_invoice <= captain.cash:
@@ -280,6 +284,9 @@ def save_as():
 
 def sell_cargo(pods, dump=False):
     """ sell (or dump) good from list of pods """
+
+    # TODO use Transaction(), but separate by good_type to log
+    # into bankaccount
     for elements in pods:
         _index, _good_type, _good_value = elements
 
@@ -480,9 +487,9 @@ def update_invoice(good_type, qty):
     FIXME need a clear() subfunction?
     """
     good_price = captain.location.price_slip[good_type][1]
-    cargo_value = good_price * qty
-
-    invoice = (good_type, good_price, qty, cargo_value)
+    # cargo_value = good_price * qty
+    invoice = core.Transaction(good_type, good_price, qty)
+    cargo_value = invoice.total_value
 
     if cargo_value > captain.cash:
         window['-IN-INVOICE-'].update(value=cargo_value, text_color='red')
@@ -491,6 +498,7 @@ def update_invoice(good_type, qty):
         window['-IN-INVOICE-'].update(value=cargo_value, text_color='black')
         window['-BUY-CARGO-'].update(disabled=False)
 
+    print(f'{invoice}')
     return invoice
 
 
@@ -536,43 +544,43 @@ if __name__ == '__main__':
 
         elif event == '-GRAPH-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 on_click(values['-GRAPH-'])
 
         elif event == '-HOMEWORLD-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 show_homeworld()
 
         elif event == '-LOCATION-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 show_location()
 
         elif event == '-DESTINATION-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 show_destination()
 
         elif event == '-SETDEST-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 set_destination()
 
         elif event == '-REFUEL-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 refuel()
 
         elif event == '-NEXT-TURN-':
             if not univers:
-                sg.popup_error('No game loaded!')
+                sg.popup_error(f'No game loaded!')
             else:
                 next_turn()
 
@@ -596,6 +604,6 @@ if __name__ == '__main__':
             sell_cargo(values['-MANIFEST-'], dump=True)
 
         elif event == 'About':
-            sg.popup(msg_overview)
+            sg.popup(f'{msg_overview}')
 
     window.close()
