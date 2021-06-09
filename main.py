@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1567 $
+# $Id: main.py 1568 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -331,9 +331,13 @@ def set_map_destination():
         sg.popup(f'Cannot set destination: Same as current location.')
 
 
-def set_trade_destination(name):
+def set_trade_destination(planet):
     """ save trade destination into captain.destination """
-    captain.destination = planete.position
+    captain.destination = planet
+    window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
+    update_trading(window['-DEST-TABLE-'], captain.destination)
+    update_profit(captain.destination)
+    window['-NEXT-TURN-'].update(disabled=False)
 
 
 def show_destination():
@@ -598,8 +602,11 @@ if __name__ == '__main__':
             else:
                 set_map_destination()
 
-        #elif event == '-IN-PLNT-SELECTOR-':
-
+        elif event == '-IN-PLNT-SELECTOR-':
+            name_planet = values['-IN-PLNT-SELECTOR-']
+            for planete in planetes:
+                if name_planet == planete.name:
+                    set_trade_destination(planete)
 
         elif event == '-REFUEL-':
             if not univers:
