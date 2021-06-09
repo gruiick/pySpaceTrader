@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1558 $
+# $Id: core.py 1559 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -28,6 +28,7 @@
 """
 
 import collections
+import math
 import random
 import shelve
 
@@ -406,6 +407,29 @@ def print_universe(univers):
             print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
+
+
+def inside_circle(point, centre, rayon):
+    """ is the point inside the circle?
+
+    centre = (x0, y0)
+    point = (x1, y1)
+    rayon: int (or float?)
+    a = x0 - x1
+    b = y0 - y1
+    longueur = sqrt(b*b + a*a) (-> math.hypot((a, b))
+
+    return True or False
+    """
+    x0, y0 = centre
+    x1, y1 = point
+    a = x0 - x1
+    b = y0 - y1
+    longueur = math.hypot(a, b)
+    if longueur <= rayon:
+        return True
+    else:
+        return False
 
 
 def save_game(univers, fname=None):

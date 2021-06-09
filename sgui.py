@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1564 $
+# $Id: sgui.py 1565 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -179,12 +179,14 @@ destination_layout = sg.Frame(
 # combo list of planets within ship range
 # same selector as galactic map, for -SETDEST-
 planet_selector = sg.Frame(
-    layout=[[sg.Text('',
-                     justification='left'),
-            ],
+    layout=[[sg.Combo(values=[None],
+                      default_value=None,
+                      readonly=True,
+                      enable_events=True,
+                      key = '-IN-PLNT-SELECTOR-',
+                      )]
     ],
     title = 'Nearest(s) planet(s)',
-    key = '-IN-PLNT-SELECTOR-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 # Cargo Board

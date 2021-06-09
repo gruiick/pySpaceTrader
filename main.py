@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1566 $
+# $Id: main.py 1567 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -58,8 +58,8 @@ def buy_cargo(facture):
 
     _none_cargo = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
     available_cargo = len(_none_cargo)
-    print(f'pod(s): {_none_cargo}')
-    print(f'avail: {available_cargo}')
+    # print(f'pod(s): {_none_cargo}')
+    # print(f'avail: {available_cargo}')
 
     if qty > available_cargo:
         sg.popup_error(f'Cannot buy, not enought cargo space!')
@@ -303,7 +303,7 @@ def sell_cargo(pods, dump=False):
     update_affiche(captain)
 
 
-def set_destination():
+def set_map_destination():
     """ save clicked position into captain.destination """
     global captain, clicked_position
     try:
@@ -315,6 +315,7 @@ def set_destination():
         elif distance < captain.ship.reservoir:
             captain.destination = clicked_position
             # update Trading tab
+            window['-IN-PLNT-SELECTOR-'].update(value=captain.destination.name)
             window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
             update_trading(window['-DEST-TABLE-'], captain.destination)
             update_profit(captain.destination)
@@ -328,6 +329,11 @@ def set_destination():
 
     except AttributeError:
         sg.popup(f'Cannot set destination: Same as current location.')
+
+
+def set_trade_destination(name):
+    """ save trade destination into captain.destination """
+    captain.destination = planete.position
 
 
 def show_destination():
@@ -449,7 +455,6 @@ def update_docks_board(planet):
 def update_gui():
     """ update all GUI elements 
 
-    FIXME need a clear() subfunction (new game bug)
     """
     update_affiche(captain)
     update_affiche(captain.location)
@@ -459,6 +464,14 @@ def update_gui():
         window['-REFUEL-'].update(disabled=False)
     else:
         window['-REFUEL-'].update(disabled=True)
+
+    selectable_planets = update_planet_selector()
+    if selectable_planets:
+        lst_selectable_names = []
+        for planete in selectable_planets:
+            lst_selectable_names.append(planete.name)
+
+        window['-IN-PLNT-SELECTOR-'].update(values=lst_selectable_names)
 
     if captain.destination:
         window['-SETDEST-'].update(disabled=True)
@@ -500,6 +513,19 @@ def update_invoice(good_type, qty):
 
     print(f'{invoice}')
     return invoice
+
+
+def update_planet_selector():
+    """ update the planet combo selector """
+    # do NOT add captain.location.position to the list
+
+    _nearest_planets = []
+    for planete in planetes:
+        if core.inside_circle(planete.position, captain.location.position, captain.ship.reservoir):
+            if planete is not captain.location:
+                _nearest_planets.append(planete)
+
+    return _nearest_planets
 
 
 def update_profit(planet=None):
@@ -570,7 +596,10 @@ if __name__ == '__main__':
             if not univers:
                 sg.popup_error(f'No game loaded!')
             else:
-                set_destination()
+                set_map_destination()
+
+        #elif event == '-IN-PLNT-SELECTOR-':
+
 
         elif event == '-REFUEL-':
             if not univers:

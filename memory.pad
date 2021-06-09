@@ -39,6 +39,16 @@ transaction management, earnings/losses, bank account
         robots
         [fuel] (mandatory, for now)
 
+<mdk> GruiicK: je pense que je ferais une `class BankAccount` qui stocke des instances de `class Transaction` dans une liste, comme ça tu peux rajouter des méthodes aux deux, facilement au besoin.
+<mdk> genre la méthode pprint sur un bank account qui t'affiche tout le compte proprement dans un tableau bien rangé :D
+<GruiicK> et les Transactions, plutot des tuples, alors ?
+<mdk> Bah j'ignore ce que tu vas mettre dedans, donc dans le doute commence par une dataclass ?
+<mdk> Ce sera toujours plus lisible qu'un tuple
+
+-> https://www.younup.fr/blog/les-data-classes-de-python-3-7
+voir aussi TradeItem et PriceSlip en dataclass ?
+
+
 ships : hull type (small, medium, large, xtralarge) 
         nb of cargo pod, 
         nb of attack/defense pod (laser, torpedo, shield), 
