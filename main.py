@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1568 $
+# $Id: main.py 1569 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -11,7 +11,6 @@ python3 >= 3.7
 """
 
 import PySimpleGUI as sg
-import math
 
 import constants
 import core
@@ -139,19 +138,6 @@ def draw_target(position):
                                   color=COLORS['target']))
 
 
-def get_distance(source, target):
-    """ calculate distance between source and target
-    source: positionnal tuple (x, y)
-    target: positionnal tuple (x, y)
-    return: positionnal tuple (x, y)
-    """
-    xa, ya = source
-    xb, yb = target
-    x = xb - xa
-    y = yb - ya
-    return int(math.hypot(x, y))
-
-
 def load_file():
     """ load saved game """
     global univers, planetes, captain
@@ -188,7 +174,7 @@ def new_game():
 def next_turn():
     """ compute next turn """
     try:
-        distance = get_distance(captain.location.position, captain.destination.position)
+        distance = core.get_distance(captain.location.position, captain.destination.position)
 
         if captain.ship.reservoir > 0:
             # calculate rayon loss
@@ -307,7 +293,7 @@ def set_map_destination():
     """ save clicked position into captain.destination """
     global captain, clicked_position
     try:
-        distance = get_distance(captain.location.position, clicked_position.position)
+        distance = core.get_distance(captain.location.position, clicked_position.position)
 
         if distance == 0:
             sg.popup(f'Cannot set destination: Same as current location.')
@@ -457,9 +443,8 @@ def update_docks_board(planet):
 
 
 def update_gui():
-    """ update all GUI elements 
+    """ update all GUI elements """
 
-    """
     update_affiche(captain)
     update_affiche(captain.location)
 

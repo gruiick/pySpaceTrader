@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1559 $
+# $Id: core.py 1560 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -407,6 +407,19 @@ def print_universe(univers):
             print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
+
+
+def get_distance(source, target):
+    """ calculate distance between source and target
+    source: positionnal tuple (x, y)
+    target: positionnal tuple (x, y)
+    return: positionnal tuple (x, y)
+    """
+    xa, ya = source
+    xb, yb = target
+    x = xb - xa
+    y = yb - ya
+    return int(math.hypot(x, y))
 
 
 def inside_circle(point, centre, rayon):
