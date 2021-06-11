@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1569 $
+# $Id: main.py 1570 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -202,7 +202,8 @@ def on_click(position):
     """ redraw graph with new clicked position """
     global clicked_position
     for planete in planetes:
-        if core.collision(position, planete):
+        #if core.collision(position, planete):
+        if core.inside_circle(position, planete.position, radius=5):
             position = planete.position
             clicked_position = planete
             update_affiche(planete)
@@ -485,8 +486,7 @@ def update_gui():
 def update_invoice(good_type, qty):
     """ calculate the invoice, update the relevant GUI elements
 
-    return a tuple(good_type, good_price, qty, cargo_value)
-    FIXME need a clear() subfunction?
+    return a core.Transaction() object
     """
     good_price = captain.location.price_slip[good_type][1]
     # cargo_value = good_price * qty
@@ -510,7 +510,7 @@ def update_planet_selector():
 
     _nearest_planets = []
     for planete in planetes:
-        if core.inside_circle(planete.position, captain.location.position, captain.ship.reservoir):
+        if core.inside_circle(planete.position, captain.location.position, radius=captain.ship.reservoir):
             if planete is not captain.location:
                 _nearest_planets.append(planete)
 

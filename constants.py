@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1542 $
+# $Id: constants.py 1543 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -44,7 +44,7 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "traders of their cargo. Beware, though: pirating is a way",
             "to get rich quickly, but the police force will go after you."]
 
-NAME = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
+NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
         'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
         'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
         'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',

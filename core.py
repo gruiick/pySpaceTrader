@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1560 $
+# $Id: core.py 1561 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -90,7 +90,8 @@ class Planet:
     """
     def __init__(self):
         """ create a planet """
-        self.name = random.choice(constants.NAME)
+        self.name = random.choice(constants.NAMES)
+        #self.name = ''
         self.__x = random.randint(constants.XMIN, constants.MAXWIDTH - 1)
         self.__y = random.randint(constants.YMIN, constants.MAXHEIGHT - 1)
         self.position = (self.__x, self.__y)
@@ -114,8 +115,8 @@ class Planet:
 
         self.homeworld = False
         self.visited = False
-        self.bbox = [(self.__x - constants.BOX, self.__y - constants.BOX),
-                     (self.__x + constants.BOX, self.__y + constants.BOX)]
+        #self.bbox = [(self.__x - constants.BOX, self.__y - constants.BOX),
+        #             (self.__x + constants.BOX, self.__y + constants.BOX)]
 
         # bordereau des prix et stocks
         # self.price_slip = PriceSlip(self)
@@ -318,29 +319,6 @@ def calculate_profit_pod(location, destination):
     return _profit
 
 
-def collision(target, objet, radius=None):
-    """ is (x, y) inside objet.bbox? """
-    # TODO: when creating Planet, radius should be bigger/doubled
-    # FIXME octogonal bbox ?
-    # bool Collision(int curseur_x,int curseur_y,AABB box)
-    #  if (curseur_x >= box.x && curseur_x < box.x + box.w
-    #      && curseur_y >= box.y && curseur_y < box.y + box.h)
-    #  return true; else return false;
-    (xt, yt) = target
-    (x1, y1), (x2, y2) = objet.bbox
-
-    if (x1 < xt < x2) and (y1 < yt < y2):
-        center_h = int((x2 - x1) / 2) + x1
-        center_v = int((y2 - y1) / 2) + y1
-        center = (center_h, center_v)
-        # print('center: ', center)
-        # print('target: ', (xt, yt))
-        # print((x1, y1), (x2, y2))
-        return True
-    else:
-        return False
-
-
 def create_planetes():
     """ create the planetes """
     planetes = []
@@ -350,8 +328,9 @@ def create_planetes():
         for planete in planetes:
             # planete.name has to be uniq
             if not any(temp.name in planete.__dict__.values() for planete in planetes):
+            # if temp.name != planete.name:
                 # planetes should not be too close (-> radius)
-                if not collision(temp.position, planete):
+                if not inside_circle(temp.position, planete.position, radius=20):
                     planetes.append(temp)
 
     # pick one, set to homeworld
@@ -361,6 +340,23 @@ def create_planetes():
 
     return planetes
 
+"""
+    names = constants.NAMES
+    planetes = []
+    planetes.append(Planet())  # first one
+    planetes[-1].name = random.choice(names)
+    names.remove(planetes[-1].name)
+    for i in range(0, constants.MAXPLANET):
+        temp = Planet()
+        for planete in planetes:
+            # planetes should not be too close (-> radius)
+            if not inside_circle(temp.position, planete.position, radius=20):
+                planetes.append(temp)
+                planetes[-1].name = random.choice(names)
+                names.remove(planetes[-1].name)
+
+    return planetes
+"""
 
 def create_universe():
     """ create the whole universe and stuffz """
@@ -413,33 +409,25 @@ def get_distance(source, target):
     """ calculate distance between source and target
     source: positionnal tuple (x, y)
     target: positionnal tuple (x, y)
-    return: positionnal tuple (x, y)
+    return: int
     """
     xa, ya = source
     xb, yb = target
-    x = xb - xa
-    y = yb - ya
+    x = abs(int(xb - xa))
+    y = abs(int(yb - ya))
     return int(math.hypot(x, y))
 
 
-def inside_circle(point, centre, rayon):
+def inside_circle(point, centre, radius):
     """ is the point inside the circle?
 
-    centre = (x0, y0)
-    point = (x1, y1)
-    rayon: int (or float?)
-    a = x0 - x1
-    b = y0 - y1
-    longueur = sqrt(b*b + a*a) (-> math.hypot((a, b))
+    use get_distance()
 
     return True or False
     """
-    x0, y0 = centre
-    x1, y1 = point
-    a = x0 - x1
-    b = y0 - y1
-    longueur = math.hypot(a, b)
-    if longueur <= rayon:
+    longueur = get_distance(point, centre)
+
+    if longueur <= radius:
         return True
     else:
         return False
