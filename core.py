@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1563 $
+# $Id: core.py 1564 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -11,14 +11,17 @@
     Planet class
     PriceSlip class
     Ship class
+    BankAccount class
+    Transaction class
 
     generate universe
         generate captain and ship
         generate list of planets
 
-    collision(target, object.bbox, radius=None)
-
     slip_list(Planet.price_slip)
+
+    get_distance between positions
+    inside_circle (ex-collision code)
 
     save game objects
     open previously saved  objects

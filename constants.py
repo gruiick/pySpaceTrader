@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1544 $
+# $Id: constants.py 1546 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -19,11 +19,10 @@ XMIN = 0
 MAXWIDTH = 680
 YMIN = 0
 MAXHEIGHT = 480
-BOX = 15  # must be a multiple of 15
-MAXPARSEC = 120  # must be dividable by 15 or BOX
+MAXPARSEC = 120  # must be dividable by 15
 CASH = 15000
-MAXPLANET = 50
-MIN_DISTANCE = 20
+MAXPLANET = 100
+MIN_DISTANCE = 15
 
 COLORS = {'default': 'brown',
           'limit': 'red',
