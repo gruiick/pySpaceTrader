@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-# $Id: tktest06b_array.py 1302 $
+# $Id: tktest06b_array.py 1303 $
 # SPDX-License-Identifier: BSD-2-Clause
 # original author: noobien from openclassrooms.com
  

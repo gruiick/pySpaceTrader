@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1553 $
+# $Id: snippets.py 1554 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -337,3 +337,42 @@ def update_cargo(planet):
 
 
 '-PROFIT-TABLE-' # default values = [[0]]
+
+def create_planetes():
+    """ create the planetes """
+    planetes = []
+    planetes.append(Planet())  # first one
+    for i in range(0, constants.MAXPLANET):
+        temp = Planet()
+        for planete in planetes:
+            # planete.name has to be uniq
+            if not any(temp.name in planete.__dict__.values() for planete in planetes):
+            # if temp.name != planete.name:
+                # planetes should not be too close (-> radius)
+                if not inside_circle(temp.position, planete.position, radius=20):
+                    planetes.append(temp)
+
+    # pick one, set to homeworld
+    planete = random.choice(planetes)
+    planete.homeworld = True
+    planete.visited = True
+
+    return planetes
+
+def create_planetes():
+    """ create the planetes """
+    names = constants.NAMES
+    planetes = []
+    planetes.append(Planet())  # first one
+    planetes[-1].name = random.choice(names)
+    names.remove(planetes[-1].name)
+    for i in range(0, constants.MAXPLANET):
+        temp = Planet()
+        for planete in planetes:
+            # planetes should not be too close (-> radius)
+            if not inside_circle(temp.position, planete.position, radius=20):
+                planetes.append(temp)
+                planetes[-1].name = random.choice(names)
+                names.remove(planetes[-1].name)
+
+    return planetes

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-# $Id: tktest06c_array.py 1302 $
+# $Id: tktest06c_array.py 1303 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 # origin: https://stackoverflow.com/questions/11047803/creating-a-table-look-a-like-tkinter/11049650#11049650

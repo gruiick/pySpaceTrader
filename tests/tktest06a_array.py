@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding:utf-8
 
-# $Id: tktest06a_array.py 1302 $
+# $Id: tktest06a_array.py 1303 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 import tkinter as tk

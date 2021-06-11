@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: cli_01.py 1544 $
+# $Id: cli_01.py 1545 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """

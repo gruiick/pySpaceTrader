@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: testcli_0.py 1302 $
+# $Id: testcli_0.py 1303 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: tktest04_pbar.py 1302 $
+# $Id: tktest04_pbar.py 1303 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 # https://tkdocs.com/tutorial/morewidgets.html
