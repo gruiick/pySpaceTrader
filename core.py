@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1562 $
+# $Id: core.py 1563 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -78,52 +78,38 @@ class Captain:
         return balance
 
 
+@dataclass
 class Planet:
-    """
-    a planet : name
-    position (x, y)
-    governement = size, regime, techlevel, status
-    visited/unknown (True/False)
-    homeworld (True/False)
-    boundingbox
-    price slip (bordereau de prix)
-    """
-    def __init__(self):
-        """ create a planet """
-        self.name = random.choice(constants.NAMES)
-        #self.name = ''
-        self.x = random.randint(constants.XMIN, constants.MAXWIDTH - 1)
-        self.y = random.randint(constants.YMIN, constants.MAXHEIGHT - 1)
-        self.position = (self.x, self.y)
+    name: str
+    x: int
+    y: int
+    system_size: int
+    tech_level: int
+    regim: int
+    special: str
+    status: str
+    homeworld: bool = False
+    visited: bool = False
+    price_slip: {} = None
 
-        self.system_size = random.choice(list(constants.SYSTEMSIZE.keys()))
-        self.tech_level = random.choice(list(constants.TECHLEVEL.keys()))
-        self.regim = random.choice(list(constants.REGIM.keys()))
-        self.special = random.choice(list(constants.SPECIALRESOURCES.keys()))
+    @property
+    def position(self):
+        return (self.x, self.y)
 
-        dice = random.randint(0, 100)
-        if dice < 60:
-            self.status = 'nopressure'
-        else:
-            self.status = random.choice(list(constants.STATUS.keys()))
+    @property
+    def gov(self):
+        return (constants.SYSTEMSIZE[self.system_size],
+                constants.SPECIALRESOURCES[self.special],
+                constants.TECHLEVEL[self.tech_level],
+                constants.REGIM[self.regim],
+                constants.STATUS[self.status])
 
-        self.gov = (constants.SYSTEMSIZE[self.system_size],
-                    constants.SPECIALRESOURCES[self.special],
-                    constants.TECHLEVEL[self.tech_level],
-                    constants.REGIM[self.regim],
-                    constants.STATUS[self.status])
+    @property
+    def fuel_price(self):
+        return self.price_slip['fuel'][1]
 
-        self.homeworld = False
-        self.visited = False
-        #self.bbox = [(self.__x - constants.BOX, self.__y - constants.BOX),
-        #             (self.__x + constants.BOX, self.__y + constants.BOX)]
-
-        # bordereau des prix et stocks
-        # self.price_slip = PriceSlip(self)
-        self.price_slip = {}
-        PriceSlip(self)
-
-        self.fuel_price = self.price_slip['fuel'][1]  # by unit of ship.reservoir (T)
+    def distance(self, other):
+        return math.hypot((self.x - other.x), (self.y - other.y))
 
 
 class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
@@ -320,43 +306,32 @@ def calculate_profit_pod(location, destination):
 
 
 def create_planetes():
-    """ create the planetes """
-    planetes = []
-    planetes.append(Planet())  # first one
-    for i in range(0, constants.MAXPLANET):
-        temp = Planet()
-        for planete in planetes:
-            # planete.name has to be uniq
-            if not any(temp.name in planete.__dict__.values() for planete in planetes):
-            # if temp.name != planete.name:
-                # planetes should not be too close (-> radius)
-                if not inside_circle(temp.position, planete.position, radius=20):
-                    planetes.append(temp)
+    """ create all the planetes
+    return a list
+    """
+    planetes = {}
+    for i in range(constants.MAXPLANET):
+        while True:
+            planete = make_planet()
+            if (
+                    planete.name not in planetes
+                    and all(
+                        planete.distance(p) >= constants.MIN_DISTANCE
+                        for p in planetes.values()
+                    )
+            ):
+                PriceSlip(planete)
+                planetes[planete.name] = planete
+
+                break
 
     # pick one, set to homeworld
-    planete = random.choice(planetes)
+    planete = random.choice(list(planetes.values()))
     planete.homeworld = True
     planete.visited = True
 
-    return planetes
+    return list(planetes.values())
 
-"""
-    names = constants.NAMES
-    planetes = []
-    planetes.append(Planet())  # first one
-    planetes[-1].name = random.choice(names)
-    names.remove(planetes[-1].name)
-    for i in range(0, constants.MAXPLANET):
-        temp = Planet()
-        for planete in planetes:
-            # planetes should not be too close (-> radius)
-            if not inside_circle(temp.position, planete.position, radius=20):
-                planetes.append(temp)
-                planetes[-1].name = random.choice(names)
-                names.remove(planetes[-1].name)
-
-    return planetes
-"""
 
 def create_universe():
     """ create the whole universe and stuffz """
@@ -377,34 +352,6 @@ def create_universe():
     return univers
 
 
-def load_game(fname=None):
-    """ open the previously saved shelve and load the game data """
-    # TODO use try/except
-    poney = []
-    if not fname:
-        fname = 'savegame'
-    with shelve.open(fname, 'r') as savefile:
-        poney = savefile['univers']
-        savefile.close()
-
-    return poney
-
-
-def print_universe(univers):
-    """ print the current universe (debug purpose) """
-
-    print('Debug Universe:')
-    for truc in univers:
-        if isinstance(truc, Planet):
-            print('{} : {}'.format(truc.name, ' '.join(truc.gov)))  # __repr__?
-            pprint(truc.__dict__)
-
-        elif isinstance(truc, Captain):
-            print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
-            pprint(truc.__dict__)
-            pprint(truc.ship.__dict__)
-
-
 def get_distance(source, target):
     """ calculate distance between source and target
     source: positionnal tuple (x, y)
@@ -420,9 +367,9 @@ def get_distance(source, target):
 
 def inside_circle(point, centre, radius):
     """ is the point inside the circle?
-
-    use get_distance()
-
+    point: positionnal tuple (x, y)
+    centre: positionnal tuple (x, y)
+    radius: int
     return True or False
     """
     longueur = get_distance(point, centre)
@@ -431,6 +378,57 @@ def inside_circle(point, centre, radius):
         return True
     else:
         return False
+
+
+def load_game(fname=None):
+    """ open the previously saved shelve and load the game data """
+    # TODO use try/except
+    poney = []
+    if not fname:
+        fname = 'savegame'
+    with shelve.open(fname, 'r') as savefile:
+        poney = savefile['univers']
+        savefile.close()
+
+    return poney
+
+
+def make_planet():
+    """ initialize a Planet()
+    return a Planet object
+    """
+    dice = random.randint(0, 100)
+    if dice < 60:
+        status = 'nopressure'
+    else:
+        status = random.choice(list(constants.STATUS.keys()))
+
+    return Planet(
+        name=random.choice(constants.NAMES),
+        x=random.randint(constants.XMIN, constants.MAXWIDTH - 1),
+        y=random.randint(constants.YMIN, constants.MAXHEIGHT - 1),
+        system_size=random.choice(list(constants.SYSTEMSIZE.keys())),
+        tech_level=random.choice(list(constants.TECHLEVEL.keys())),
+        regim=random.choice(list(constants.REGIM.keys())),
+        special=random.choice(list(constants.SPECIALRESOURCES.keys())),
+        status=status,
+        price_slip={},
+        )
+
+
+def print_universe(univers):
+    """ print the current universe (debug purpose) """
+
+    print('Debug Universe:')
+    for truc in univers:
+        if isinstance(truc, Planet):
+            print('{} : {}'.format(truc.name, ' '.join(truc.gov)))  # __repr__?
+            pprint(truc.__dict__)
+
+        elif isinstance(truc, Captain):
+            print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
+            pprint(truc.__dict__)
+            pprint(truc.ship.__dict__)
 
 
 def save_game(univers, fname=None):
