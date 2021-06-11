@@ -4,7 +4,7 @@ python3 SpaceTrader
 
 :date: 2018-12-19
 :status: work in progress
-:version: $Id: README.rst 1551 $
+:version: $Id: README.rst 1552 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -48,7 +48,7 @@ I try to use as less additionnal python3 modules as possible, but you will need 
     python3 -m pip install PySimpleGUI
 
 
-You also may need Tkinter:
+You may also need to install Tkinter:
 
 .. code-block:: bash
 
