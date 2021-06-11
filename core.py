@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1561 $
+# $Id: core.py 1562 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -92,9 +92,9 @@ class Planet:
         """ create a planet """
         self.name = random.choice(constants.NAMES)
         #self.name = ''
-        self.__x = random.randint(constants.XMIN, constants.MAXWIDTH - 1)
-        self.__y = random.randint(constants.YMIN, constants.MAXHEIGHT - 1)
-        self.position = (self.__x, self.__y)
+        self.x = random.randint(constants.XMIN, constants.MAXWIDTH - 1)
+        self.y = random.randint(constants.YMIN, constants.MAXHEIGHT - 1)
+        self.position = (self.x, self.y)
 
         self.system_size = random.choice(list(constants.SYSTEMSIZE.keys()))
         self.tech_level = random.choice(list(constants.TECHLEVEL.keys()))
@@ -413,8 +413,8 @@ def get_distance(source, target):
     """
     xa, ya = source
     xb, yb = target
-    x = abs(int(xb - xa))
-    y = abs(int(yb - ya))
+    x = xb - xa
+    y = yb - ya
     return int(math.hypot(x, y))
 
 
