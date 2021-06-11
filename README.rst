@@ -4,7 +4,7 @@ python3 SpaceTrader
 
 :date: 2018-12-19
 :status: work in progress
-:version: $Id: README.rst 1550 $
+:version: $Id: README.rst 1551 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -23,16 +23,6 @@ References
 * https://github.com/blind-coder/SpaceTrader
 
 * http://www.spronck.net/spacetrader/STFrames.html
-
-
-Contributing
-============
-
-Disclaimer: This is a toy project, early work in progress... It may never be finished and it will differ from original games.
-
-I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
-
-That being said, you are *very welcome* to help, if you want to (See CONTRIBUTING.rst).
 
 
 Use and tests
@@ -55,6 +45,14 @@ I try to use as less additionnal python3 modules as possible, but you will need 
 .. code-block:: python
 
     PySimpleGUI>=4.41.2
+    python3 -m pip install PySimpleGUI
+
+
+You also may need Tkinter:
+
+.. code-block:: bash
+
+    apt install python3-tk
 
 
 To run (and test), simply:
@@ -64,5 +62,16 @@ To run (and test), simply:
     python3 main.py
 
 
-Select Game, New. Navigate through the Galactic Map, set a destination, then have a look at Trading Tab, if you want to earn some profit... (Buy cargo, next turn, Sell cargo, repeat *ad nauseam*)
+Select Game -> New. Navigate through the Galactic Map, set a destination, then have a look at Trading Tab, if you want to earn some profit... (Select goods, Buy cargo, next turn, Sell cargo, repeat *ad nauseam*)
+
+
+Contributing
+============
+
+Disclaimer: This is a toy project, early work in progress... It may never be finished and it will differ from original games.
+
+I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
+
+That being said, you are *very welcome* to help, if you want to (See CONTRIBUTING.rst).
+
 
