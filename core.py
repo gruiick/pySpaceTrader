@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1564 $
+# $Id: core.py 1565 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -97,7 +97,7 @@ class Planet:
 
     @property
     def position(self):
-        return (self.x, self.y)
+        return self.x, self.y
 
     @property
     def gov(self):
@@ -113,6 +113,16 @@ class Planet:
 
     def distance(self, other):
         return math.hypot((self.x - other.x), (self.y - other.y))
+
+
+@dataclass
+class Position:
+    x: int
+    y: int
+
+    @property
+    def position(self):
+        return self.x, self.y
 
 
 class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
@@ -432,6 +442,9 @@ def print_universe(univers):
             print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
+
+    bidule = Position(2, 3)
+    pprint(bidule.__dict__)
 
 
 def save_game(univers, fname=None):

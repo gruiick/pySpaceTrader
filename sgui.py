@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1565 $
+# $Id: sgui.py 1566 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -80,7 +80,8 @@ location_btn = sg.Frame(
 # action btn
 action_btn = sg.Frame(
     layout=[[sg.Button('Set destination',
-                       key='-SETDEST-')],
+                       key='-SETDEST-',
+                       disabled=True)],
         [sg.Button('Refuel',
                    key='-REFUEL-')],
         [sg.Button('Next turn',
