@@ -5,6 +5,8 @@
 TODO
 ====
 
+* update_stocks() pendant next_turn()
+
 * Bank tab
     * transactions log ?
     * invoices ? (goods, qty, price) -> profit/loss ? <- detailed?

@@ -294,9 +294,7 @@ def sell_cargo(pods, dump=False):
         if not dump:
             captain.cash += captain.location.price_slip[_good_type][0]
 
-    update_trading(window['-LOC-TABLE-'], captain.location)
-    update_cargo_board()
-    update_affiche(captain)
+    update_gui()
 
 
 def set_destination(pos):
@@ -331,8 +329,9 @@ def show_destination():
     """ set/draw target on destination """
     if captain.destination:
         planete = captain.destination
-        update_affiche(planete)
         draw_target(planete)
+        update_affiche(planete)
+        # update_gui()
     else:
         sg.popup(f'Cannot show destination: None set.')
 
@@ -341,15 +340,18 @@ def show_homeworld():
     """ set target on homeworld """
     for planete in planetes:
         if planete.homeworld:
-            update_affiche(planete)
             draw_target(planete)
+            update_affiche(planete)
+
+    # update_gui()
 
 
 def show_location():
     """ set target on actual captain.location """
     planete = captain.location
-    update_affiche(planete)
     draw_target(planete)
+    update_affiche(planete)
+    # update_gui()
 
 
 def update_affiche(objet):
