@@ -1,18 +1,9 @@
-# $Id: TODO 1544 $
+# $Id: TODO 1544.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
 TODO
 ====
-
-* séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py ?
-
-* Captain Board:
-    -> different from bank account (See Bank Tab)
-solde = balance (+gain, -loss)
-cash != balance
-achat = purchase, buy -> cargo qty, cargo value
-vente = sale, sell (vendre)
 
 * Bank tab
     * transactions log ?
@@ -41,6 +32,16 @@ Later:
 
 Done:
 =====
+
+* Captain Board
+    -> different from bank account (See Bank Tab)
+solde = balance (+gain, -loss)
+cash != balance
+achat = purchase, buy -> cargo qty, cargo value
+vente = sale, sell (vendre)
+
+* séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py ?
+
 
 * sGUI :
     tester PySimpleGUI  -> OK

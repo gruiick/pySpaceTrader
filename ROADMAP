@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1550 $
+# $Id: ROADMAP 1550.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -38,7 +38,7 @@ mostly playable:
     refresh Trading tab         OK
     Trading tab GUI             NOOK (but it work...)
 
-=== 0.2
+=== 0.2     <- I'm there
 
 Bank tab:
     display balance (cash + pods values - (refund + due interests)
@@ -58,6 +58,7 @@ functionnal Trading tab:
 Shipyard tab
     new ships
     not-cargo pods
+
 News tab (informations about universe, quests)
 
 === 0.3
