@@ -1,5 +1,5 @@
 #
-# $Id: snippets.py 1554 $
+# $Id: snippets.py 1554.v0.2-dev.1 $
 #
 """ pieces of garbage (or not so trash) code 
 https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
@@ -376,3 +376,30 @@ def create_planetes():
                 names.remove(planetes[-1].name)
 
     return planetes
+
+def get_distance(source, target):
+    """ calculate distance between source and target
+    source: positionnal tuple (x, y)
+    target: positionnal tuple (x, y)
+    return: int
+    """
+    xa, ya = source
+    xb, yb = target
+    x = xb - xa
+    y = yb - ya
+    return int(math.hypot(x, y))
+
+
+def inside_circle(point, centre, radius):
+    """ is the point inside the circle?
+    point: positionnal tuple (x, y)
+    centre: positionnal tuple (x, y)
+    radius: int
+    return True or False
+    """
+    longueur = get_distance(point, centre)
+
+    if longueur <= radius:
+        return True
+    else:
+        return False
