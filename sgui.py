@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566 $
+# $Id: sgui.py 1566.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -134,9 +134,10 @@ location_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
                       headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
                       auto_size_columns=True,
+                      col_widths=[15, 15, 15, 15],
                       display_row_numbers=False,
                       num_rows=numrow,
-                      justification='center',
+                      justification='right',
                       hide_vertical_scroll=True,
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-LOC-TABLE-',
@@ -150,9 +151,10 @@ profit_layout = sg.Frame(
     layout=[[sg.Table(values=[[0]],
                       headings=['profit'],
                       auto_size_columns=True,
+                      col_widths=[15],
                       display_row_numbers=False,
                       num_rows=numrow,
-                      justification='center',
+                      justification='right',
                       hide_vertical_scroll=True,
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-PROFIT-TABLE-',
@@ -164,9 +166,10 @@ destination_layout = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0]],
                       headings=[' Items ', 'buy (Cr)', 'sell (Cr)', 'stock (Qty)'],
                       auto_size_columns=True,
+                      col_widths=[15, 15, 15, 15],
                       display_row_numbers=False,
                       num_rows=numrow,
-                      justification='center',
+                      justification='right',
                       hide_vertical_scroll=True,
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-DEST-TABLE-',
@@ -210,7 +213,7 @@ cargo_layout = sg.Frame(
                # TODO something with all pods, good type & value
                [sg.Text('[pod n°][type][value (Cr)]',
                         # size=(20, 1),
-                        justification='center'),],
+                        justification='right'),],
                 [sg.Listbox(values=[],
                            default_values=None,
                            size=(20, 10),

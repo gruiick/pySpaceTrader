@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571 $
+# $Id: main.py 1571.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -175,7 +175,8 @@ def new_game():
 def next_turn():
     """ compute next turn """
     try:
-        distance = core.get_distance(captain.location.position, captain.destination.position)
+        # distance = core.get_distance(captain.location.position, captain.destination.position)
+        distance = captain.location.distance(captain.destination)
 
         if captain.ship.reservoir > 0:
             # calculate rayon loss
@@ -201,6 +202,7 @@ def next_turn():
 
 def on_click(position):
     """ redraw graph with new clicked Position or selected Planet"""
+    clicked_position = position
     for planete in planetes:
         if planete.distance(position) <= 5:
             position = core.Position(planete.x, planete.y)
@@ -214,7 +216,7 @@ def on_click(position):
             update_affiche(planete)
             draw_target(position)
 
-    window['-IN-CLIC-'].update(value=f'Detected clic in X={position.x}, Y={position.y}. Distance: {int(captain.location.distance(clicked_position))}')
+    window['-IN-CLIC-'].update(value=f'Detected clic in X={position.x}, Y={position.y}. Distance: {captain.location.distance(clicked_position):.2f}')
 
 
 def refuel():
@@ -233,16 +235,18 @@ def refuel():
             fuel_deficit = quantity
 
         fuel_invoice = fuel_deficit * fuel_price
-        print(f'fuel: {fuel_deficit}T')
-        print(f'fuel price: {fuel_invoice} Cr')
+        print(f'fuel: {fuel_deficit:.2f}T')
+        print(f'fuel price: {fuel_invoice:.2f} Cr')
 
         if fuel_invoice <= captain.cash:
             captain.cash = captain.cash - fuel_invoice
-            _refuel = reserve + fuel_deficit
-            captain.ship.reservoir = _refuel
-            rayon = _refuel
+            # refuel = reserve + fuel_deficit
+            # captain.ship.reservoir = refuel
+            captain.ship.reservoir = reserve + fuel_deficit
+            # rayon = refuel
             captain.location.price_slip['fuel'][2] -= fuel_deficit
-            draw_limite(captain.location, rayon)
+            # draw_limite(captain.location, rayon)
+            draw_limite(captain.location, captain.ship.reservoir)
             update_trading(window['-LOC-TABLE-'], captain.location)
             update_affiche(captain)
             update_cargo_board()
@@ -354,22 +358,22 @@ def update_affiche(objet):
     """
     if isinstance(objet, core.Planet):
         _description = ''.join([objet.name,
-                               ' : ',
-                               str(objet.position),
-                               '\n',
-                               '\n'.join(objet.gov)])
+                                ' : ',
+                                str(objet.position),
+                                '\n',
+                                '\n'.join(objet.gov)])
         window['-IN-PLANET-'].update(_description)
 
     elif isinstance(objet, core.Captain):
         _description = ''.join([objet.name,
-                               ' from ',
-                               objet.homeworld.name,
-                               ])
+                                ' from ',
+                                objet.homeworld.name,
+                                ])
         window['-IN-CAPTAIN-'].update(_description)
         _balance = objet.balance
-        window['-IN-BALANCE-'].update(value=f'{_balance}')
+        window['-IN-BALANCE-'].update(value=f'{_balance:.2f}')
         _reserve = objet.ship.reservoir
-        window['-IN-RESERVE-'].update(value=f'{_reserve}')
+        window['-IN-RESERVE-'].update(value=f'{_reserve:.2f}')
 
 
 def update_buy_goods(planet):
@@ -422,10 +426,10 @@ def update_cargo_board():
                             captain.ship.cargo[key]['type'],
                             captain.ship.cargo[key]['value']])
 
-    window['-IN-BD-CASH-'].update(captain.cash)
+    window['-IN-BD-CASH-'].update(value=f'{captain.cash:.2f}')
     window['-IN-BD-CARGO-'].update('/'.join([str(pods),
                                              str(total_pods)]))
-    window['-IN-BD-VALUE-'].update(int(total_value))
+    window['-IN-BD-VALUE-'].update(value=f'{total_value:.2f}')
     window['-MANIFEST-'].update(values=tbl_pod)
 
     if pods == total_pods:
@@ -446,7 +450,7 @@ def update_gui():
     update_affiche(captain.location)
 
     capacity = int(captain.ship.model['fuel'] * MAXP)
-    if captain.ship.reservoir < capacity:
+    if (captain.ship.reservoir < capacity) and (captain.location.price_slip['fuel'][2] != 0):
         window['-REFUEL-'].update(disabled=False)
     else:
         window['-REFUEL-'].update(disabled=True)
@@ -454,12 +458,12 @@ def update_gui():
     update_planet_selector()
 
     if captain.destination:
-        #window['-SETDEST-'].update(disabled=True)
+        # window['-SETDEST-'].update(disabled=True)
         window['-NEXT-TURN-'].update(disabled=False)
         window['-DEST-TITLE-'].update(value=f'Destination: {captain.destination.name}')
         update_trading(window['-DEST-TABLE-'], captain.destination)
     else:
-        #window['-SETDEST-'].update(disabled=False)
+        # window['-SETDEST-'].update(disabled=False)
         window['-NEXT-TURN-'].update(disabled=True)
         # clear trading tab -DEST-TABLE-
         window['-DEST-TITLE-'].update(value='Destination:')
@@ -483,10 +487,10 @@ def update_invoice(good_type, qty):
     cargo_value = invoice.total_value
 
     if cargo_value > captain.cash:
-        window['-IN-INVOICE-'].update(value=cargo_value, text_color='red')
+        window['-IN-INVOICE-'].update(value=f'{cargo_value:.2f}', text_color='red')
         window['-BUY-CARGO-'].update(disabled=True)
     else:
-        window['-IN-INVOICE-'].update(value=cargo_value, text_color='black')
+        window['-IN-INVOICE-'].update(value=f'{cargo_value:.2f}', text_color='black')
         window['-BUY-CARGO-'].update(disabled=False)
 
     print(f'{invoice}')
@@ -576,11 +580,11 @@ if __name__ == '__main__':
             else:
                 show_destination()
 
-        #elif event == '-SETDEST-':
-            #if not univers:
-                #sg.popup_error(f'No game loaded!')
-            #else:
-                #set_map_destination()
+        # elif event == '-SETDEST-':
+            # if not univers:
+                # sg.popup_error(f'No game loaded!')
+            # else:
+                # set_map_destination()
 
         elif event == '-IN-PLNT-SELECTOR-':
             name_planet = values['-IN-PLNT-SELECTOR-']

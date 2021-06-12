@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565 $
+# $Id: core.py 1565.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -107,9 +107,9 @@ class Planet:
                 constants.REGIM[self.regim],
                 constants.STATUS[self.status])
 
-    @property
-    def fuel_price(self):
-        return self.price_slip['fuel'][1]
+    #@property
+    #def fuel_price(self):
+        #return self.price_slip['fuel'][1]
 
     def distance(self, other):
         return math.hypot((self.x - other.x), (self.y - other.y))
@@ -126,7 +126,7 @@ class Position:
 
 
 class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
-    """ for each good, calculate prices and update planete.price_slip 
+    """ for each good, calculate prices and update planete.price_slip
 
     dict object {good: [buying price, selling price, stock],}
     """
@@ -285,6 +285,7 @@ class Ship:
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
 
+
 @dataclass
 class Transaction:
     """ a transaction of some sort
@@ -305,15 +306,15 @@ class Transaction:
 def calculate_profit_pod(location, destination):
     """ calculate net profit by good (for one pod) between location planet and destination planet
 
-    return a list of list
+    return a list of list, with a 2 decimals float format
     """
     _profit = []
     for key in destination.price_slip.keys():
-        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][1] != 0 and location.price_slip[key][2] != 0 :
+        if location.price_slip[key] != 0 and destination.price_slip[key] != 0 and location.price_slip[key][1] != 0 and location.price_slip[key][2] != 0:
             benefit = destination.price_slip[key][0] - location.price_slip[key][1]
-            _profit.append([benefit])
+            _profit.append([f'{benefit:.2f}'])
         else:
-            _profit.append([0])
+            _profit.append([f'0.00'])
 
     return _profit
 
@@ -326,13 +327,7 @@ def create_planetes():
     for i in range(constants.MAXPLANET):
         while True:
             planete = make_planet()
-            if (
-                    planete.name not in planetes
-                    and all(
-                        planete.distance(p) >= constants.MIN_DISTANCE
-                        for p in planetes.values()
-                    )
-            ):
+            if (planete.name not in planetes and all(planete.distance(p) >= constants.MIN_DISTANCE for p in planetes.values())):
                 PriceSlip(planete)
                 planetes[planete.name] = planete
 
@@ -363,34 +358,6 @@ def create_universe():
     univers.extend(planetes)
 
     return univers
-
-
-def get_distance(source, target):
-    """ calculate distance between source and target
-    source: positionnal tuple (x, y)
-    target: positionnal tuple (x, y)
-    return: int
-    """
-    xa, ya = source
-    xb, yb = target
-    x = xb - xa
-    y = yb - ya
-    return int(math.hypot(x, y))
-
-
-def inside_circle(point, centre, radius):
-    """ is the point inside the circle?
-    point: positionnal tuple (x, y)
-    centre: positionnal tuple (x, y)
-    radius: int
-    return True or False
-    """
-    longueur = get_distance(point, centre)
-
-    if longueur <= radius:
-        return True
-    else:
-        return False
 
 
 def load_game(fname=None):
@@ -435,11 +402,11 @@ def print_universe(univers):
     print('Debug Universe:')
     for truc in univers:
         if isinstance(truc, Planet):
-            print('{} : {}'.format(truc.name, ' '.join(truc.gov)))  # __repr__?
+            print(f'{truc.name}: {" ".join(truc.gov)}')
             pprint(truc.__dict__)
 
         elif isinstance(truc, Captain):
-            print('{} : {}, {}'.format(truc.name, truc.homeworld.name, truc.ship.model))  # __repr__?
+            print(f'{truc.name}: {truc.homeworld.name}, {truc.ship.model}')
             pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
 
@@ -460,7 +427,7 @@ def save_game(univers, fname=None):
 
 
 def slip_list(slip):
-    """ return a list of list made from slip(dict) elements 
+    """ return a list of list made from slip(dict) elements
         needed by PySimpleGUI using only lists
     """
     new_list = []
@@ -468,10 +435,10 @@ def slip_list(slip):
     for key in slip.keys():
         _interne = []
         _interne.append(key)
-        _interne.extend(slip[key])
+        # apply a 2 decimals float format
+        _interne.extend([f'{slip[key][0]:.2f}', f'{slip[key][1]:.2f}', f'{slip[key][2]:.2f}'])
         new_list.append(list(_interne))
 
-    # pprint(new_list)
     return new_list
 
 
