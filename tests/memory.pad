@@ -39,6 +39,14 @@ transaction management, earnings/losses, bank account
         robots
         [fuel] (mandatory, for now)
 
+octogonal bounding box (ou disque?)
+https://forums.futura-sciences.com/programmation-langages-algorithmique/736071-python-animer-points-a-linterieur-dun-cercle.html
+http://xymaths.free.fr/Informatique-Programmation/python/Construction-1er-programme.php
+https://www.piger-lesmaths.fr/polygone-regulier/
+https://zestedesavoir.com/tutoriels/2835/theorie-des-collisions/
+
+disque = pythagore et hypothénuse
+
 <mdk> GruiicK: je pense que je ferais une `class BankAccount` qui stocke des instances de `class Transaction` dans une liste, comme ça tu peux rajouter des méthodes aux deux, facilement au besoin.
 <mdk> genre la méthode pprint sur un bank account qui t'affiche tout le compte proprement dans un tableau bien rangé :D
 <GruiicK> et les Transactions, plutot des tuples, alors ?

@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1549 $
+# $Id: ROADMAP 1550 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -26,6 +26,20 @@ Trading tab:
     refresh cargo pods OK
     -> I'm not happy with the UI of this tab
 
+* 'playable', without a winning finish
+
+
+=== 0.1
+
+mostly playable:
+    handle turn(s)              OK
+    go from planet to planet    OK
+    refueling system            OK
+    refresh Trading tab         OK
+    Trading tab GUI             NOOK (but it work...)
+
+=== 0.2
+
 Bank tab:
     display balance (cash + pods values - (refund + due interests)
     display loan (credence, due interests)
@@ -35,26 +49,12 @@ Bank tab:
         buy fuel (expenses)
         pay mercenary (expenses)
 
-planet.update_production()
+functionnal Trading tab:
+    planet.update_production()
     -> new stocks (fuel!!)
     -> planet.update_prices()
 
 
-=== 0.1
-
-mostly playable:
-    handle turn(s)              OK
-    go from planet to planet    OK
-    refuel system               OK
-    refresh Trading tab         OK
-    Trading tab GUI             <- NOOK
-    separate Bank tab           <- TODO
-
-
-=== 0.2
-
-functionnal Trading tab
-functionnal Bank (tab?)
 Shipyard tab
     new ships
     not-cargo pods
