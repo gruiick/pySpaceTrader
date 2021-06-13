@@ -216,7 +216,7 @@ def on_click(position):
             update_affiche(planete)
             draw_target(position)
 
-    window['-IN-CLIC-'].update(value=f'Detected clic in X={position.x}, Y={position.y}. Distance: {captain.location.distance(clicked_position):.2f}')
+    window['-IN-CLIC-'].update(value=f'Detected clic in X={position.x}, Y={position.y}')
 
 
 def refuel():
@@ -360,11 +360,12 @@ def update_affiche(objet):
     """
     if isinstance(objet, core.Planet):
         _description = ''.join([objet.name,
-                                ' : ',
+                                ': ',
                                 str(objet.position),
                                 '\n',
                                 '\n'.join(objet.gov)])
         window['-IN-PLANET-'].update(_description)
+        window['-IN-DSTCE-'].update(value=f'Distance: {captain.location.distance(objet):.2f}')
 
     elif isinstance(objet, core.Captain):
         _description = ''.join([objet.name,
@@ -621,6 +622,9 @@ if __name__ == '__main__':
 
         elif event == '-SELL-':
             sell_cargo(values['-MANIFEST-'])
+
+        elif event == '-SELL-ALL-':
+            sell_cargo(window['-MANIFEST-'].get_list_values())
 
         elif event == '-DUMP-':
             sell_cargo(values['-MANIFEST-'], dump=True)

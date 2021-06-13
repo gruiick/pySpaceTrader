@@ -79,9 +79,10 @@ location_btn = sg.Frame(
 
 # action btn
 action_btn = sg.Frame(
-    layout=[[sg.Button('Set destination',
-                       key='-SETDEST-',
-                       disabled=True)],
+    layout=[
+        # [sg.Button('Set destination',
+        #               key='-SETDEST-',
+        #               disabled=True)],
         [sg.Button('Refuel',
                    key='-REFUEL-')],
         [sg.Button('Next turn',
@@ -89,6 +90,7 @@ action_btn = sg.Frame(
         ],
         title='Actions',
         # size=(25, 3),
+        vertical_alignment='center',
         element_justification='center')
 
 btn_column = sg.Column([[location_btn, action_btn]],
@@ -98,9 +100,13 @@ btn_column = sg.Column([[location_btn, action_btn]],
 
 # info layout
 info_layout = sg.Frame(
-    layout=[[sg.Text('display Planet info',
+    layout=[
+        [sg.Text('display Planet info',
                      size=(25, 7),
                      key='-IN-PLANET-')],
+        [sg.Text('',
+                 size=(25, 1),
+                 key='-IN-DSTCE-')],
         ], title='Planet')
 
 
@@ -179,9 +185,7 @@ destination_layout = sg.Frame(
     key='-DEST-TITLE-',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
-# TODO: destination(s) in range
 # combo list of planets within ship range
-# same selector as galactic map, for -SETDEST-
 planet_selector = sg.Frame(
     layout=[[sg.Combo(values=[None],
                       default_value=None,
@@ -194,8 +198,45 @@ planet_selector = sg.Frame(
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 # Cargo Board
+cargo_manifest = sg.Column(
+    [
+        [sg.Text('[pod n°][type][value (Cr)]',
+                 # size=(20, 1),
+                 justification='right'),],
+        [sg.Listbox(values=[],
+                    default_values=None,
+                    size=(20, 10),
+                    no_scrollbar=False,
+                    auto_size_text=True,
+                    select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE,
+                    enable_events=True,
+                    key='-MANIFEST-',
+                    ),
+        ],
+    ],
+    justification='left',
+    element_justification='center',
+    vertical_alignment='top',
+    )
+
+cargo_btns = sg.Column(
+    [
+        [sg.Button('Sell',
+                   key='-SELL-')],
+        [sg.Button('Sell All',
+                   key='-SELL-ALL-')],
+        [sg.Button('Dump',
+                   key='-DUMP-')],
+    ],
+    justification='right',
+    element_justification='center',
+    vertical_alignment='center',
+    )
+
+
 cargo_layout = sg.Frame(
-    layout=[[sg.Text('Cash (Cr):',
+    layout=[
+            [sg.Text('Cash (Cr):',
                      justification='left'),
                sg.Text('',
                        key='-IN-BD-CASH-',
@@ -210,28 +251,20 @@ cargo_layout = sg.Frame(
                        justification='right',
                        relief='sunken'),
                ],
-               # TODO something with all pods, good type & value
-               [sg.Text('[pod n°][type][value (Cr)]',
-                        # size=(20, 1),
-                        justification='right'),],
-                [sg.Listbox(values=[],
-                           default_values=None,
-                           size=(20, 10),
-                           no_scrollbar=False,
-                           auto_size_text=True,
-                           select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE,
-                           enable_events=True,
-                           key='-MANIFEST-',
-                           ),
-                ],
-                [sg.Text('Cargo Value (Cr):', justification='left'),
-                 sg.Text('',
-                         key='-IN-BD-VALUE-',
-                         size=(20, 1),
-                         justification='right',
-                         relief='sunken'),
-                 ],
-                 # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
+               # [sg.HorizontalSeparator(color='red', pad=(1, 1))],
+               [cargo_manifest,
+               # sg.VerticalSeparator(color='red', pad=(1, 1)),
+               cargo_btns],
+               # [sg.HorizontalSeparator(color='red', pad=(1, 1))],
+               [sg.Text('Cargo Value (Cr):',
+                        justification='left'),
+               sg.Text('',
+                       key='-IN-BD-VALUE-',
+                       size=(20, 1),
+                       justification='right',
+                       relief='sunken'),
+               ],
+               # [sg.HorizontalSeparator(color=None, pad=(1, 1))],
     ],
     title='Cargo manifest',
     # size=(25, 15),
@@ -248,8 +281,6 @@ docks_layout = sg.Frame(
              ],
             [sg.Text('Quantity:',
                      justification='left'),
-             # ça devrait plutot être un sg.Spin ?
-             # de 0 à max(avail.pods)|max(good[-1])
              sg.Combo(values=[None],
                       default_value=None,
                       readonly=True,
@@ -264,23 +295,13 @@ docks_layout = sg.Frame(
                      justification='right',
                      relief='sunken'),
              ],
+             [sg.Button('Buy',
+                        key='-BUY-CARGO-',
+                        disabled=True)
+             ],
     ],
     title='Docks',
     element_justification='right')
-
-docks_btn_layout = sg.Frame(
-    layout=[[sg.Button('Buy',
-                        key='-BUY-CARGO-',
-                        disabled=True)],
-            [sg.Button('Sell',
-                       key='-SELL-')],
-            [sg.Button('Dump',
-                       key='-DUMP-')],
-    ],
-    title='Manage cargo:',
-    size=(25, 3),
-    element_justification='center')
-
 
 # trading, 2 columns top + 2 columns bottom
 trading_loc_col = sg.Column([[location_layout]],
@@ -303,18 +324,19 @@ trading_cargo_col = sg.Column([[cargo_layout]],
                              element_justification='left',
                              vertical_alignment='top')
 
-trading_board_col = sg.Column([[docks_layout],
-                               [docks_btn_layout]],
+trading_board_col = sg.Column([[planet_selector],
+                               [docks_layout],
+                               ],
                              justification='right',
                              element_justification='right',
                              vertical_alignment='top')
 
 tab_trading = [
-    [planet_selector, trading_cargo_col,
-     sg.VerticalSeparator(color='red', pad=(1, 1)),
-     trading_board_col],
+    [trading_board_col,
+     # sg.VerticalSeparator(color='red', pad=(1, 1)),
+     trading_cargo_col],
 
-    [sg.HorizontalSeparator(color='red', pad=(1, 1))],
+    # [sg.HorizontalSeparator(color='red', pad=(1, 1))],
 
     [trading_loc_col,
      trading_profit_col,
