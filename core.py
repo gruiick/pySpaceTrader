@@ -41,31 +41,30 @@ from pprint import pprint
 import constants
 
 
+@dataclass
 class BankAccount:
     """
     Quick & Dirty bank account log
     """
-    def __init__(self):
-        self.owner = ''
-        self.homeworld = ''
-        self.log = []
+    owner: str
+    log: [] = None
 
 
+@dataclass
 class Captain:
     """
     This is captain speaking
     """
-    def __init__(self):
-        self.name = 'Speaking'  # As in "This is Captain speaking...", got it?
-        self.homeworld = ()
-        self.location = ()
-        self.destination = ()
-        self.ship = ()
-        # self.status = {'skills': '',
-        #                'reputation': '',
-        #                'record': '',
-        #                }
-        self.cash = constants.CASH
+    name: str = 'Speaking'  # As in "This is Captain speaking...", got it?
+    homeworld: () = None
+    location: () = None
+    destination: () = None
+    ship: () = None
+    #status: {'skills': None,
+    #         'reputation': None,
+    #         'record': None,
+    #         }
+    cash: float = constants.CASH
 
     @property
     def balance(self):
@@ -117,6 +116,7 @@ class Planet:
 
 @dataclass
 class Position:
+    """ needed for Planet.distance() purpose """
     x: int
     y: int
 
