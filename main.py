@@ -54,15 +54,15 @@ def buy_cargo(facture):
     # TODO if cargo_value is > captain.cash, propose a loan
     # and start computing interests (bank account)
 
-    _none_cargo = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
-    available_cargo = len(_none_cargo)
-    # print(f'pod(s): {_none_cargo}')
+    empty_pod = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
+    available_cargo = len(empty_pod)
+    # print(f'pod(s): {empty_pod}')
     # print(f'avail: {available_cargo}')
 
     if qty > available_cargo:
         sg.popup_error(f'Cannot buy, not enought cargo space!')
     else:
-        for index in range(_none_cargo[0], _none_cargo[0] + qty):
+        for index in range(empty_pod[0], empty_pod[0] + qty):
             captain.ship.cargo[index]['type'] = good_type
             captain.ship.cargo[index]['value'] = good_price
             available_cargo -= 1
@@ -283,16 +283,16 @@ def sell_cargo(pods, dump=False):
 
     # TODO use Transaction(), but separate by good_type to log
     # into bankaccount
-    for elements in pods:
-        _index, _good_type, _good_value = elements
+    for goods in pods:
+        index, good_type, good_value = goods
 
-        captain.location.price_slip[_good_type][2] += 1
+        captain.location.price_slip[good_type][2] += 1
         # TODO update planet(prices)
-        captain.ship.cargo[_index]['type'] = None
-        captain.ship.cargo[_index]['value'] = None
+        captain.ship.cargo[index]['type'] = None
+        captain.ship.cargo[index]['value'] = None
 
         if not dump:
-            captain.cash += captain.location.price_slip[_good_type][0]
+            captain.cash += captain.location.price_slip[good_type][0]
 
     update_gui()
 
