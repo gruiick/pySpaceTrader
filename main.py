@@ -51,7 +51,7 @@ def buy_cargo(facture):
     qty = facture.quantity
     cargo_value = facture.total_value
 
-    # TODO if cargo_value is > captain.cash, propose a loan
+    # TODO if cargo_value is > captain.account.cash, propose a loan
     # and start computing interests (bank account)
 
     empty_pod = [x for x in captain.ship.cargo.keys() if captain.ship.cargo[x]['type'] is None]
@@ -67,12 +67,12 @@ def buy_cargo(facture):
             captain.ship.cargo[index]['value'] = good_price
             available_cargo -= 1
             captain.location.price_slip[good_type][2] -= 1
-        captain.cash -= cargo_value
+        captain.account.log.append(facture)
+        print(f'{captain.account.log}')
+        captain.account.cash -= cargo_value
         update_trading(window['-LOC-TABLE-'], captain.location)
         update_cargo_board()
         update_docks_board(captain.location)
-
-    # TODO log invoice into bank account
 
 
 def draw_limite(position, rayon=None):
@@ -220,7 +220,7 @@ def on_click(position):
 
 
 def refuel():
-    """ refuel the captain.ship according to captain.cash,
+    """ refuel the captain.ship according to captain.account.cash,
     captain.ship.reservoir and planete.fuel_price
     """
     capacity = int(captain.ship.model['fuel'] * MAXP)
@@ -234,12 +234,13 @@ def refuel():
         if fuel_deficit > quantity:
             fuel_deficit = quantity
 
+        # TODO make it a Transaction and log it
         fuel_invoice = fuel_deficit * fuel_price
         print(f'fuel: {fuel_deficit:.2f}T')
         print(f'fuel price: {fuel_invoice:.2f} Cr')
 
-        if fuel_invoice <= captain.cash:
-            captain.cash = captain.cash - fuel_invoice
+        if fuel_invoice <= captain.account.cash:
+            captain.account.cash = captain.account.cash - fuel_invoice
             # refuel = reserve + fuel_deficit
             # captain.ship.reservoir = refuel
             captain.ship.reservoir = reserve + fuel_deficit
@@ -292,7 +293,7 @@ def sell_cargo(pods, dump=False):
         captain.ship.cargo[index]['value'] = None
 
         if not dump:
-            captain.cash += captain.location.price_slip[good_type][0]
+            captain.account.cash += captain.location.price_slip[good_type][0]
 
     update_gui()
 
@@ -429,7 +430,7 @@ def update_cargo_board():
                             captain.ship.cargo[key]['type'],
                             captain.ship.cargo[key]['value']])
 
-    window['-IN-BD-CASH-'].update(value=f'{captain.cash:.2f}')
+    window['-IN-BD-CASH-'].update(value=f'{captain.account.cash:.2f}')
     window['-IN-BD-CARGO-'].update('/'.join([str(pods),
                                              str(total_pods)]))
     window['-IN-BD-VALUE-'].update(value=f'{total_value:.2f}')
@@ -489,7 +490,7 @@ def update_invoice(good_type, qty):
     invoice = core.Transaction(good_type, good_price, qty)
     cargo_value = invoice.total_value
 
-    if cargo_value > captain.cash:
+    if cargo_value > captain.account.cash:
         window['-IN-INVOICE-'].update(value=f'{cargo_value:.2f}', text_color='red')
         window['-BUY-CARGO-'].update(disabled=True)
     else:

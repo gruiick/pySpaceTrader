@@ -45,9 +45,14 @@ import constants
 class BankAccount:
     """
     Quick & Dirty bank account log
+
+    TODO logging Transaction() should modify cash value
+    FIXME do not store more than 5 to 10 Transaction() history
     """
     owner: str
-    log: [] = None
+    log: []
+    cash: float = constants.CASH
+    # debt
 
 
 @dataclass
@@ -60,11 +65,15 @@ class Captain:
     location: () = None
     destination: () = None
     ship: () = None
-    #status: {'skills': None,
-    #         'reputation': None,
-    #         'record': None,
+    # status: {'Pilot': int (random, ?/10),
+    #          'Fighter': int (random, ?/10),
+    #          'Trader': int (random, ?/10),
+    #          'Engineer': int (random, ?/10),
+    #          'Kills': int,
+    #          'Reputation': None,
+    #          'Police Record': None,
+    #          'Difficulty': str,
     #         }
-    cash: float = constants.CASH
 
     @property
     def balance(self):
@@ -75,7 +84,7 @@ class Captain:
             _lst.append(self.ship.cargo[idx]['value'])
 
         cargo_value = sum(_lst)
-        balance = cargo_value + self.cash
+        balance = cargo_value + self.account.cash
 
         return balance
 
@@ -105,10 +114,6 @@ class Planet:
                 constants.TECHLEVEL[self.tech_level],
                 constants.REGIM[self.regim],
                 constants.STATUS[self.status])
-
-    #@property
-    #def fuel_price(self):
-        #return self.price_slip['fuel'][1]
 
     def distance(self, other):
         return math.hypot((self.x - other.x), (self.y - other.y))
@@ -348,6 +353,7 @@ def create_universe():
     univers = []
     captain = Captain()
     captain.ship = Ship()
+    captain.account = BankAccount(captain.name, [])
     planetes = create_planetes()
     for planete in planetes:
         if planete.homeworld:
@@ -392,14 +398,16 @@ def make_planet():
         regim=random.choice(list(constants.REGIM.keys())),
         special=random.choice(list(constants.SPECIALRESOURCES.keys())),
         status=status,
-        price_slip={},
-        )
+        price_slip={},)
 
 
 def print_universe(univers):
     """ print the current universe (debug purpose) """
 
     print('Debug Universe:')
+    bidule = Position(2, 3)
+    pprint(bidule.__dict__)
+
     for truc in univers:
         if isinstance(truc, Planet):
             print(f'{truc.name}: {" ".join(truc.gov)}')
@@ -407,11 +415,9 @@ def print_universe(univers):
 
         elif isinstance(truc, Captain):
             print(f'{truc.name}: {truc.homeworld.name}, {truc.ship.model}')
-            pprint(truc.__dict__)
             pprint(truc.ship.__dict__)
-
-    bidule = Position(2, 3)
-    pprint(bidule.__dict__)
+            pprint(truc.__dict__)
+            print(f'Distance: {truc.homeworld.distance(bidule):.2f}\n')
 
 
 def save_game(univers, fname=None):
@@ -433,11 +439,11 @@ def slip_list(slip):
     new_list = []
 
     for key in slip.keys():
-        _interne = []
-        _interne.append(key)
+        interne = []
+        interne.append(key)
         # apply a 2 decimals float format
-        _interne.extend([f'{slip[key][0]:.2f}', f'{slip[key][1]:.2f}', f'{slip[key][2]:.2f}'])
-        new_list.append(list(_interne))
+        interne.extend([f'{slip[key][0]:.2f}', f'{slip[key][1]:.2f}', f'{slip[key][2]:.2f}'])
+        new_list.append(list(interne))
 
     return new_list
 

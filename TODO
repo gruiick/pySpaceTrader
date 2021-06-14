@@ -10,8 +10,8 @@ TODO
 * Bank tab
     * transactions log ?
     * invoices ? (goods, qty, price) -> profit/loss ? <- detailed?
-        warning: in case of illegal goods, you don't want StarPolice to find 
-        your detailed invoices
+        warning: in case of illegal goods, you don't want StarPolice to find
+        your detailed invoices -> or it's part of the game...
     * incomes (profits) vs expenses (fuel)
 
     * ? credit (pour rembourser le ship) ?
@@ -22,6 +22,9 @@ TODO
     ease save/load ? (only one object to deal with?)
     (re)compute prices & stocks on planets each turn
 
+* Skills management (with status)
+
+* Mercenary (hire, pay, use skills)
 
 Later:
 ======
