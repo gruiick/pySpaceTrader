@@ -191,10 +191,10 @@ planet_selector = sg.Frame(
                       default_value=None,
                       readonly=True,
                       enable_events=True,
-                      key = '-IN-PLNT-SELECTOR-',
+                      key='-IN-PLNT-SELECTOR-',
                       )]
     ],
-    title = 'Nearest(s) planet(s)',
+    title='Nearest(s) planet(s)',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 # Cargo Board

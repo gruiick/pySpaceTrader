@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1546 $
+# $Id: constants.py 1546.v0.2-dev.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -31,7 +31,7 @@ COLORS = {'default': 'brown',
           'target': 'grey',
           'background': 'lightgrey'}
 
-OVERVIEW = ["Space Trader is a complex game, in which the player's aim", 
+OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "is to amass enough money to be able to buy a moon to retire",
             "to. The player starts out with a small space ship, armed",
             "with one simple laser, and 1000 credits in cash. The safest",
@@ -45,25 +45,25 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "to get rich quickly, but the police force will go after you."]
 
 NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
-        'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
-        'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
-        'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',
-        'Drema', 'Endor', 'Esmee', 'Exo', 'Ferris', 'Festen', 'Fourmi',
-        'Frolix', 'Gemulon', 'Guinifer', 'Hades', 'Hamlet', 'Helena',
-        'Hulst', 'Iodine', 'Iralius', 'Janus', 'Japori', 'Jarada',
-        'Jason', 'Kaylon', 'Khefka', 'Kira', 'Klaatu', 'Klaestron',
-        'Korma', 'Kravat', 'Krios', 'Laertes', 'Largo', 'Lave', 'Ligon',
-        'Lowry', 'Magrat', 'Malcoria', 'Melina', 'Mentar', 'Merik',
-        'Mintaka', 'Montor', 'Mordan', 'Myrthe', 'Nelvana', 'Nix',
-        'Nyle', 'Odet', 'Og', 'Omega', 'Omphalos', 'Orias', 'Othello',
-        'Parade', 'Penthara', 'Picard', 'Pollux', 'Quator', 'Rakhar',
-        'Ran', 'Regulas', 'Relva', 'Rhymus', 'Rochani', 'Rubicum',
-        'Rutia', 'Sarpeidon', 'Sefalla', 'Seltrice', 'Sigma', 'Sol',
-        'Somari', 'Stakoron', 'Styris', 'Talani', 'Tamus', 'Tantalos',
-        'Tanuga', 'Tarchannen', 'Terosa', 'Thera', 'Titan', 'Torin',
-        'Triacus', 'Turkana', 'Tyrus', 'Umberlee', 'Utopia', 'Vadera',
-        'Vagra', 'Vandor', 'Ventax', 'Xenon', 'Xerxes', 'Yew', 'Yojimbo',
-        'Zalkon', 'Zuul']
+         'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
+         'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
+         'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',
+         'Drema', 'Endor', 'Esmee', 'Exo', 'Ferris', 'Festen', 'Fourmi',
+         'Frolix', 'Gemulon', 'Guinifer', 'Hades', 'Hamlet', 'Helena',
+         'Hulst', 'Iodine', 'Iralius', 'Janus', 'Japori', 'Jarada',
+         'Jason', 'Kaylon', 'Khefka', 'Kira', 'Klaatu', 'Klaestron',
+         'Korma', 'Kravat', 'Krios', 'Laertes', 'Largo', 'Lave', 'Ligon',
+         'Lowry', 'Magrat', 'Malcoria', 'Melina', 'Mentar', 'Merik',
+         'Mintaka', 'Montor', 'Mordan', 'Myrthe', 'Nelvana', 'Nix',
+         'Nyle', 'Odet', 'Og', 'Omega', 'Omphalos', 'Orias', 'Othello',
+         'Parade', 'Penthara', 'Picard', 'Pollux', 'Quator', 'Rakhar',
+         'Ran', 'Regulas', 'Relva', 'Rhymus', 'Rochani', 'Rubicum',
+         'Rutia', 'Sarpeidon', 'Sefalla', 'Seltrice', 'Sigma', 'Sol',
+         'Somari', 'Stakoron', 'Styris', 'Talani', 'Tamus', 'Tantalos',
+         'Tanuga', 'Tarchannen', 'Terosa', 'Thera', 'Titan', 'Torin',
+         'Triacus', 'Turkana', 'Tyrus', 'Umberlee', 'Utopia', 'Vadera',
+         'Vagra', 'Vandor', 'Ventax', 'Xenon', 'Xerxes', 'Yew', 'Yojimbo',
+         'Zalkon', 'Zuul']
 
 REGIM = {1: 'dictatorship',  # Ore and Weapons in demand
          2: 'monarchy',  # Ore, Furs and Narcotics in demand
@@ -91,7 +91,7 @@ SPECIALRESOURCES = {'nothing': 'Nothing special',  # Uneventful
                     'desert': 'Desert',  # Water in demand
                     'lotsofwater': 'Sweetwater oceans',  # produce Water
                     'soilrich': 'Rich soil',  # produce Food
-                    'soilpoor': 'Poor soil',  #  Food in demand
+                    'soilpoor': 'Poor soil',  # Food in demand
                     'faunarich': 'Rich fauna',  # produce Fur
                     'lifepoor': 'Lifeless',  # Water and Food in demand
                     'weirdmushrooms': 'Weird mushrooms',  # produce Narcotics
@@ -161,11 +161,11 @@ SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shiel
 # SHIPNAMES = []
 
 MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
-                 'ChTi', 'Crystal', 'Dane', 'Deirdre', 'Doc', 'Draco',
-                 'Iranda', 'Jeremiah', 'Jujubal', 'Kirk', 'Krydon', 'Luis',
-                 'Mercedez', 'Milete', 'Muri-L', 'Mystyc', 'Nandi',
-                 'Orestes', 'Pancho', 'PS37', 'Quarck', 'Solo', 'Sosumi',
-                 'Uma', 'Wesley', 'Wonton', 'Yorvick', 'Zeethibal']
+                  'ChTi', 'Crystal', 'Dane', 'Deirdre', 'Doc', 'Draco',
+                  'Iranda', 'Jeremiah', 'Jujubal', 'Kirk', 'Krydon', 'Luis',
+                  'Mercedez', 'Milete', 'Muri-L', 'Mystyc', 'Nandi',
+                  'Orestes', 'Pancho', 'PS37', 'Quarck', 'Solo', 'Sosumi',
+                  'Uma', 'Wesley', 'Wonton', 'Yorvick', 'Zeethibal']
 
 
 if __name__ == '__main__':
