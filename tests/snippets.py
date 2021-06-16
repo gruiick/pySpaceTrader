@@ -420,3 +420,18 @@ def convert(dic):
         yield d
 
 print(list(convert(dico)))
+
+
+import itertools as it
+
+
+def find_ranges(lst, n=2):
+    """Return ranges for `n` or more repeated values."""
+    groups = ((k, tuple(g)) for k, g in it.groupby(enumerate(lst), lambda x: x[-1]))
+    repeated = (idx_g for k, idx_g in groups if len(idx_g) >=n)
+    return ((sub[0][0], sub[-1][0]) for sub in repeated)
+
+lst = [34,2,3,22,22,22,22,22,22,18,90,5,-55,-19,22,6,6,6,6,6,6,6,6,23,53,1,5,-42,82]    
+list(find_ranges(lst, 5))
+# [(3, 8), (15, 22)]
+
