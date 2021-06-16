@@ -403,3 +403,20 @@ def inside_circle(point, centre, radius):
         return True
     else:
         return False
+
+
+from itertools import groupby
+
+def key1(item):
+    return (item[1]['type'], item[1]['value'])
+
+def convert(dic):
+    iitem = sorted(dic.items(), key=key1)
+    for k, group in groupby(iitem, key=key1):
+        g = list(group)
+        d = dict(g[0][1])
+        d.update(qty=len(g), idx=sorted(x[0] for x in g))
+
+        yield d
+
+print(list(convert(dico)))
