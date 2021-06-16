@@ -16,7 +16,7 @@ import constants
 import core
 import sgui
 
-# from pprint import pprint
+from pprint import pprint
 
 # Globals
 MAXW = constants.MAXWIDTH
@@ -191,6 +191,7 @@ def next_turn():
             # switch captain position
             captain.location = captain.destination
             captain.destination = None
+            pprint(captain.ship.cargo)
             # update gui
             draw_map(rayon=rayon)
             update_gui()
@@ -282,6 +283,7 @@ def save_as():
 def sell_cargo(pods, dump=False):
     """ sell (or dump) good from list of pods """
 
+    pprint(pods)
     # TODO use Transaction(), but separate by good_type to log
     # into bankaccount
     for goods in pods:
@@ -289,8 +291,9 @@ def sell_cargo(pods, dump=False):
 
         captain.location.price_slip[good_type][2] += 1
         # TODO update planet(prices)
-        captain.ship.cargo[index]['type'] = None
-        captain.ship.cargo[index]['value'] = None
+        captain.ship.unload_cargo(index)
+        # captain.ship.cargo[index]['type'] = None
+        # captain.ship.cargo[index]['value'] = None
 
         if not dump:
             captain.account.cash += captain.location.price_slip[good_type][0]

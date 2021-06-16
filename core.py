@@ -47,7 +47,7 @@ class BankAccount:
     Quick & Dirty bank account log
 
     TODO logging Transaction() should modify cash value
-    FIXME do not store more than 5 to 10 Transaction() history
+    FIXME do not store more than 5 to 10 Transaction() history?
     """
     owner: str
     log: []
@@ -290,14 +290,15 @@ class Ship:
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
 
+    def unload_cargo(self, idx):
+        # FIXME a method which wipe out one pod at a time
+        self.cargo.update({idx: {'type': None, 'value': None}})
+
 
 @dataclass
 class Transaction:
     """ a transaction of some sort
     used to store any buy/sell operation
-
-    See dataclass
-    https://docs.python.org/3.7/library/dataclasses.html
     """
     good_type: str
     good_price: float
@@ -405,8 +406,14 @@ def print_universe(univers):
     """ print the current universe (debug purpose) """
 
     print('Debug Universe:')
+    # a whatever Position()
     bidule = Position(2, 3)
     pprint(bidule.__dict__)
+
+    # a whatever Transaction()
+    machin = Transaction('fuel', 10, 10)
+    pprint(machin.__dict__)
+    print(f'Total= {machin.total_value}')
 
     for truc in univers:
         if isinstance(truc, Planet):
