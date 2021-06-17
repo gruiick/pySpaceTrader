@@ -68,7 +68,7 @@ def sell_cargo(pods):
     a = sorted(pods)
     for key, value in groupby(a, lambda x: [x[1], x[2]]):
         print(key[0], key[1], value)
-        print([len(list(value)), key])
+        #print(len(list(value)), key)
         captain.account.log.append(core.Transaction(key[0], key[1], len(list(value))))
 
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     print(f'Total: {sum(total)}')
 
-    print(list(convert(PODS)))
+    #print(list(convert(PODS)))
 
     sell_cargo(PODS2)
 
