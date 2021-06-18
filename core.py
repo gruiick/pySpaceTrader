@@ -54,6 +54,19 @@ class BankAccount:
     cash: float = constants.CASH
     # debt
 
+    def display(self):
+        """ display account log for GUI
+        return a list of list
+        """
+        new_list = []
+
+        for trans in self.log:
+            interne = []
+            # apply a 2 decimals float format
+            interne.extend([f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.total_value:.2f}'])
+            new_list.append(list(interne))
+        return new_list
+
 
 @dataclass
 class Captain:
@@ -65,6 +78,7 @@ class Captain:
     location: () = None
     destination: () = None
     ship: () = None
+    account: () = None
     # status: {'Pilot': int (random, ?/10),
     #          'Fighter': int (random, ?/10),
     #          'Trader': int (random, ?/10),
@@ -301,12 +315,12 @@ class Transaction:
     used to store any buy/sell operation
     """
     good_type: str
-    good_price: float
+    good_value: float
     quantity: int = 0
 
     @property
     def total_value(self) -> float:
-        return self.good_price * self.quantity
+        return self.good_value * self.quantity
 
 
 def calculate_profit_pod(location, destination):
@@ -425,6 +439,7 @@ def print_universe(univers):
             pprint(truc.ship.__dict__)
             pprint(truc.__dict__)
             print(f'Distance: {truc.homeworld.distance(bidule):.2f}\n')
+            print(f'{truc.account.display()}')
 
 
 def save_game(univers, fname=None):

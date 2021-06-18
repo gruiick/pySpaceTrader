@@ -43,13 +43,14 @@ mostly playable:
 Bank tab:
     display balance (cash + pods values - (refund + due interests)
     display loan (credence, due interests)
-    display last operations
-        buy cargo (invoices)
-        sell cargo (incomes)
-        buy fuel (expenses)
-        pay mercenary (expenses)
 
-functionnal Trading tab:
+    display last operations         OK
+        buy cargo (invoices)        OK
+        sell cargo (incomes)        OK
+        buy fuel (expenses)         OK
+        pay mercenary (expenses) -> Transaction() should be OK
+
+functional Trading tab:
     planet.update_production()
     -> new stocks (fuel!!)
     -> planet.update_prices()

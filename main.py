@@ -48,7 +48,7 @@ def buy_cargo(facture):
 
     # unpack incoming invoice
     good_type = facture.good_type
-    good_price = facture.good_price
+    good_price = facture.good_value
     qty = facture.quantity
     cargo_value = facture.total_value
 
@@ -74,6 +74,7 @@ def buy_cargo(facture):
         update_trading(window['-LOC-TABLE-'], captain.location)
         update_cargo_board()
         update_docks_board(captain.location)
+        update_bank()
 
 
 def draw_limite(position, rayon=None):
@@ -238,21 +239,21 @@ def refuel():
 
         # FIXME make it a Transaction and log it
         fuel_invoice = core.Transaction('fuel', fuel_price, fuel_deficit)
-        print(f'fuel: {fuel_deficit:.2f}T')
-        print(f'fuel price: {fuel_invoice.total_value:.2f} Cr')
+        # print(f'fuel: {fuel_deficit:.2f}T')
+        pprint(fuel_invoice)
+        # print(f'fuel price: {fuel_invoice.total_value:.2f} Cr')
 
         if fuel_invoice.total_value <= captain.account.cash:
             captain.account.cash -= fuel_invoice.total_value
             captain.ship.reservoir = reserve + fuel_deficit
             captain.account.log.append(fuel_invoice)
-            # rayon = refuel
             captain.location.price_slip['fuel'][2] -= fuel_deficit
-            # draw_limite(captain.location, rayon)
             draw_limite(captain.location, captain.ship.reservoir)
             update_trading(window['-LOC-TABLE-'], captain.location)
             update_affiche(captain)
             update_cargo_board()
             update_planet_selector()
+            update_bank()
             window['-REFUEL-'].update(disabled=True)
 
         else:
@@ -387,6 +388,11 @@ def update_affiche(objet):
         window['-IN-RESERVE-'].update(value=f'{_reserve:.2f}')
 
 
+def update_bank():
+    """ update bank table with account.log """
+    window['-BANK-TABLE-'].update(values=captain.account.display())
+
+
 def update_buy_goods(planet):
     """ update values in combo's goods Cargo frame """
     _key_list = []
@@ -486,6 +492,7 @@ def update_gui():
     update_buy_goods(captain.location)
     update_cargo_board()
     pprint(captain.account.log)
+    update_bank()
 
 
 def update_invoice(good_type, qty):
@@ -494,7 +501,6 @@ def update_invoice(good_type, qty):
     return a core.Transaction() object
     """
     good_price = captain.location.price_slip[good_type][1]
-    # cargo_value = good_price * qty
     invoice = core.Transaction(good_type, good_price, qty)
     cargo_value = invoice.total_value
 

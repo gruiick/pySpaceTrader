@@ -202,7 +202,7 @@ cargo_manifest = sg.Column(
     [
         [sg.Text('[pod n°][type][value (Cr)]',
                  # size=(20, 1),
-                 justification='right'),],
+                 justification='right'), ],
         [sg.Listbox(values=[],
                     default_values=None,
                     size=(20, 10),
@@ -344,7 +344,24 @@ tab_trading = [
     ]
 
 # Bank layout
-bank_board = sg.Frame(
+
+bank_table = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0]],
+                      headings=[' Items ', 'price (Cr)', 'Quantity', 'Total (Cr)'],
+                      auto_size_columns=True,
+                      col_widths=[15, 15, 15, 15],
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='right',
+                      hide_vertical_scroll=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-BANK-TABLE-',
+                      ),
+    ]],
+    title='Account:',
+    title_location=sg.TITLE_LOCATION_TOP_LEFT)
+
+loan_board = sg.Frame(
     layout=[[sg.Text('Credit:',
                      justification='left'),
              sg.Text('',
@@ -362,13 +379,13 @@ bank_board = sg.Frame(
                       relief='sunken'),
             ],
     ],
-    title='Bank board',
+    title='Loan board',
     # size=(25, 15),
     element_justification='left')
 
 # tab_bank = [[sg.Text('Not yet implemented')]]
-tab_bank = [[sg.Text('Not yet implemented')],
-            [bank_board]]
+tab_bank = [[bank_table],
+            [loan_board]]
 
 tab_shipyard = [[sg.Text('Not yet implemented')]]
 

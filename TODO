@@ -8,7 +8,8 @@ TODO
 * update_stocks() pendant next_turn()
 
 * Bank tab
-    * transactions log ?
+    * transactions log -> OK
+    * display transactions log -> OK
     * invoices ? (goods, qty, price) -> profit/loss ? <- detailed?
         warning: in case of illegal goods, you don't want StarPolice to find
         your detailed invoices -> or it's part of the game...
