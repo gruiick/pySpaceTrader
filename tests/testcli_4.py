@@ -73,7 +73,7 @@ def sell_cargo(pods):
         for items in valeurs:
             idx.append(items[0])
         print(f'key: {key[0]}, {key[1]}, {list(valeurs)}')
-        print(f'len: {[len(list(valeurs)), key]}')
+        print(f'len: {len(list(valeurs))}')
         print(f'idx: {idx}')
         captain.account.log.append(core.Transaction(key[0], key[1], len(list(valeurs))))
 

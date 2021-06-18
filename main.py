@@ -16,6 +16,7 @@ import constants
 import core
 import sgui
 
+from itertools import groupby
 from pprint import pprint
 
 # Globals
@@ -235,16 +236,15 @@ def refuel():
         if fuel_deficit > quantity:
             fuel_deficit = quantity
 
-        # TODO make it a Transaction and log it
-        fuel_invoice = fuel_deficit * fuel_price
+        # FIXME make it a Transaction and log it
+        fuel_invoice = core.Transaction('fuel', fuel_price, fuel_deficit)
         print(f'fuel: {fuel_deficit:.2f}T')
-        print(f'fuel price: {fuel_invoice:.2f} Cr')
+        print(f'fuel price: {fuel_invoice.total_value:.2f} Cr')
 
-        if fuel_invoice <= captain.account.cash:
-            captain.account.cash = captain.account.cash - fuel_invoice
-            # refuel = reserve + fuel_deficit
-            # captain.ship.reservoir = refuel
+        if fuel_invoice.total_value <= captain.account.cash:
+            captain.account.cash -= fuel_invoice.total_value
             captain.ship.reservoir = reserve + fuel_deficit
+            captain.account.log.append(fuel_invoice)
             # rayon = refuel
             captain.location.price_slip['fuel'][2] -= fuel_deficit
             # draw_limite(captain.location, rayon)
@@ -283,20 +283,24 @@ def save_as():
 def sell_cargo(pods, dump=False):
     """ sell (or dump) good from list of pods """
 
-    pprint(pods)
-    # TODO use Transaction(), but separate by good_type to log
-    # into bankaccount
-    for goods in pods:
-        index, good_type, good_value = goods
-
-        captain.location.price_slip[good_type][2] += 1
-        # TODO update planet(prices)
-        captain.ship.unload_cargo(index)
-        # captain.ship.cargo[index]['type'] = None
-        # captain.ship.cargo[index]['value'] = None
-
+    # pprint(pods)
+    ordlist = sorted(pods, key=lambda x: x[1])  # sort on good_type
+    for key, value in groupby(ordlist, lambda x: [x[1], x[2]]):  # sort on [good_type, good_value]
+        idx = []
+        valeurs = list(value)
+        for items in valeurs:
+            idx.append(items[0])
+        good_type = key[0]
+        good_price = captain.location.price_slip[good_type][0]
+        qty = len(idx)
+        facture = core.Transaction(good_type, good_price, qty)
         if not dump:
-            captain.account.cash += captain.location.price_slip[good_type][0]
+            captain.account.log.append(facture)
+            captain.account.cash += facture.total_value
+
+        captain.location.price_slip[good_type][2] += qty
+        for index in idx:
+            captain.ship.unload_cargo(index)
 
     update_gui()
 
@@ -481,6 +485,7 @@ def update_gui():
     update_trading(window['-LOC-TABLE-'], captain.location)
     update_buy_goods(captain.location)
     update_cargo_board()
+    pprint(captain.account.log)
 
 
 def update_invoice(good_type, qty):
