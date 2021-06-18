@@ -21,8 +21,8 @@ YMIN = 0
 MAXHEIGHT = 480
 MAXPARSEC = 120  # must be dividable by 15
 CASH = 15000
-MAXPLANET = 100
-MIN_DISTANCE = 15
+MAXPLANET = 120
+MIN_DISTANCE = 12
 
 COLORS = {'default': 'brown',
           'limit': 'red',
