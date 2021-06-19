@@ -28,6 +28,7 @@ TODO
 * Shipyard tab
     only on Industrial to Hi-tech level [5-7]
     show available ships, caracteristics and prices
+    display Planet.Shipyard(), which contain Ship()
 
 * News tab (3 frames)
     - show local news (plague, war, etc)

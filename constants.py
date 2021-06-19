@@ -10,7 +10,7 @@
     Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 """
 
-VERSION = "v0.2"
+VERSION = "v0.3"
 
 # width, x = 640, height, y = 480 (Tk)
 GRIDMIN = -100
