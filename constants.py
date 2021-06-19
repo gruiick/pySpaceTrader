@@ -131,7 +131,7 @@ GOODS = {'water': {'tp': 0, 'tu': 0, 'ttp': 2, 'plt': 30, 'pi': +3, 'var': 4, 'd
          'ore': {'tp': 2, 'tu': 2, 'ttp': 3, 'plt': 350, 'pi': +20, 'var': 10, 'dps': 'war', 'cr': 'mineralrich', 'er': 'mineralpoor', 'mintp': 350, 'maxtp': 420, 'ro': 10},
          'games': {'tp': 3, 'tu': 1, 'ttp': 6, 'plt': 250, 'pi': -10, 'var': 5, 'dps': 'boredom', 'cr': 'artistic', 'er': None, 'mintp': 160, 'maxtp': 270, 'ro': 5},
          'firearms': {'tp': 3, 'tu': 1, 'ttp': 5, 'plt': 1250, 'pi': -75, 'var': 100, 'dps': 'war', 'cr': 'warlike', 'er': None, 'mintp': 600, 'maxtp': 1100, 'ro': 25},
-         'medecine': {'tp': 4, 'tu': 1, 'ttp': 6, 'plt': 650, 'pi': -20, 'var': 10, 'dps': 'plague', 'cr': 'lotsofherbs', 'er': None, 'mintp': 400, 'maxtp': 700, 'ro': 25},
+         'medicines': {'tp': 4, 'tu': 1, 'ttp': 6, 'plt': 650, 'pi': -20, 'var': 10, 'dps': 'plague', 'cr': 'lotsofherbs', 'er': None, 'mintp': 400, 'maxtp': 700, 'ro': 25},
          'machines': {'tp': 4, 'tu': 3, 'ttp': 5, 'plt': 900, 'pi': -30, 'var': 5, 'dps': 'lackofworkers', 'cr': None, 'er': None, 'mintp': 600, 'maxtp': 800, 'ro': 25},
          'narcotics': {'tp': 5, 'tu': 0, 'ttp': 5, 'plt': 3500, 'pi': -125, 'var': 150, 'dps': 'boredom', 'cr': 'weirdmushrooms', 'er': None, 'mintp': 2000, 'maxtp': 3000, 'ro': 50},
          'robots': {'tp': 6, 'tu': 4, 'ttp': 7, 'plt': 5000, 'pi': -150, 'var': 100, 'dps': 'lackofworkers', 'cr': None, 'er': None, 'mintp': 3500, 'maxtp': 5000, 'ro': 100},
