@@ -6,6 +6,8 @@ SpaceTrader and beyond
 https://fr.wikipedia.org/wiki/Jeu_4X
 Only 'eXplore' and 'eXploit' for now
 
+MOTO: "small steps, publish often, publish early."
+
 == before 0.1
 
 GUI mockups, cli tests OK
@@ -38,43 +40,53 @@ mostly playable:
     refresh Trading tab         OK
     Trading tab GUI             NOOK (but it work...)
 
+
 === 0.2     <- I'm there
 
 Bank tab:
-    display balance (cash + pods values - (refund + due interests)
-    display loan (credence, due interests)
-
     display last operations         OK
         buy cargo (invoices)        OK
         sell cargo (incomes)        OK
         buy fuel (expenses)         OK
-        pay mercenary (expenses) -> Transaction() should be OK
 
-functional Trading tab:
-    planet.update_production()
-    -> new stocks (fuel!!)
-    -> planet.update_prices()
 
+=== 0.3
 
 Shipyard tab
     new ships
     not-cargo pods
 
+Trading tab:
+    planet.update_production()
+    -> new stocks (fuel!!)
+    -> planet.update_stocks() depending on TradeItem
+    -> planet.update_shipyard() depending on TechLevel
+    -> planet.update_prices() depending on stocks and planet.status
+
 News tab (informations about universe, quests)
 
-=== 0.3
+
+=== 0.4
 
 functional quests (-> tribbles!)
 add NPJ (mercenaries, Space Police, pirates)
 
-=== 0.4
+Bank tab:
+    display balance (cash + pods values - (refund + due interests)
+    display loan (credence, due interests)
+    pay mercenary (NPJ, expenses) -> Transaction() should be OK
 
-space fights!
 
 === 0.5
 
+space fights!
+
+
+=== 0.6
+
 debug, debug, debug
 gameplay, gameplay, gameplay
+
 
 == version 1.0
 

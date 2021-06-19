@@ -347,7 +347,7 @@ tab_trading = [
 
 bank_table = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, '', 0]],
-                      headings=[' Items ', 'price (Cr)', 'Quantity', '+/-', 'Total (Cr)'],
+                      headings=[' Items ', 'Value (Cr)', 'Quantity', '+/-', 'Total (Cr)'],
                       auto_size_columns=True,
                       col_widths=[15, 15, 15, 3, 15],
                       display_row_numbers=False,
