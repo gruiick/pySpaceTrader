@@ -319,7 +319,7 @@ class Ship:
         return getattr(self, key)
 
     def unload_cargo(self, idx):
-        """ a method which unload one pod at a time """
+        """ unload one pod at a time """
         self.cargo.update({idx: {'type': None, 'value': None}})
 
     def display(self):
@@ -330,9 +330,11 @@ class Ship:
         for key, value in self.model.items():
             interne = []
             # interne.extend([f'{key}', f'{value}'])
+            # TODO print price value in {:.2f} format
             interne.extend([f'{value}'])
             new_list.append(list(interne))
         return new_list
+
 
 @dataclass
 class Transaction:
@@ -501,6 +503,7 @@ def save_game(univers, fname=None):
 def slip_list(slip):
     """ return a list of list made from slip(dict) elements
         needed by PySimpleGUI using only lists
+        TODO make it a PriceSlip method()
     """
     new_list = []
 
