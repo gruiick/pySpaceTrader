@@ -63,7 +63,7 @@ class BankAccount:
         for trans in self.log:
             interne = []
             # apply a 2 decimals float format
-            interne.extend([f'{trans.sign}', f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.total_value:.2f}'])
+            interne.extend([f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.sign}', f'{trans.total_value:.2f}'])
             new_list.append(list(interne))
         return new_list
 

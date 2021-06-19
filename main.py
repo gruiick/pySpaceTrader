@@ -69,7 +69,7 @@ def buy_cargo(facture):
             available_cargo -= 1
             captain.location.price_slip[good_type][2] -= 1
         captain.account.log.append(facture)
-        print(f'{captain.account.log}')
+        # print(f'{captain.account.log}')
         captain.account.cash -= cargo_value
         update_trading(window['-LOC-TABLE-'], captain.location)
         update_cargo_board()
@@ -193,7 +193,7 @@ def next_turn():
             # switch captain position
             captain.location = captain.destination
             captain.destination = None
-            pprint(captain.ship.cargo)
+            # pprint(captain.ship.cargo)
             # update gui
             draw_map(rayon=rayon)
             update_gui()
@@ -487,7 +487,7 @@ def update_gui():
     update_trading(window['-LOC-TABLE-'], captain.location)
     update_buy_goods(captain.location)
     update_cargo_board()
-    pprint(captain.account.log)
+    # pprint(captain.account.log)
     update_bank()
 
 
@@ -507,7 +507,7 @@ def update_invoice(good_type, qty):
         window['-IN-INVOICE-'].update(value=f'{cargo_value:.2f}', text_color='black')
         window['-BUY-CARGO-'].update(disabled=False)
 
-    print(f'{invoice}')
+    # print(f'{invoice}')
     return invoice
 
 
