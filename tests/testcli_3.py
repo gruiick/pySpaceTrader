@@ -8,10 +8,11 @@
 some tests
 """
 
-from dataclasses import dataclass
+# from dataclasses import dataclass
 from pprint import pprint
+from itertools import groupby
 
-import constants
+# import constants
 import core
 
 PODS = {0: {'type': 'food', 'value': 109},
@@ -38,17 +39,18 @@ PODS2 = [[0, 'water', 46],
 
 
 nouvdic = {'food': {'value': 109, 'qty': 5, 'idx': [0, 1, 2, 3, 4]},
-          'furs': {'value': 264, 'qty': 3, 'idx': [5, 6, 7]},
-          'water': {'value': 34, 'qty': 2, 'idx': [8, 9]},
-          }
+           'furs': {'value': 264, 'qty': 3, 'idx': [5, 6, 7]},
+           'water': {'value': 34, 'qty': 2, 'idx': [8, 9]},
+           }
 
-from itertools import groupby
 
 def key0(item):
     return (item[0], item[2])
 
+
 def key1(item):
     return (item[1]['type'], item[1]['value'])
+
 
 def convert(dic):
     iitem = sorted(dic.items(), key=key1)
@@ -59,16 +61,17 @@ def convert(dic):
 
         yield d
 
+
 def sell_cargo(pods):
     """ FIXME use Transaction() """
 
-    # ça marche pour transaction, mais il manque les indices des pods 
+    # ça marche pour transaction, mais il manque les indices des pods
     # pour les vidanger...
 
     a = sorted(pods)
     for key, value in groupby(a, lambda x: [x[1], x[2]]):
         print(key[0], key[1], value)
-        #print(len(list(value)), key)
+        # print(len(list(value)), key)
         captain.account.log.append(core.Transaction(key[0], key[1], len(list(value))))
 
 
@@ -91,7 +94,7 @@ if __name__ == '__main__':
 
     print(f'Total: {sum(total)}')
 
-    #print(list(convert(PODS)))
+    # print(list(convert(PODS)))
 
     sell_cargo(PODS2)
 
