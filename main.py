@@ -77,9 +77,9 @@ def buy_cargo(facture):
         update_bank()
 
 
-def draw_limite(position, rayon=None):
+def draw_limite(point, rayon=None):
     """ erase and redraw the parsec limit
-    position: Position object or attribute
+    point: Point object or position attribute
     rayon: int (or None)
     """
     if rayon is None:
@@ -88,7 +88,7 @@ def draw_limite(position, rayon=None):
         # erase previous circle (if any)
         graph.delete_figure(item)
     limite.clear()
-    limite.append(graph.draw_circle(position.position, rayon, line_color=COLORS['limit']))
+    limite.append(graph.draw_circle(point.position, rayon, line_color=COLORS['limit']))
 
 
 def draw_map(rayon=None):
@@ -128,7 +128,7 @@ def draw_map(rayon=None):
 
 def draw_target(pos):
     """ erase and redraw the target
-    pos: planet or position object (with x, y attributes)
+    pos: Planet or Point object (with x, y attributes)
     """
     for item in target:
         graph.delete_figure(item)
@@ -204,11 +204,11 @@ def next_turn():
 
 
 def on_click(position):
-    """ redraw graph with new clicked Position or selected Planet"""
+    """ redraw graph with new clicked Point or selected Planet"""
     clicked_position = position
     for planete in planetes:
         if planete.distance(position) <= 5:
-            position = core.Position(planete.x, planete.y)
+            position = core.Point(planete.x, planete.y)
             clicked_position = planete
 
             if clicked_position.distance(captain.location) <= captain.ship.reservoir:
@@ -237,11 +237,7 @@ def refuel():
         if fuel_deficit > quantity:
             fuel_deficit = quantity
 
-        # FIXME make it a Transaction and log it
-        fuel_invoice = core.Transaction('fuel', fuel_price, fuel_deficit)
-        # print(f'fuel: {fuel_deficit:.2f}T')
-        pprint(fuel_invoice)
-        # print(f'fuel price: {fuel_invoice.total_value:.2f} Cr')
+        fuel_invoice = core.Transaction('-', 'fuel', fuel_price, fuel_deficit)
 
         if fuel_invoice.total_value <= captain.account.cash:
             captain.account.cash -= fuel_invoice.total_value
@@ -294,7 +290,7 @@ def sell_cargo(pods, dump=False):
         good_type = key[0]
         good_price = captain.location.price_slip[good_type][0]
         qty = len(idx)
-        facture = core.Transaction(good_type, good_price, qty)
+        facture = core.Transaction('+', good_type, good_price, qty)
         if not dump:
             captain.account.log.append(facture)
             captain.account.cash += facture.total_value
@@ -501,7 +497,7 @@ def update_invoice(good_type, qty):
     return a core.Transaction() object
     """
     good_price = captain.location.price_slip[good_type][1]
-    invoice = core.Transaction(good_type, good_price, qty)
+    invoice = core.Transaction('-', good_type, good_price, qty)
     cargo_value = invoice.total_value
 
     if cargo_value > captain.account.cash:
@@ -577,7 +573,7 @@ if __name__ == '__main__':
                 sg.popup_error(f'No game loaded!')
             else:
                 x, y = values['-GRAPH-']
-                position = core.Position(x, y)
+                position = core.Point(x, y)
                 on_click(position)
 
         elif event == '-HOMEWORLD-':

@@ -63,7 +63,7 @@ class BankAccount:
         for trans in self.log:
             interne = []
             # apply a 2 decimals float format
-            interne.extend([f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.total_value:.2f}'])
+            interne.extend([f'{trans.sign}', f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.total_value:.2f}'])
             new_list.append(list(interne))
         return new_list
 
@@ -134,7 +134,7 @@ class Planet:
 
 
 @dataclass
-class Position:
+class Point:
     """ needed for Planet.distance() purpose """
     x: int
     y: int
@@ -314,6 +314,7 @@ class Transaction:
     """ a transaction of some sort
     used to store any buy/sell operation
     """
+    sign: str  # +/-
     good_type: str
     good_value: float
     quantity: int = 0
@@ -420,12 +421,12 @@ def print_universe(univers):
     """ print the current universe (debug purpose) """
 
     print('Debug Universe:')
-    # a whatever Position()
-    bidule = Position(2, 3)
+    # a whatever Point()
+    bidule = Point(2, 3)
     pprint(bidule.__dict__)
 
     # a whatever Transaction()
-    machin = Transaction('fuel', 10, 10)
+    machin = Transaction('-', 'fuel', 8.5, 10)
     pprint(machin.__dict__)
     print(f'Total= {machin.total_value}')
 

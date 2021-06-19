@@ -346,10 +346,10 @@ tab_trading = [
 # Bank layout
 
 bank_table = sg.Frame(
-    layout=[[sg.Table(values=[['None', 0, 0, 0]],
-                      headings=[' Items ', 'price (Cr)', 'Quantity', 'Total (Cr)'],
+    layout=[[sg.Table(values=[['', 'None', 0, 0, 0]],
+                      headings=['+/-', ' Items ', 'price (Cr)', 'Quantity', 'Total (Cr)'],
                       auto_size_columns=True,
-                      col_widths=[15, 15, 15, 15],
+                      col_widths=[3, 15, 15, 15, 15],
                       display_row_numbers=False,
                       num_rows=numrow,
                       justification='right',
@@ -358,7 +358,7 @@ bank_table = sg.Frame(
                       key='-BANK-TABLE-',
                       ),
     ]],
-    title='Account:',
+    title='Invoice log',
     title_location=sg.TITLE_LOCATION_TOP_LEFT)
 
 loan_board = sg.Frame(
