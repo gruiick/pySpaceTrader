@@ -10,7 +10,7 @@
     Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
 """
 
-VERSION = "v0.2"
+VERSION = "v0.3"
 
 # width, x = 640, height, y = 480 (Tk)
 GRIDMIN = -100
@@ -140,23 +140,23 @@ GOODS = {'water': {'tp': 0, 'tu': 0, 'ttp': 2, 'plt': 30, 'pi': +3, 'var': 4, 'd
 
 # STARTYPES = []
 # PLANETTYPES = []
-SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'fuel': 1, 'hull': 500, 'tribbles': False},
-             'flea': {'model': 'flea', 'cargo': 10, 'weapon': 1, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'fuel': 1, 'hull': 2000, 'tribbles': False},
-             'gnat': {'model': 'gnat', 'cargo': 15, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 1, 'fuel': 0.93, 'hull': 10000, 'tribbles': False},
-             'firefly': {'model': 'firefly', 'cargo': 20, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 2, 'fuel': 1.15, 'hull': 25000, 'tribbles': False},
-             'mosquito': {'model': 'mosquito', 'cargo': 15, 'weapon': 2, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 5, 'fuel': 0.86, 'hull': 30000, 'tribbles': False},
-             'bumblebee': {'model': 'bumblebee', 'cargo': 25, 'weapon': 1, 'shield': 2, 'shieldstrengh': 2, 'gadget': 2, 'crew': 5, 'fuel': 1, 'hull': 60000, 'tribbles': False},
-             'beetle': {'model': 'beetle', 'cargo': 50, 'weapon': 0, 'shield': 1, 'shieldstrengh': 1, 'gadget': 3, 'crew': 5, 'fuel': 0.93, 'hull': 80000, 'tribbles': False},
-             'hornet': {'model': 'hornet', 'cargo': 20, 'weapon': 3, 'shield': 2, 'shieldstrengh': 1, 'gadget': 2, 'crew': 5, 'fuel': 1.06, 'hull': 100000, 'tribbles': False},
-             'grasshopper': {'model': 'grasshopper', 'cargo': 30, 'weapon': 2, 'shield': 2, 'shieldstrengh': 3, 'gadget': 3, 'crew': 6, 'fuel': 1, 'hull': 150000, 'tribbles': False},
-             'termite': {'model': 'termite', 'cargo': 60, 'weapon': 1, 'shield': 3, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'fuel': 0.86, 'hull': 225000, 'tribbles': False},
-             'wasp': {'model': 'wasp', 'cargo': 35, 'weapon': 3, 'shield': 2, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'fuel': 0.93, 'hull': 300000, 'tribbles': False},
-             'spacemonster': {'model': 'spacemonster', 'cargo': 0, 'weapon': 3, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'fuel': 0.5, 'hull': 500000, 'tribbles': False},
+SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'efficiency': 1, 'hull': 500, 'tribbles': False},
+             'flea': {'model': 'flea', 'cargo': 10, 'weapon': 1, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'efficiency': 1, 'hull': 2000, 'tribbles': False},
+             'gnat': {'model': 'gnat', 'cargo': 15, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 1, 'efficiency': 0.93, 'hull': 10000, 'tribbles': False},
+             'firefly': {'model': 'firefly', 'cargo': 20, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 2, 'efficiency': 1.15, 'hull': 25000, 'tribbles': False},
+             'mosquito': {'model': 'mosquito', 'cargo': 15, 'weapon': 2, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 5, 'efficiency': 0.86, 'hull': 30000, 'tribbles': False},
+             'bumblebee': {'model': 'bumblebee', 'cargo': 25, 'weapon': 1, 'shield': 2, 'shieldstrengh': 2, 'gadget': 2, 'crew': 5, 'efficiency': 1, 'hull': 60000, 'tribbles': False},
+             'beetle': {'model': 'beetle', 'cargo': 50, 'weapon': 0, 'shield': 1, 'shieldstrengh': 1, 'gadget': 3, 'crew': 5, 'efficiency': 0.93, 'hull': 80000, 'tribbles': False},
+             'hornet': {'model': 'hornet', 'cargo': 20, 'weapon': 3, 'shield': 2, 'shieldstrengh': 1, 'gadget': 2, 'crew': 5, 'efficiency': 1.06, 'hull': 100000, 'tribbles': False},
+             'grasshopper': {'model': 'grasshopper', 'cargo': 30, 'weapon': 2, 'shield': 2, 'shieldstrengh': 3, 'gadget': 3, 'crew': 6, 'efficiency': 1, 'hull': 150000, 'tribbles': False},
+             'termite': {'model': 'termite', 'cargo': 60, 'weapon': 1, 'shield': 3, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'efficiency': 0.86, 'hull': 225000, 'tribbles': False},
+             'wasp': {'model': 'wasp', 'cargo': 35, 'weapon': 3, 'shield': 2, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'efficiency': 0.93, 'hull': 300000, 'tribbles': False},
+             'spacemonster': {'model': 'spacemonster', 'cargo': 0, 'weapon': 3, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'efficiency': 0.5, 'hull': 500000, 'tribbles': False},
              # these have special purpose and cannot be bought
-             'dragonfly': {'model': 'dragonfly', 'cargo': 0, 'weapon': 2, 'shield': 3, 'shieldstrengh': 2, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'mantis': {'model': 'mantis', 'cargo': 0, 'weapon': 3, 'shield': 1, 'shieldstrengh': 3, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'scarab': {'model': 'scarab', 'cargo': 20, 'weapon': 2, 'shield': 0, 'shieldstrengh': 0, 'gadget': 2, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 100, 'tribbles': False},
+             'dragonfly': {'model': 'dragonfly', 'cargo': 0, 'weapon': 2, 'shield': 3, 'shieldstrengh': 2, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'mantis': {'model': 'mantis', 'cargo': 0, 'weapon': 3, 'shield': 1, 'shieldstrengh': 3, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'scarab': {'model': 'scarab', 'cargo': 20, 'weapon': 2, 'shield': 0, 'shieldstrengh': 0, 'gadget': 2, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 100, 'tribbles': False},
              }
 # SHIPNAMES = []
 

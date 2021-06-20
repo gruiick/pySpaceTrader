@@ -63,7 +63,11 @@ class BankAccount:
         for trans in self.log:
             interne = []
             # apply a 2 decimals float format
-            interne.extend([f'{trans.good_type}', f'{trans.good_value:.2f}', f'{trans.quantity:.2f}', f'{trans.sign}', f'{trans.total_value:.2f}'])
+            interne.extend([f'{trans.good_type}',
+                            f'{trans.good_value:.2f}',
+                            f'{trans.quantity:.2f}',
+                            f'{trans.sign}',
+                            f'{trans.total_value:.2f}'])
             new_list.append(list(interne))
         return new_list
 
@@ -116,6 +120,7 @@ class Planet:
     homeworld: bool = False
     visited: bool = False
     price_slip: {} = None
+    shipyard: [] = None
 
     @property
     def position(self):
@@ -293,20 +298,42 @@ class Ship:
     """ a ship
         simplest for now
     """
-    def __init__(self):
-        # first ship is always a flea type
-        self.__type = 'flea'
+    def __init__(self, modele=None):
+        # default ship is a flea type
+        if not modele:
+            self.__type = 'flea'
+        else:
+            self.__type = modele
         self.model = constants.SHIPTYPES[self.__type]
-        self.reservoir = self.model['fuel'] * constants.MAXPARSEC
+        # FIXME quick & dirty price ship
+        self.model['price'] = self.model['hull'] * self.model['efficiency']
+        self.reservoir = self.model['efficiency'] * constants.MAXPARSEC
         self.gadget = 'escapepod'
         # pods management
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
 
+    def __getitem__(self, key):
+        """ make Ship subscriptable """
+        return getattr(self, key)
+
     def unload_cargo(self, idx):
-        # FIXME a method which wipe out one pod at a time
+        """ unload one pod at a time """
         self.cargo.update({idx: {'type': None, 'value': None}})
+
+    def display(self):
+        """ display ship specifications for GUI
+        return a list of list
+        """
+        new_list = []
+        for key, value in self.model.items():
+            interne = []
+            # interne.extend([f'{key}', f'{value}'])
+            # TODO print price value in {:.2f} format
+            interne.extend([f'{value}'])
+            new_list.append(list(interne))
+        return new_list
 
 
 @dataclass
@@ -375,6 +402,8 @@ def create_universe():
         if planete.homeworld:
             captain.homeworld = planete
             captain.location = planete
+        if planete.tech_level > 5:
+            planete.shipyard = populate_shipyard()
 
     univers.append(captain)
     univers.extend(planetes)
@@ -414,8 +443,22 @@ def make_planet():
         regim=random.choice(list(constants.REGIM.keys())),
         special=random.choice(list(constants.SPECIALRESOURCES.keys())),
         status=status,
-        price_slip={},)
+        price_slip={},
+        shipyard=[])
 
+
+def populate_shipyard():
+    """ initialize a Planet().ship_yard with random Ship()
+    """
+    dice = random.randint(0, 5)
+    inliste = []
+    # exclude escapepod and non-boughtable ships
+    ship_types = list(constants.SHIPTYPES.keys())[1:11]
+    for _ in range(dice):
+        ship = Ship(modele=random.choice(ship_types))
+        inliste.append(ship)
+
+    return inliste
 
 def print_universe(univers):
     """ print the current universe (debug purpose) """
@@ -434,6 +477,8 @@ def print_universe(univers):
         if isinstance(truc, Planet):
             print(f'{truc.name}: {" ".join(truc.gov)}')
             pprint(truc.__dict__)
+            for item in truc.shipyard:
+                pprint(item.__dict__)
 
         elif isinstance(truc, Captain):
             print(f'{truc.name}: {truc.homeworld.name}, {truc.ship.model}')
@@ -458,6 +503,7 @@ def save_game(univers, fname=None):
 def slip_list(slip):
     """ return a list of list made from slip(dict) elements
         needed by PySimpleGUI using only lists
+        TODO make it a PriceSlip method()
     """
     new_list = []
 

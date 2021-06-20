@@ -226,7 +226,7 @@ def refuel():
     """ refuel the captain.ship according to captain.account.cash,
     captain.ship.reservoir and planete.fuel_price
     """
-    capacity = int(captain.ship.model['fuel'] * MAXP)
+    capacity = int(captain.ship.model['efficiency'] * MAXP)
     quantity = captain.location.price_slip['fuel'][2]
     fuel_price = captain.location.price_slip['fuel'][1]
     reserve = captain.ship.reservoir
@@ -462,7 +462,7 @@ def update_gui():
     update_affiche(captain)
     update_affiche(captain.location)
 
-    capacity = int(captain.ship.model['fuel'] * MAXP)
+    capacity = int(captain.ship.model['efficiency'] * MAXP)
     if (captain.ship.reservoir < capacity) and (captain.location.price_slip['fuel'][2] != 0):
         window['-REFUEL-'].update(disabled=False)
     else:
@@ -489,6 +489,7 @@ def update_gui():
     update_cargo_board()
     # pprint(captain.account.log)
     update_bank()
+    update_shipyard(captain.location)
 
 
 def update_invoice(good_type, qty):
@@ -535,6 +536,20 @@ def update_profit(planet=None):
     else:
         valeurs = core.calculate_profit_pod(captain.location, planet)
         window['-PROFIT-TABLE-'].update(values=valeurs)
+
+
+def update_shipyard(planete):
+    """ update shipyard tab: if there is any ship in planete.shipyard,
+    show them, else 'None'
+    """
+    if planete.tech_level < 5:
+        window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
+    else:
+        if planete.shipyard:
+            liste = []
+            for item in planete.shipyard:
+                liste.append(item.display())
+            window['-SHIP-TABLE-'].update(values=liste)
 
 
 def update_trading(element, planet=None):
@@ -639,6 +654,19 @@ if __name__ == '__main__':
 
         elif event == '-DUMP-':
             sell_cargo(values['-MANIFEST-'], dump=True)
+
+        elif event == '-SHIP-TABLE-':
+            idx = int(values['-SHIP-TABLE-'][0])
+            ship_price = captain.location.shipyard[idx].model['price']
+            print(ship_price)
+            if ship_price <= captain.account.cash:
+                window['-BUY-SHIP-'].update(disabled=False)
+
+        elif event == '-BUY-SHIP-':
+            pass
+            # TODO replace current ship by new one
+            # if crew and gadget, transfert it
+            # if cargo, transfert if
 
         elif event == 'About':
             sg.popup(f'{msg_overview}')

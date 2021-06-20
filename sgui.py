@@ -34,6 +34,8 @@ menu_layout = [['&Game',
                  '&About'],
                 ]
 
+# Common UI
+
 # Captain layout
 captain_layout = sg.Frame(
     layout=[[sg.Text('display Captain info',
@@ -41,6 +43,15 @@ captain_layout = sg.Frame(
                      justification='left',
                      key='-IN-CAPTAIN-',
                      ),
+            ],
+            [sg.Text('Cash (Cr):',
+                     size=(12, 1),
+                     justification='left'),
+            sg.Text('',
+                    key='-IN-BD-CASH-',
+                    size=(16, 1),
+                    justification='right',
+                    relief='sunken'),
             ],
             [sg.Text('Balance (Cr): ',
                      size=(12, 1),
@@ -133,7 +144,7 @@ tab_galactic_map = [
              key='-IN-CLIC-')],
     ]
 
-# trading stuffs, before Tab
+# Trading tab layouts
 numrow = len(GOODS.keys())
 
 location_layout = sg.Frame(
@@ -221,6 +232,14 @@ cargo_manifest = sg.Column(
 
 cargo_btns = sg.Column(
     [
+        [sg.Text('Pod(s):',
+                 justification='left'),
+         sg.Text('',
+                key='-IN-BD-CARGO-',
+                size=(5, 1),
+                justification='right',
+                relief='sunken'),
+        ],
         [sg.Button('Sell',
                    key='-SELL-')],
         [sg.Button('Sell All',
@@ -233,24 +252,8 @@ cargo_btns = sg.Column(
     vertical_alignment='center',
     )
 
-
 cargo_layout = sg.Frame(
     layout=[
-            [sg.Text('Cash (Cr):',
-                     justification='left'),
-               sg.Text('',
-                       key='-IN-BD-CASH-',
-                       size=(16, 1),
-                       justification='right',
-                       relief='sunken'),
-               sg.Text('Pod(s):',
-                       justification='left'),
-               sg.Text('',
-                       key='-IN-BD-CARGO-',
-                       size=(5, 1),
-                       justification='right',
-                       relief='sunken'),
-               ],
                # [sg.HorizontalSeparator(color='red', pad=(1, 1))],
                [cargo_manifest,
                # sg.VerticalSeparator(color='red', pad=(1, 1)),
@@ -343,17 +346,16 @@ tab_trading = [
      trading_dest_col],
     ]
 
-# Bank layout
-
+# Bank tab layouts
 bank_table = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, '', 0]],
                       headings=[' Items ', 'Value (Cr)', 'Quantity', '+/-', 'Total (Cr)'],
                       auto_size_columns=True,
                       col_widths=[15, 15, 15, 3, 15],
                       display_row_numbers=False,
-                      num_rows=numrow,
+                      # num_rows=numrow,
                       justification='right',
-                      hide_vertical_scroll=True,
+                      hide_vertical_scroll=False,
                       selected_row_colors=(COLORS['default'], 'white'),
                       key='-BANK-TABLE-',
                       ),
@@ -387,8 +389,43 @@ loan_board = sg.Frame(
 tab_bank = [[bank_table],
             [loan_board]]
 
-tab_shipyard = [[sg.Text('Not yet implemented')]]
+# Shipyard tab layouts
+shipyard = sg.Frame(
+    layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
+                      headings=['Model',
+                                'Pod(s)',
+                                'Weapon(s)',
+                                'Shield(s)',
+                                'Shield strengh',
+                                'Gadget',
+                                'Crew quarter(s)',
+                                'Efficiency',
+                                'Hull',
+                                'Tribbles',
+                                'Price (Cr)'],
+                      auto_size_columns=True,
+                      col_widths=[15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
+                      display_row_numbers=False,
+                      num_rows=numrow,
+                      justification='right',
+                      hide_vertical_scroll=True,
+                      enable_events=True,
+                      selected_row_colors=(COLORS['default'], 'white'),
+                      key='-SHIP-TABLE-',
+                      ), ],
+            [sg.Button('Buy',
+                       key='-BUY-SHIP-',
+                       disabled=True)]
+    ],
+    title='',
+    element_justification='center',
+    )
 
+# tab_shipyard = [[sg.Text('Not yet implemented')]]
+tab_shipyard = [[shipyard]]
+
+
+# News tab layouts
 tab_news = [[sg.Text('Not yet implemented')]]
 
 # Main, two columns
