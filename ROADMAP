@@ -55,6 +55,10 @@ Bank tab:
 Shipyard tab
     new ships
     not-cargo pods
+        gadgets
+        weapons
+        shields
+        crew
 
 Trading tab:
     planet.update_production()

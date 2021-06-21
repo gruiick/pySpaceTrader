@@ -308,11 +308,12 @@ class Ship:
         # FIXME quick & dirty price ship
         self.model['price'] = self.model['hull'] * self.model['efficiency']
         self.reservoir = self.model['efficiency'] * constants.MAXPARSEC
-        self.gadget = 'escapepod'
+        self.gadget = ['escapepod']
         # pods management
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
+        # TODO weapons, shields and crews
 
     def __getitem__(self, key):
         """ make Ship subscriptable """
@@ -329,9 +330,11 @@ class Ship:
         new_list = []
         for key, value in self.model.items():
             interne = []
-            # interne.extend([f'{key}', f'{value}'])
-            # TODO print price value in {:.2f} format
-            interne.extend([f'{value}'])
+            # FIXME print price value in {:.2f} format
+            if key in ['price', 'efficiency']:
+                interne.extend([f'{value:.2f}'])
+            else:
+                interne.extend([f'{value}'])
             new_list.append(list(interne))
         return new_list
 
