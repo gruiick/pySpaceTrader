@@ -390,6 +390,64 @@ tab_bank = [[bank_table],
             [loan_board]]
 
 # Shipyard tab layouts
+# FIXME gadgets, weapons, shields and crew will be lists -> "ship details msg box"?
+captain_ship = sg.Frame(
+    layout=[[sg.Text('Pods:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-PODS-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+             ],
+            [
+             sg.Text('Weapons:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-WPNS-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Shields:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-SHLDS-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Gadgets:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-GDGT-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Crew:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-CREW-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+            [sg.Text('Hull:',
+                     justification='left'),
+             sg.Text('',
+                     key='-CPTN-SHIP-HULL-',
+                     size=(6, 1),
+                     justification='right',
+                     relief='sunken'),
+            ],
+    ],
+    title='Ship:',
+    key='-CPTN-SHIP-MODEL-',
+    element_justification='right',
+    )
+
+
 shipyard = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
                       headings=['Model',
@@ -422,7 +480,8 @@ shipyard = sg.Frame(
     )
 
 # tab_shipyard = [[sg.Text('Not yet implemented')]]
-tab_shipyard = [[shipyard]]
+tab_shipyard = [[captain_ship],
+                [shipyard]]
 
 
 # News tab layouts

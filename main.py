@@ -77,6 +77,32 @@ def buy_cargo(facture):
         update_bank()
 
 
+def buy_ship(idx):
+    """ FIXME replace current ship by new one """
+    new_ship = captain.location.shipyard[idx]
+    old_ship = captain.ship
+    # transfert fuel (only if new.reservoir >= old.reservoir)
+    if old_ship.reservoir <= new_ship.reservoir:
+        new_ship.reservoir = old_ship.reservoir
+    # transfert cargo
+    for index in range(old_ship.model['cargo']):
+        if old_ship.cargo[index]['type'] is not None:
+            new_ship.cargo[index]['type'] = old_ship.cargo[index]['type']
+            new_ship.cargo[index]['value'] = old_ship.cargo[index]['value']
+    # transfert gadget
+    new_ship.gadget = old_ship.gadget
+    # TODO transfert crew(s)
+
+    invoice = core.Transaction('-', new_ship.model['model'], new_ship.model['price'], 1)
+    captain.ship = new_ship
+    captain.location.shipyard[idx] = old_ship
+    captain.account.cash -= invoice.total_value
+    captain.account.log.append(invoice)
+    update_cargo_board()
+    update_docks_board(captain.location)
+    update_bank()
+
+
 def draw_limite(point, rayon=None):
     """ erase and redraw the parsec limit
     point: Point object or position attribute
@@ -425,6 +451,17 @@ def update_buy_qty(good=None):
     window['-IN-QTY-'].update(values=_value_list)
 
 
+def update_captain_ship():
+    """ display ship characteristics """
+    window['-CPTN-SHIP-MODEL-'].update(value=f"Ship: {captain.ship.model['model']} ")
+    window['-CPTN-SHIP-PODS-'].update(value=f"{captain.ship.model['cargo']}")
+    window['-CPTN-SHIP-WPNS-'].update(value=f"{captain.ship.model['weapon']}")
+    window['-CPTN-SHIP-SHLDS-'].update(value=f"{captain.ship.model['shield']}")
+    window['-CPTN-SHIP-GDGT-'].update(value=f"{captain.ship.model['gadget']}")
+    window['-CPTN-SHIP-CREW-'].update(value=f"{captain.ship.model['crew']}")
+    window['-CPTN-SHIP-HULL-'].update(value=f"{captain.ship.model['hull']}")
+
+
 def update_cargo_board():
     """ update Cargo board informations GUI element """
     pods = 0
@@ -489,6 +526,7 @@ def update_gui():
     update_cargo_board()
     # pprint(captain.account.log)
     update_bank()
+    update_captain_ship()
     update_shipyard(captain.location)
 
 
@@ -658,15 +696,12 @@ if __name__ == '__main__':
         elif event == '-SHIP-TABLE-':
             idx = int(values['-SHIP-TABLE-'][0])
             ship_price = captain.location.shipyard[idx].model['price']
-            print(ship_price)
+            print(f'{idx}: {ship_price}')
             if ship_price <= captain.account.cash:
                 window['-BUY-SHIP-'].update(disabled=False)
 
         elif event == '-BUY-SHIP-':
-            pass
-            # TODO replace current ship by new one
-            # if crew and gadget, transfert it
-            # if cargo, transfert if
+            buy_ship(int(values['-SHIP-TABLE-'][0]))
 
         elif event == 'About':
             sg.popup(f'{msg_overview}')
