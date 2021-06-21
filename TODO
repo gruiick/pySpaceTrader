@@ -34,10 +34,16 @@ TODO
 
 * Mercenary (hire, pay, use skills)
 
-* gestion des combats
-    dice rolling
+* "encounters" management
+    dice rolling -> trade meet / combat
     https://fr.wikipedia.org/wiki/Lois_de_Lanchester
     https://www.youtube.com/watch?v=TNcJdGtWhfc
+
+* a lot of simple errors need to be taken care of -> display something instead of rage-quit :o)
+    * no game open
+    * open, cancel
+    * load, cancel
+    * etc.
 
 
 Later:
