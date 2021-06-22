@@ -101,6 +101,8 @@ def buy_ship(idx):
     update_cargo_board()
     update_docks_board(captain.location)
     update_bank()
+    update_captain_ship()
+    update_shipyard(captain.location)
 
 
 def draw_limite(point, rayon=None):
