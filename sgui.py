@@ -200,6 +200,7 @@ destination_layout = sg.Frame(
 planet_selector = sg.Frame(
     layout=[[sg.Combo(values=[None],
                       default_value=None,
+                      size=(13, 1),
                       readonly=True,
                       enable_events=True,
                       key='-IN-PLNT-SELECTOR-',
