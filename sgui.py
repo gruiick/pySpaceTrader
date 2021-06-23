@@ -448,6 +448,94 @@ captain_ship = sg.Frame(
     element_justification='right',
     )
 
+# Weapons block
+weapons_clmn = sg.Column([
+    [sg.Text('Weapons:',
+             justification='left')],
+    [sg.Text('Pulse laser',
+             size=(14, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Beam laser',
+             size=(14, 1),
+            justification='left',
+            relief='sunken')],
+    [sg.Text('Military laser',
+             size=(14, 1),
+            justification='left',
+            relief='sunken')]],
+    justification='right',
+    # element_justification='right',
+    vertical_alignment='top')
+
+# Shields block
+shield_clmn = sg.Column([
+    [sg.Text('Shields:',
+             justification='left')],
+    [sg.Text('Energy shield',
+             size=(16, 1),
+            justification='left',
+            relief='sunken')],
+    [sg.Text('Reflective shield',
+             size=(16, 1),
+             justification='left',
+             relief='sunken')],
+    ],
+    justification='left',
+    # element_justification='left',
+    vertical_alignment='top')
+
+# Gadgets block
+gadget_clmn = sg.Column([
+    [sg.Text('Gadgets:',
+             justification='left')],
+    [sg.Text('Auto-Repair System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Navigating System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Targeting System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Cloaking System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Escape Pod',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    ],
+    justification='right',
+    # element_justification='right',
+    vertical_alignment='top')
+
+# Equipement Store
+equipement_store = sg.Frame(
+    layout=[[gadget_clmn,
+            weapons_clmn,
+            shield_clmn],
+
+            [sg.Text('Extra Cargo Pod(s):',
+                     justification='left'),
+             sg.Slider(range=(1, 5),
+                       default_value=1,
+                       resolution=1,
+                       orientation='horizontal',
+                       disable_number_display=True,
+                       relief='sunken',
+                       enable_events=True,
+                       #size=(5,1),
+                       ),
+            ],
+    ],
+    title='Equipements: Not yet implemented',
+    element_justification='right',
+    )
 
 shipyard = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
@@ -480,8 +568,8 @@ shipyard = sg.Frame(
     element_justification='center',
     )
 
-# tab_shipyard = [[sg.Text('Not yet implemented')]]
-tab_shipyard = [[captain_ship],
+# tab_shipyard
+tab_shipyard = [[captain_ship, equipement_store],
                 [shipyard]]
 
 
