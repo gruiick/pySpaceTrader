@@ -29,6 +29,7 @@ COLORS = {'default': 'brown',
           'homeworld': 'blue',
           'visited': 'green',
           'target': 'grey',
+          'selected': 'brown',
           'background': 'lightgrey'}
 
 OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
@@ -45,7 +46,7 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "to get rich quickly, but the police force will go after you."]
 
 NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
-         'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
+         'Baratas', 'Bob', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
          'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
          'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',
          'Drema', 'Endor', 'Esmee', 'Exo', 'Ferris', 'Festen', 'Fourmi',
