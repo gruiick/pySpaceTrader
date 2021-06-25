@@ -313,7 +313,8 @@ class Ship:
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
-        # TODO weapons, shields and crews
+        # TODO/FIXME equipments management:
+        # weapons, shields and crews
 
     def __getitem__(self, key):
         """ make Ship subscriptable """

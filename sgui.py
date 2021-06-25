@@ -22,7 +22,11 @@ COLORS = constants.COLORS
 # GUI Elements
 
 # Theme
-sg.theme('Default1')
+# sg.theme('Black')
+# sg.theme('Dark')
+# sg.theme('Default1')
+# sg.theme('GrayGrayGray')
+sg.theme('SystemDefaultForReal')
 
 # Menu
 menu_layout = [['&Game',
@@ -200,6 +204,7 @@ destination_layout = sg.Frame(
 planet_selector = sg.Frame(
     layout=[[sg.Combo(values=[None],
                       default_value=None,
+                      size=(13, 1),
                       readonly=True,
                       enable_events=True,
                       key='-IN-PLNT-SELECTOR-',
@@ -271,7 +276,7 @@ cargo_layout = sg.Frame(
     ],
     title='Cargo manifest',
     # size=(25, 15),
-    element_justification='left')
+    element_justification='right')
 
 docks_layout = sg.Frame(
     layout=[[sg.Text('Goods:',
@@ -307,31 +312,31 @@ docks_layout = sg.Frame(
     element_justification='right')
 
 # trading, 2 columns top + 2 columns bottom
-trading_loc_col = sg.Column([[location_layout]],
-                            justification='left',
-                            element_justification='left',
-                            vertical_alignment='top')
-
-trading_profit_col = sg.Column([[profit_layout]],
-                               justification='center',
-                               element_justification='center',
-                               vertical_alignment='bottom')
-
-trading_dest_col = sg.Column([[destination_layout]],
-                             justification='right',
-                             element_justification='right',
-                             vertical_alignment='top')
-
 trading_cargo_col = sg.Column([[cargo_layout]],
                              justification='left',
-                             element_justification='left',
+                             # element_justification='left',
                              vertical_alignment='top')
 
 trading_board_col = sg.Column([[planet_selector],
                                [docks_layout],
                                ],
-                             justification='right',
+                             justification='left',
                              element_justification='right',
+                             vertical_alignment='top')
+
+trading_loc_col = sg.Column([[location_layout]],
+                            justification='left',
+                            # element_justification='left',
+                            vertical_alignment='top')
+
+trading_profit_col = sg.Column([[profit_layout]],
+                               justification='left',
+                               # element_justification='left',
+                               vertical_alignment='bottom')
+
+trading_dest_col = sg.Column([[destination_layout]],
+                             justification='left',
+                             # element_justification='left',
                              vertical_alignment='top')
 
 tab_trading = [
@@ -351,12 +356,13 @@ bank_table = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, '', 0]],
                       headings=[' Items ', 'Value (Cr)', 'Quantity', '+/-', 'Total (Cr)'],
                       auto_size_columns=True,
-                      col_widths=[15, 15, 15, 3, 15],
+                      col_widths=[16, 16, 16, 3, 16],
                       display_row_numbers=False,
                       # num_rows=numrow,
                       justification='right',
                       hide_vertical_scroll=False,
-                      selected_row_colors=(COLORS['default'], 'white'),
+                      enable_events=False,
+                      selected_row_colors=(COLORS['selected'], 'white'),
                       key='-BANK-TABLE-',
                       ),
     ]],
@@ -447,8 +453,105 @@ captain_ship = sg.Frame(
     element_justification='right',
     )
 
+# Weapons block
+weapons_clmn = sg.Column([
+    [sg.Text('Weapons:',
+             justification='left')],
+    [sg.Text('Pulse laser',
+             size=(14, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Beam laser',
+             size=(14, 1),
+            justification='left',
+            relief='sunken')],
+    [sg.Text('Military laser',
+             size=(14, 1),
+            justification='left',
+            relief='sunken')]],
+    justification='right',
+    # element_justification='right',
+    vertical_alignment='top')
 
-shipyard = sg.Frame(
+# Shields block
+shield_clmn = sg.Column([
+    [sg.Text('Shields:',
+             justification='left')],
+    [sg.Text('Energy shield',
+             size=(16, 1),
+            justification='left',
+            relief='sunken')],
+    [sg.Text('Reflective shield',
+             size=(16, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Lightning shield',
+             size=(16, 1),
+             justification='left',
+             relief='sunken')],
+    ],
+    justification='left',
+    # element_justification='left',
+    vertical_alignment='top')
+
+# Gadgets block
+gadget_clmn = sg.Column([
+    [sg.Text('Gadgets:',
+             justification='left')],
+    [sg.Text('Auto-Repair System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Navigating System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Targeting System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Cloaking System',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    [sg.Text('Escape Pod',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
+    ],
+    justification='right',
+    # element_justification='right',
+    vertical_alignment='top')
+
+xtra_cargo_pods = sg.Column([
+    [sg.Text('Extra Cargo Pod(s):',
+             size=(18, 1),
+             relief='ridge',
+             justification='left'),
+     sg.Spin(values=[0, 1, 2, 3, 4, 5],
+             initial_value=0,
+             enable_events=True,
+             readonly=True,
+             size=(2,1),
+             ),],
+    ],
+    justification='left',
+    # element_justification='right',
+    vertical_alignment='bottom'
+    )
+
+# Equipement Store
+equipement_store = sg.Frame(
+    layout=[[gadget_clmn,
+            weapons_clmn,
+            shield_clmn],
+            [xtra_cargo_pods],
+    ],
+    title='Equipements: Not yet implemented',
+    element_justification='right',
+    )
+
+ship_list = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
                       headings=['Model',
                                 'Pod(s)',
@@ -461,14 +564,16 @@ shipyard = sg.Frame(
                                 'Hull',
                                 'Tribbles',
                                 'Price (Cr)'],
-                      auto_size_columns=True,
-                      col_widths=[15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
+                      col_widths=[10, 6, 8, 6, 10, 6, 11, 8, 8, 6, 10],
+                      # def_col_width=6,
+                      # max_col_width=15,
+                      auto_size_columns=False,
                       display_row_numbers=False,
-                      num_rows=numrow,
+                      num_rows=8,
                       justification='right',
                       hide_vertical_scroll=True,
                       enable_events=True,
-                      selected_row_colors=(COLORS['default'], 'white'),
+                      selected_row_colors=(COLORS['selected'], 'white'),
                       key='-SHIP-TABLE-',
                       ), ],
             [sg.Button('Buy',
@@ -476,12 +581,12 @@ shipyard = sg.Frame(
                        disabled=True)]
     ],
     title='',
-    element_justification='center',
+    element_justification='left',
     )
 
-# tab_shipyard = [[sg.Text('Not yet implemented')]]
-tab_shipyard = [[captain_ship],
-                [shipyard]]
+# tab_shipyard
+tab_shipyard = [[captain_ship, equipement_store],
+                [ship_list]]
 
 
 # News tab layouts

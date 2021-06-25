@@ -7,7 +7,9 @@
 """
     Game constants, to be imported
 
-    Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    From:
+    https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/DataTypes
 """
 
 VERSION = "v0.3"
@@ -20,7 +22,7 @@ MAXWIDTH = 680
 YMIN = 0
 MAXHEIGHT = 480
 MAXPARSEC = 120  # must be dividable by 15
-CASH = 215000
+CASH = 15000
 MAXPLANET = 120
 MIN_DISTANCE = 12
 
@@ -29,6 +31,7 @@ COLORS = {'default': 'brown',
           'homeworld': 'blue',
           'visited': 'green',
           'target': 'grey',
+          'selected': 'brown',
           'background': 'lightgrey'}
 
 OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
@@ -45,7 +48,7 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "to get rich quickly, but the police force will go after you."]
 
 NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
-         'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
+         'Baratas', 'Bob', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
          'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
          'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',
          'Drema', 'Endor', 'Esmee', 'Exo', 'Ferris', 'Festen', 'Fourmi',
@@ -138,8 +141,6 @@ GOODS = {'water': {'tp': 0, 'tu': 0, 'ttp': 2, 'plt': 30, 'pi': +3, 'var': 4, 'd
          'fuel': {'tp': 4, 'tu': 0, 'ttp': 7, 'plt': 17, 'pi': -1, 'var': 15, 'dps': 'war', 'cr': 'warlike', 'er': None, 'mintp': 17, 'maxtp': 5000, 'ro': 1},
          }
 
-# STARTYPES = []
-# PLANETTYPES = []
 SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'efficiency': 1, 'hull': 500, 'tribbles': False},
              'flea': {'model': 'flea', 'cargo': 10, 'weapon': 1, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'efficiency': 1, 'hull': 2000, 'tribbles': False},
              'gnat': {'model': 'gnat', 'cargo': 15, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 1, 'efficiency': 0.93, 'hull': 10000, 'tribbles': False},
@@ -158,7 +159,17 @@ SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shiel
              'scarab': {'model': 'scarab', 'cargo': 20, 'weapon': 2, 'shield': 0, 'shieldstrengh': 0, 'gadget': 2, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
              'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 100, 'tribbles': False},
              }
-# SHIPNAMES = []
+
+# TODO/FIXME best to separate?
+EQUIPEMENTS = {'weapons': {'pulse': 1, 'beam': 2, 'military': 3},
+               'shields': {'energy': 1, 'reflective': 2, 'lightning': 3},
+               'gadgets': {'autorepair': 1,
+                           'navigating': 1,
+                           'targeting': 1,
+                           'cloacking': 1,
+                           'escape': 1},
+               'compactor': 1,
+               'cargopod': 5}
 
 MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
                   'ChTi', 'Crystal', 'Dane', 'Deirdre', 'Doc', 'Draco',
