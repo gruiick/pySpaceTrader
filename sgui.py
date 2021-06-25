@@ -519,24 +519,28 @@ gadget_clmn = sg.Column([
     # element_justification='right',
     vertical_alignment='top')
 
+xtra_cargo_pods = sg.Column([
+    [sg.Text('Extra Cargo Pod(s):',
+             relief='ridge',
+             justification='left'),
+     sg.Spin(values=[1, 2, 3, 4, 5],
+             initial_value=1,
+             enable_events=True,
+             readonly=True,
+             size=(2,1),
+             ),],
+    ],
+    justification='left',
+    # element_justification='right',
+    vertical_alignment='bottom'
+    )
+
 # Equipement Store
 equipement_store = sg.Frame(
     layout=[[gadget_clmn,
             weapons_clmn,
             shield_clmn],
-
-            [sg.Text('Extra Cargo Pod(s):',
-                     justification='left'),
-             sg.Slider(range=(1, 5),
-                       default_value=1,
-                       resolution=1,
-                       orientation='horizontal',
-                       disable_number_display=True,
-                       relief='sunken',
-                       enable_events=True,
-                       #size=(5,1),
-                       ),
-            ],
+            [xtra_cargo_pods],
     ],
     title='Equipements: Not yet implemented',
     element_justification='right',
