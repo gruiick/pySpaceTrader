@@ -7,7 +7,9 @@
 """
     Game constants, to be imported
 
-    Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    From:
+    https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/DataTypes
 """
 
 VERSION = "v0.3"
@@ -20,7 +22,7 @@ MAXWIDTH = 680
 YMIN = 0
 MAXHEIGHT = 480
 MAXPARSEC = 120  # must be dividable by 15
-CASH = 215000
+CASH = 15000
 MAXPLANET = 120
 MIN_DISTANCE = 12
 
@@ -158,13 +160,15 @@ SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shiel
              'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 100, 'tribbles': False},
              }
 
+# TODO/FIXME best to separate?
 EQUIPEMENTS = {'weapons': {'pulse': 1, 'beam': 2, 'military': 3},
-               'shields': {'energy': 1, 'reflective': 2},
+               'shields': {'energy': 1, 'reflective': 2, 'lightning': 3},
                'gadgets': {'autorepair': 1,
                            'navigating': 1,
                            'targeting': 1,
                            'cloacking': 1,
                            'escape': 1},
+               'compactor': 1,
                'cargopod': 5}
 
 MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
