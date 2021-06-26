@@ -88,9 +88,10 @@ class Captain:
     #          'Trader': int (random, ?/10),
     #          'Engineer': int (random, ?/10),
     #          'Kills': int,
-    #          'Reputation': None,
-    #          'Police Record': None,
+    #          'Reputation': str,
+    #          'Police Record': str,
     #          'Difficulty': str,
+    #          'Turn': int,
     #         }
 
     @property
@@ -299,7 +300,7 @@ class Ship:
         simplest for now
     """
     def __init__(self, modele=None):
-        # default ship is a flea type
+        # default ship is always a flea
         if not modele:
             self.__type = 'flea'
         else:
@@ -308,13 +309,16 @@ class Ship:
         # FIXME quick & dirty price ship
         self.model['price'] = self.model['hull'] * self.model['efficiency']
         self.reservoir = self.model['efficiency'] * constants.MAXPARSEC
-        self.gadget = ['escapepod']
         # pods management
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
-        # TODO/FIXME equipments management:
-        # weapons, shields and crews
+        # TODO/FIXME equipments management: gadgets, weapons, shields and crews
+        # there should be an auto-max depending on range(self.model['gadget|shield|weapon|crew'])
+        self.gadgets = ['escapepod']
+        self.shields = []
+        self.weapons = []
+        self.crews = []
 
     def __getitem__(self, key):
         """ make Ship subscriptable """
@@ -331,7 +335,7 @@ class Ship:
         new_list = []
         for key, value in self.model.items():
             interne = []
-            # FIXME print price value in {:.2f} format
+            # print some values in {:.2f} format
             if key in ['price', 'efficiency']:
                 interne.extend([f'{value:.2f}'])
             else:
@@ -379,6 +383,7 @@ def create_planetes():
     for i in range(constants.MAXPLANET):
         while True:
             planete = make_planet()
+            # planets must not be too close to each other
             if (planete.name not in planetes and all(planete.distance(p) >= constants.MIN_DISTANCE for p in planetes.values())):
                 PriceSlip(planete)
                 planetes[planete.name] = planete

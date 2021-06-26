@@ -160,9 +160,13 @@ SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shiel
              'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 100, 'tribbles': False},
              }
 
-# TODO/FIXME best to separate?
-EQUIPEMENTS = {'weapons': {'pulse': 1, 'beam': 2, 'military': 3},
-               'shields': {'energy': 1, 'reflective': 2, 'lightning': 3},
+# TODO/FIXME better to separate?
+EQUIPEMENTS = {'weapons': {'pulse': 1,
+                           'beam': 2,
+                           'military': 3},
+               'shields': {'energy': 1,
+                           'reflective': 2,
+                           'lightning': 3},
                'gadgets': {'autorepair': 1,
                            'navigating': 1,
                            'targeting': 1,
@@ -170,6 +174,10 @@ EQUIPEMENTS = {'weapons': {'pulse': 1, 'beam': 2, 'military': 3},
                            'escape': 1},
                'compactor': 1,
                'cargopod': 5}
+
+REPUTATION = ['Harmless', 'Mostly harmless', 'Poor', 'Average', 'Above average', 'Competent', 'Dangerous', 'Deadly', 'Elite']
+
+POLICERECORD = ['Psycho', 'Villain', 'Crook', 'Criminal', 'Dubious', 'Clean', 'Lawful', 'Trusted', 'Helper', 'Hero']
 
 MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
                   'ChTi', 'Crystal', 'Dane', 'Deirdre', 'Doc', 'Draco',

@@ -42,7 +42,7 @@ menu_layout = [['&Game',
 
 # Captain layout
 captain_layout = sg.Frame(
-    layout=[[sg.Text('display Captain info',
+    layout=[[sg.Text("Captain's info",
                      size=(20, 1),
                      justification='left',
                      key='-IN-CAPTAIN-',
@@ -77,7 +77,7 @@ captain_layout = sg.Frame(
                     justification='right',
                     relief='sunken'),
             ],
-        ], title='Captain',
+        ], title="Captain's roster",
         element_justification='center')
 
 # location btn
@@ -116,7 +116,7 @@ btn_column = sg.Column([[location_btn, action_btn]],
 # info layout
 info_layout = sg.Frame(
     layout=[
-        [sg.Text('display Planet info',
+        [sg.Text('Planet info',
                      size=(25, 7),
                      key='-IN-PLANET-')],
         [sg.Text('',
