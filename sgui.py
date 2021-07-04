@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.v0.2-dev.1 $
+# $Id: sgui.py 1566.develop.2 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """

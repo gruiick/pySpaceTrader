@@ -1,4 +1,4 @@
-# $Id: CREDITS 1096 $
+# $Id: CREDITS 1096.develop.1 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 Credits for pySpaceTrader:
@@ -8,5 +8,5 @@ Pieter Sproncks (original author of Space Trader for PalmOS)
 David J. Webb (author of PalmPilot game SolarWars)
 Matt Lee (author of DopeWars game for Palm)
 
-Credits for python3 versions:
+Credits for python3 version:
 everyone at #python-fr@Libera.Chat
