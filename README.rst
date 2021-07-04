@@ -4,7 +4,7 @@ python3 SpaceTrader
 
 :date: 2018-12-19
 :status: work in progress
-:version: $Id: README.rst 1552.develop.1 $
+:version: $Id: README.rst 1552.develop.2 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -12,17 +12,17 @@ A little game inspired by `Space Trader <https://www.benjamin-schieder.de/androi
 
 Turn-based 'strategy' game. This is neither a python port nor a full copy of original(s) Space Trader.
 
-``Space Trader is an Android strategy game in space by Benjamin Schieder. It is a port of the Palm Pilot game "Space Trader" by Pieter Spronck, which is inspired by David J. Webb’s PalmPilot game SolarWars (which in turn is based on Matt Lee’s game DopeWars) and the 80’s classic 3D strategy game Elite (though it does not have Elite’s 3D flight mode).``
+``Space Trader is an Android strategy game in space by Benjamin Schieder. It is a port of the Palm Pilot game "Space Trader" by Pieter Spronck, which is inspired by David J. Webb’s PalmPilot game "SolarWars" (which in turn is based on Matt Lee’s game "DopeWars") and the 80’s classic 3D strategy game "Elite" (though it does not have Elite’s 3D flight mode).``
 
 
 References
 ==========
 
-* https://www.benjamin-schieder.de/androidspacetrader.html
+* https://www.benjamin-schieder.de/androidspacetrader.html (Android version Homepage)
 
-* https://github.com/blind-coder/SpaceTrader
+* https://github.com/blind-coder/SpaceTrader (Android Java source code)
 
-* http://www.spronck.net/spacetrader/STFrames.html
+* http://www.spronck.net/spacetrader/STFrames.html (Original SpaceTrader homepage and C source code)
 
 
 Use and tests
