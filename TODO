@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.2 $
+# $Id: TODO 1544.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -15,6 +15,10 @@ TODO
 * Universe as an object? <- a list is OK for now
     which turn are we? (in case of saved game)
         where to save it? universe or captain?
+        why? is turn that important?
+        -> each travel is, at minimum, one turn
+        -> each encounter will be at least one turn
+        -> each combat will be several
     ease save/load ? (only one object to deal with?)
     (re)compute prices & stocks on planets each turn
 
@@ -28,6 +32,7 @@ TODO
     shields avail if 'robots'  in location.stocks + progress bar on damages
     hull: progress bar on damages
     repair button (and costs?)
+    show available shipyards on GalacticMap (option on/off? only on visited planets?)
 
 * News tab (3 frames)
     - show local news (plague, war, etc)
