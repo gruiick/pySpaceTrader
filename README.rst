@@ -2,10 +2,11 @@
 python3 SpaceTrader
 ===================
 
-:date: 2018-12-19
-:status: work in progress
-:version: $Id: README.rst 1552.develop.2 $
-:licence: SPDX-License-Identifier: BSD-2-Clause
+.. meta::
+    :date: 2018-12-19
+    :status: work in progress
+    :version: $Id: README.rst 1552.develop.3 $
+    :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
 A little game inspired by `Space Trader <https://www.benjamin-schieder.de/androidspacetrader.html>`_, in python3/Tk, as a toy project.
@@ -70,7 +71,7 @@ Contributing
 
 Disclaimer: This is a toy project, early work in progress... It may never be finished and it will differ from original games.
 
-I am not a professional developer, but I am heager to learn. I need something to work on my (poor) python skills.
+I am not a professional developer, but I am heager to learn. I needed something to work on my (poor) python skills.
 
 That being said, you are *very welcome* to help, if you want to (See CONTRIBUTING.rst).
 

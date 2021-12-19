@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.2 $
+# $Id: core.py 1565.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -48,6 +48,7 @@ class BankAccount:
 
     TODO logging Transaction() should modify cash value
     FIXME do not store more than 5 to 10 Transaction() history?
+          or store all history but only display 5~10 lasts?
     """
     owner: str
     log: []
