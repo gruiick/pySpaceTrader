@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1550.develop.2 $
+# $Id: ROADMAP 1550.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -68,7 +68,9 @@ Trading tab:
     -> planet.update_prices() depending on stocks and planet.status
 
 News tab (informations about universe, quests)
+    -> but not functional, first
 
+Winning finish: you buy a private moon and retire on it.
 
 === 0.4
 

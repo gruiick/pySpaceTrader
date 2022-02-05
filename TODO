@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.3 $
+# $Id: TODO 1544.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -17,10 +17,10 @@ TODO
         where to save it? universe or captain?
         why? is turn that important?
         -> each travel is, at minimum, one turn
-        -> each encounter will be at least one turn
-        -> each combat will be several
+        -> each encounter will be at least one "sub-turn"
+        -> each combat might be several "sub-turn"
     ease save/load ? (only one object to deal with?)
-    (re)compute prices & stocks on planets each turn
+    (re)compute prices & stocks on planets each turn, but not in "sub-turn"
 
 * Shipyard tab
     only on Industrial to Hi-tech level [5-7]   -> OK
@@ -48,7 +48,7 @@ TODO
     https://fr.wikipedia.org/wiki/Lois_de_Lanchester
     https://www.youtube.com/watch?v=TNcJdGtWhfc
 
-* a lot of simple errors need to be taken care of -> display something instead of rage-quit :o)
+* a lot of simple errors need to be taken care of -> display something instead of "rage-quit" :o)
     * AttributeError: 'NoneType' object has no attribute 'replace'
     * no game open
     * open, cancel
@@ -60,7 +60,8 @@ Later:
 ======
     * vaisseaux (position(s), type: traders, smugglers, pirates, SpacePolice),
     * interactions within "next turn" -> meets, trades, combats and controls
-    * quêtes (tribbles!)
+    * quests (tribbles!)
+    * buy a moon -> "victory!"
 
     * tribbles will reproduce a lot, filling empty cargo pod, eating (emptying) food, medecine, narcotics, even furs, if there is nothing else. They are a plague. The only ways to get rid of it are to sell the ship, or destroy it in a space fight.
 
