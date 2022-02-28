@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.4 $
+# $Id: TODO 1544.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -32,6 +32,7 @@ TODO
     shields avail if 'robots'  in location.stocks + progress bar on damages
     hull: progress bar on damages
     repair button (and costs?)
+    fuel buttons (refill, buy, dump)                -> READY
     show available shipyards on GalacticMap (option on/off? only on visited planets?)
 
 * News tab (3 frames)

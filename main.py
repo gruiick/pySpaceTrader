@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.2 $
+# $Id: main.py 1571.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -661,7 +661,7 @@ if __name__ == '__main__':
                 if name_planet == planete.name:
                     on_click(planete)
 
-        elif event == '-REFUEL-':
+        elif event == '-REFUEL-' or event == '-REFILL-':
             if not univers:
                 sg.popup_error(f'No game loaded!')
             else:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.2 $
+# $Id: sgui.py 1566.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -103,7 +103,7 @@ action_btn = sg.Frame(
         [sg.Button('Next turn',
                    key='-NEXT-TURN-')],
         ],
-        title='Actions',
+        title='Quick Actions',
         # size=(25, 3),
         vertical_alignment='center',
         element_justification='center')
@@ -551,6 +551,17 @@ equipement_store = sg.Frame(
     element_justification='right',
     )
 
+# Fuel management
+fuel_mngt = sg.Frame(
+    layout=[
+    [sg.Button('Refill',
+               key='-REFILL-')],
+    ],
+    title='Fuel:',
+    key='-FUEL-MNGT-',
+    element_justification='right',
+    )
+
 ship_list = sg.Frame(
     layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
                       headings=['Model',
@@ -585,7 +596,7 @@ ship_list = sg.Frame(
     )
 
 # tab_shipyard
-tab_shipyard = [[captain_ship, equipement_store],
+tab_shipyard = [[captain_ship, equipement_store, fuel_mngt],
                 [ship_list]]
 
 
