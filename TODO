@@ -137,3 +137,4 @@ price via formula : base * regim * specialresources * techlevel * status OK
 bordereau de prix = PriceSlip OK
 https://docs.python.org/fr/3/library/collections.html#collections.namedtuple
 
+
