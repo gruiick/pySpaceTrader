@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.5 $
+# $Id: TODO 1544.develop.6 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -54,6 +54,7 @@ TODO
     * no game open
     * open, cancel
     * load, cancel
+    * https://kobzol.github.io/rust/python/2023/05/20/writing-python-like-its-rust.html
     * etc.
 
 
