@@ -278,6 +278,7 @@ def refuel():
             update_cargo_board()
             update_planet_selector()
             update_bank()
+            update_shipyard(captain.location)
             window['-REFUEL-'].update(disabled=True)
 
         else:
@@ -582,6 +583,8 @@ def update_shipyard(planete):
     """ update shipyard tab: if there is any ship in planete.shipyard,
     show them, else 'None'
     """
+    window['-AVAIL-FUEL-'].update(f"{planete.price_slip['fuel'][2]:.2f}")
+
     if planete.tech_level < 5:
         window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
     else:

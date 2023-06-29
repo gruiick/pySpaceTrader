@@ -406,8 +406,7 @@ captain_ship = sg.Frame(
                      justification='right',
                      relief='sunken'),
              ],
-            [
-             sg.Text('Weapons:',
+            [sg.Text('Weapons:',
                      justification='left'),
              sg.Text('',
                      key='-CPTN-SHIP-WPNS-',
@@ -554,6 +553,15 @@ equipement_store = sg.Frame(
 # Fuel management
 fuel_mngt = sg.Frame(
     layout=[
+    # display fuel availability
+    [sg.Text('Avail Qty:',
+             justification='left'),
+     sg.Text('',
+             key='-AVAIL-FUEL-',
+             size=(12, 1),
+             justification='right',
+             relief='sunken'),
+    ],
     [sg.Button('Refill',
                key='-REFILL-')],
     ],
