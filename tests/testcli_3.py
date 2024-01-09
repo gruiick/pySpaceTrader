@@ -28,8 +28,8 @@ PODS = {0: {'type': 'food', 'value': 109},
 PODS2 = [[0, 'water', 46],
          [1, 'water', 46],
          [2, 'water', 46],
-         [3, 'water', 46],
-         [4, 'food', 123],
+         [3, 'food', 123],
+         [4, 'water', 46],
          [5, 'food', 123],
          [6, 'food', 123],
          [7, 'food', 123],
@@ -65,11 +65,17 @@ def sell_cargo(pods):
     # ça marche pour transaction, mais il manque les indices des pods 
     # pour les vidanger...
 
-    a = sorted(pods)
-    for key, value in groupby(a, lambda x: [x[1], x[2]]):
-        print(key[0], key[1], value)
-        print([len(list(value)), key])
-        captain.account.log.append(core.Transaction(key[0], key[1], len(list(value))))
+    a = sorted(pods, key=lambda x: x[1])  # tri sur good_type
+    for key, value in groupby(a, lambda x: [x[1], x[2]]):  # tri sur good_type, good_value
+        idx = []
+        valeurs = list(value)
+        pprint(valeurs)
+        for items in valeurs:
+            idx.append(items[0])
+        print(f'key: {key[0]}, {key[1]}, {list(valeurs)}')
+        print(f'len: {[len(list(valeurs)), key]}')
+        print(f'idx: {idx}')
+        captain.account.log.append(core.Transaction(key[0], key[1], len(list(valeurs))))
 
 
 if __name__ == '__main__':
@@ -91,7 +97,7 @@ if __name__ == '__main__':
 
     print(f'Total: {sum(total)}')
 
-    print(list(convert(PODS)))
+    #print(list(convert(PODS)))
 
     sell_cargo(PODS2)
 
