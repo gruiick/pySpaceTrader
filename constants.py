@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1546.develop.2 $
+# $Id: constants.py 1546.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -12,7 +12,7 @@
     https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/DataTypes
 """
 
-VERSION = "v0.3"
+VERSION = "0.3"
 
 # width, x = 640, height, y = 480 (Tk)
 GRIDMIN = -100
@@ -45,7 +45,7 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "might become a bounty hunter and hunt down pirates. It is",
             "also possible to become a pirate yourself and rob honest",
             "traders of their cargo. Beware, though: pirating is a way",
-            "to get rich quickly, but the police force will go after you."]
+            "to get rich quickly, but the police forces will go after you."]
 
 NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
          'Baratas', 'Bob', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
