@@ -1,1 +1,1 @@
-PySimpleGUI>=4.41.2
+PySimpleGUI-4-foss>=4.41.2
