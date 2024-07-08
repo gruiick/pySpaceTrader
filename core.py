@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.3 $
+# $Id: core.py 1565.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -121,6 +121,7 @@ class Planet:
     status: str
     homeworld: bool = False
     visited: bool = False
+    moon: bool = False
     price_slip: {} = None
     shipyard: [] = None
 
@@ -130,11 +131,18 @@ class Planet:
 
     @property
     def gov(self):
+        # temporary display solution
+        if self.moon:
+            moon_status = "has moon(s)"
+        else:
+            moon_status = "no moon(s)"
+
         return (constants.SYSTEMSIZE[self.system_size],
                 constants.SPECIALRESOURCES[self.special],
                 constants.TECHLEVEL[self.tech_level],
                 constants.REGIM[self.regim],
-                constants.STATUS[self.status])
+                constants.STATUS[self.status],
+                moon_status)
 
     def distance(self, other):
         return math.hypot((self.x - other.x), (self.y - other.y))
@@ -395,6 +403,7 @@ def create_planetes():
     planete = random.choice(list(planetes.values()))
     planete.homeworld = True
     planete.visited = True
+    planete.moon = True
 
     return list(planetes.values())
 
@@ -504,7 +513,10 @@ def save_game(univers, fname=None):
     """
     # TODO use try/except
     if not fname:
-        fname = 'savegame'
+        fname = 'savegame.db'
+    else:
+        # TODO gérer proprement l'extension
+        fname = f"{fname}.db"
     with shelve.open(fname, 'n') as savefile:
         savefile['univers'] = univers
         savefile.close()
