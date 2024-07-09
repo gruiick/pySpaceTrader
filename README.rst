@@ -4,7 +4,7 @@ python3 SpaceTrader
 
 :date: 2018-12-19
 :status: work in progress
-:version: $Id: README.rst 1552 $
+:version: $Id: README.rst 1552.develop.1 $
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -62,7 +62,7 @@ To run (and test), simply:
     python3 main.py
 
 
-Select Game -> New. Navigate through the Galactic Map, set a destination, then have a look at Trading Tab, if you want to earn some profit... (Select goods, Buy cargo, next turn, Sell cargo, repeat *ad nauseam*)
+Select Game -> New. Navigate through the Galactic Map, set a destination, then have a look at Trading Tab, if you want to earn some profit... (Select goods, Buy cargo, next turn, Sell cargo, repeat *ad nauseam*... And watch for your fuel!!)
 
 
 Contributing

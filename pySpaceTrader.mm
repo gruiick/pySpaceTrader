@@ -2,7 +2,7 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="pySpaceTrader&#xa;jus de cerveau" FOLDED="false" ID="ID_1567394985" CREATED="1563971092848" MODIFIED="1622392084903" STYLE="oval" VGAP_QUANTITY="0.0 pt">
 <font SIZE="14"/>
-<hook NAME="MapStyle">
+<hook NAME="MapStyle" zoom="0.75">
     <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" show_note_icons="true" fit_to_viewport="false"/>
 
 <map_styles>
@@ -168,10 +168,10 @@
 </richcontent>
 </node>
 </node>
-<node TEXT="TODO/FIXME" POSITION="right" ID="ID_1877371907" CREATED="1564489291111" MODIFIED="1564572415273" HGAP_QUANTITY="66.49999843537813 pt" VSHIFT_QUANTITY="-114.7499965801836 pt">
+<node TEXT="TODO/FIXME" POSITION="right" ID="ID_1877371907" CREATED="1564489291111" MODIFIED="1624268346425" HGAP_QUANTITY="66.49999843537813 pt" VSHIFT_QUANTITY="-114.7499965801836 pt">
 <icon BUILTIN="info"/>
 <edge STYLE="sharp_bezier" COLOR="#0000ff"/>
-<node TEXT="Class PriceSlip ?" ID="ID_1649418088" CREATED="1564489337826" MODIFIED="1622391778713" HGAP_QUANTITY="40.24999921768906 pt" VSHIFT_QUANTITY="-39.74999881535772 pt"><richcontent TYPE="DETAILS">
+<node TEXT="Class PriceSlip ? + TradeItem (@dataclass ??)" ID="ID_1649418088" CREATED="1564489337826" MODIFIED="1624268584808" HGAP_QUANTITY="40.24999921768906 pt" VSHIFT_QUANTITY="-39.74999881535772 pt"><richcontent TYPE="DETAILS">
 
 <html>
   <head>
@@ -194,23 +194,10 @@
 </html>
 </richcontent>
 </node>
-<node TEXT="gestion des achats/ventes" ID="ID_1142974461" CREATED="1564489781731" MODIFIED="1622973651578" HGAP_QUANTITY="25.24999966472388 pt" VSHIFT_QUANTITY="49.499998524785084 pt"><richcontent TYPE="DETAILS">
-
-<html>
-  <head>
-    
-  </head>
-  <body>
-    <p>
-      buy_bill = Transaction(good_type, good_price, qty, value)
-    </p>
-    <p>
-      sell_bill = Transaction(good_type, good_price, qty, value)
-    </p>
-  </body>
-</html>
-
-</richcontent>
+<node TEXT="turn: je sauve ou bien ?" ID="ID_849789639" CREATED="1624268435317" MODIFIED="1624268477210"/>
+<node TEXT="Univers: liste ou objet ?" ID="ID_219770635" CREATED="1624268486054" MODIFIED="1624268497318">
+<node TEXT="pros: structure pour sauver le reste et les trucs qui vont nulle part (turn, filename, etc)" ID="ID_500538706" CREATED="1624268498438" MODIFIED="1624268554589"/>
+<node TEXT="cons: &#xe7;a complique un peu le code et les appels" ID="ID_408060658" CREATED="1624268532087" MODIFIED="1624268546059"/>
 </node>
 </node>
 <node TEXT="python3" POSITION="left" ID="ID_454635760" CREATED="1564567289267" MODIFIED="1622392475647" HGAP_QUANTITY="42.49999915063384 pt" VSHIFT_QUANTITY="-37.499998882412946 pt">
@@ -276,7 +263,7 @@
 <font SIZE="12" BOLD="true"/>
 </node>
 <node TEXT="BankAccount()" ID="ID_387798709" CREATED="1622973433703" MODIFIED="1622973441903">
-<node TEXT="transaction = []" ID="ID_1600285382" CREATED="1622973464464" MODIFIED="1622973477429"/>
+<node TEXT="log = [Transactions()]" ID="ID_1600285382" CREATED="1622973464464" MODIFIED="1624268615934"/>
 </node>
 <node TEXT="Transaction()" ID="ID_594216980" CREATED="1622973447568" MODIFIED="1622973459733"/>
 </node>

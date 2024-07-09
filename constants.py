@@ -7,10 +7,12 @@
 """
     Game constants, to be imported
 
-    Lots from https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    From:
+    https://github.com/blind-coder/SpaceTrader/blob/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/Main.java
+    https://github.com/blind-coder/SpaceTrader/tree/master/SpaceTrader/src/main/java/de/anderdonau/spacetrader/DataTypes
 """
 
-VERSION = "v0.0"
+VERSION = "v0.3"
 
 # width, x = 640, height, y = 480 (Tk)
 GRIDMIN = -100
@@ -21,14 +23,15 @@ YMIN = 0
 MAXHEIGHT = 480
 MAXPARSEC = 120  # must be dividable by 15
 CASH = 15000
-MAXPLANET = 100
-MIN_DISTANCE = 15
+MAXPLANET = 120
+MIN_DISTANCE = 12
 
 COLORS = {'default': 'brown',
           'limit': 'red',
           'homeworld': 'blue',
           'visited': 'green',
           'target': 'grey',
+          'selected': 'brown',
           'background': 'lightgrey'}
 
 OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
@@ -45,7 +48,7 @@ OVERVIEW = ["Space Trader is a complex game, in which the player's aim",
             "to get rich quickly, but the police force will go after you."]
 
 NAMES = ['Acamar', 'Adahn', 'Aldea', 'Andevian', 'Antedi', 'Balosnee',
-         'Baratas', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
+         'Baratas', 'Bob', 'Brax', 'Bretel', 'Calondia', 'Campor', 'Capelle',
          'Carzon', 'Castor', 'Cestus', 'Cheron', 'Courteney', 'Daled',
          'Damast', 'Davlos', 'Deneb', 'Deneva', 'Devidia', 'Draylon',
          'Drema', 'Endor', 'Esmee', 'Exo', 'Ferris', 'Festen', 'Fourmi',
@@ -131,34 +134,42 @@ GOODS = {'water': {'tp': 0, 'tu': 0, 'ttp': 2, 'plt': 30, 'pi': +3, 'var': 4, 'd
          'ore': {'tp': 2, 'tu': 2, 'ttp': 3, 'plt': 350, 'pi': +20, 'var': 10, 'dps': 'war', 'cr': 'mineralrich', 'er': 'mineralpoor', 'mintp': 350, 'maxtp': 420, 'ro': 10},
          'games': {'tp': 3, 'tu': 1, 'ttp': 6, 'plt': 250, 'pi': -10, 'var': 5, 'dps': 'boredom', 'cr': 'artistic', 'er': None, 'mintp': 160, 'maxtp': 270, 'ro': 5},
          'firearms': {'tp': 3, 'tu': 1, 'ttp': 5, 'plt': 1250, 'pi': -75, 'var': 100, 'dps': 'war', 'cr': 'warlike', 'er': None, 'mintp': 600, 'maxtp': 1100, 'ro': 25},
-         'medecine': {'tp': 4, 'tu': 1, 'ttp': 6, 'plt': 650, 'pi': -20, 'var': 10, 'dps': 'plague', 'cr': 'lotsofherbs', 'er': None, 'mintp': 400, 'maxtp': 700, 'ro': 25},
+         'medicines': {'tp': 4, 'tu': 1, 'ttp': 6, 'plt': 650, 'pi': -20, 'var': 10, 'dps': 'plague', 'cr': 'lotsofherbs', 'er': None, 'mintp': 400, 'maxtp': 700, 'ro': 25},
          'machines': {'tp': 4, 'tu': 3, 'ttp': 5, 'plt': 900, 'pi': -30, 'var': 5, 'dps': 'lackofworkers', 'cr': None, 'er': None, 'mintp': 600, 'maxtp': 800, 'ro': 25},
          'narcotics': {'tp': 5, 'tu': 0, 'ttp': 5, 'plt': 3500, 'pi': -125, 'var': 150, 'dps': 'boredom', 'cr': 'weirdmushrooms', 'er': None, 'mintp': 2000, 'maxtp': 3000, 'ro': 50},
          'robots': {'tp': 6, 'tu': 4, 'ttp': 7, 'plt': 5000, 'pi': -150, 'var': 100, 'dps': 'lackofworkers', 'cr': None, 'er': None, 'mintp': 3500, 'maxtp': 5000, 'ro': 100},
          'fuel': {'tp': 4, 'tu': 0, 'ttp': 7, 'plt': 17, 'pi': -1, 'var': 15, 'dps': 'war', 'cr': 'warlike', 'er': None, 'mintp': 17, 'maxtp': 5000, 'ro': 1},
          }
 
-# STARTYPES = []
-# PLANETTYPES = []
-SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'fuel': 1, 'hull': 500, 'tribbles': False},
-             'flea': {'model': 'flea', 'cargo': 10, 'weapon': 1, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'fuel': 1, 'hull': 2000, 'tribbles': False},
-             'gnat': {'model': 'gnat', 'cargo': 15, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 1, 'fuel': 0.93, 'hull': 10000, 'tribbles': False},
-             'firefly': {'model': 'firefly', 'cargo': 20, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 2, 'fuel': 1.15, 'hull': 25000, 'tribbles': False},
-             'mosquito': {'model': 'mosquito', 'cargo': 15, 'weapon': 2, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 5, 'fuel': 0.86, 'hull': 30000, 'tribbles': False},
-             'bumblebee': {'model': 'bumblebee', 'cargo': 25, 'weapon': 1, 'shield': 2, 'shieldstrengh': 2, 'gadget': 2, 'crew': 5, 'fuel': 1, 'hull': 60000, 'tribbles': False},
-             'beetle': {'model': 'beetle', 'cargo': 50, 'weapon': 0, 'shield': 1, 'shieldstrengh': 1, 'gadget': 3, 'crew': 5, 'fuel': 0.93, 'hull': 80000, 'tribbles': False},
-             'hornet': {'model': 'hornet', 'cargo': 20, 'weapon': 3, 'shield': 2, 'shieldstrengh': 1, 'gadget': 2, 'crew': 5, 'fuel': 1.06, 'hull': 100000, 'tribbles': False},
-             'grasshopper': {'model': 'grasshopper', 'cargo': 30, 'weapon': 2, 'shield': 2, 'shieldstrengh': 3, 'gadget': 3, 'crew': 6, 'fuel': 1, 'hull': 150000, 'tribbles': False},
-             'termite': {'model': 'termite', 'cargo': 60, 'weapon': 1, 'shield': 3, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'fuel': 0.86, 'hull': 225000, 'tribbles': False},
-             'wasp': {'model': 'wasp', 'cargo': 35, 'weapon': 3, 'shield': 2, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'fuel': 0.93, 'hull': 300000, 'tribbles': False},
-             'spacemonster': {'model': 'spacemonster', 'cargo': 0, 'weapon': 3, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'fuel': 0.5, 'hull': 500000, 'tribbles': False},
+SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 0, 'crew': 0, 'efficiency': 1, 'hull': 500, 'tribbles': False},
+             'flea': {'model': 'flea', 'cargo': 10, 'weapon': 1, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'efficiency': 1, 'hull': 2000, 'tribbles': False},
+             'gnat': {'model': 'gnat', 'cargo': 15, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 1, 'efficiency': 0.93, 'hull': 10000, 'tribbles': False},
+             'firefly': {'model': 'firefly', 'cargo': 20, 'weapon': 1, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 2, 'efficiency': 1.15, 'hull': 25000, 'tribbles': False},
+             'mosquito': {'model': 'mosquito', 'cargo': 15, 'weapon': 2, 'shield': 1, 'shieldstrengh': 1, 'gadget': 1, 'crew': 5, 'efficiency': 0.86, 'hull': 30000, 'tribbles': False},
+             'bumblebee': {'model': 'bumblebee', 'cargo': 25, 'weapon': 1, 'shield': 2, 'shieldstrengh': 2, 'gadget': 2, 'crew': 5, 'efficiency': 1, 'hull': 60000, 'tribbles': False},
+             'beetle': {'model': 'beetle', 'cargo': 50, 'weapon': 0, 'shield': 1, 'shieldstrengh': 1, 'gadget': 3, 'crew': 5, 'efficiency': 0.93, 'hull': 80000, 'tribbles': False},
+             'hornet': {'model': 'hornet', 'cargo': 20, 'weapon': 3, 'shield': 2, 'shieldstrengh': 1, 'gadget': 2, 'crew': 5, 'efficiency': 1.06, 'hull': 100000, 'tribbles': False},
+             'grasshopper': {'model': 'grasshopper', 'cargo': 30, 'weapon': 2, 'shield': 2, 'shieldstrengh': 3, 'gadget': 3, 'crew': 6, 'efficiency': 1, 'hull': 150000, 'tribbles': False},
+             'termite': {'model': 'termite', 'cargo': 60, 'weapon': 1, 'shield': 3, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'efficiency': 0.86, 'hull': 225000, 'tribbles': False},
+             'wasp': {'model': 'wasp', 'cargo': 35, 'weapon': 3, 'shield': 2, 'shieldstrengh': 2, 'gadget': 3, 'crew': 7, 'efficiency': 0.93, 'hull': 300000, 'tribbles': False},
+             'spacemonster': {'model': 'spacemonster', 'cargo': 0, 'weapon': 3, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 0, 'efficiency': 0.5, 'hull': 500000, 'tribbles': False},
              # these have special purpose and cannot be bought
-             'dragonfly': {'model': 'dragonfly', 'cargo': 0, 'weapon': 2, 'shield': 3, 'shieldstrengh': 2, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'mantis': {'model': 'mantis', 'cargo': 0, 'weapon': 3, 'shield': 1, 'shieldstrengh': 3, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'scarab': {'model': 'scarab', 'cargo': 20, 'weapon': 2, 'shield': 0, 'shieldstrengh': 0, 'gadget': 2, 'crew': 1, 'fuel': 0.53, 'hull': 500000, 'tribbles': False},
-             'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'fuel': 0.53, 'hull': 100, 'tribbles': False},
+             'dragonfly': {'model': 'dragonfly', 'cargo': 0, 'weapon': 2, 'shield': 3, 'shieldstrengh': 2, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'mantis': {'model': 'mantis', 'cargo': 0, 'weapon': 3, 'shield': 1, 'shieldstrengh': 3, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'scarab': {'model': 'scarab', 'cargo': 20, 'weapon': 2, 'shield': 0, 'shieldstrengh': 0, 'gadget': 2, 'crew': 1, 'efficiency': 0.53, 'hull': 500000, 'tribbles': False},
+             'bottle': {'model': 'bottle', 'cargo': 0, 'weapon': 0, 'shield': 0, 'shieldstrengh': 0, 'gadget': 1, 'crew': 1, 'efficiency': 0.53, 'hull': 100, 'tribbles': False},
              }
-# SHIPNAMES = []
+
+# TODO/FIXME best to separate?
+EQUIPEMENTS = {'weapons': {'pulse': 1, 'beam': 2, 'military': 3},
+               'shields': {'energy': 1, 'reflective': 2, 'lightning': 3},
+               'gadgets': {'autorepair': 1,
+                           'navigating': 1,
+                           'targeting': 1,
+                           'cloacking': 1,
+                           'escape': 1},
+               'compactor': 1,
+               'cargopod': 5}
 
 MERCENARYNAMES = ['Jameson', 'Alyssa', 'Armatur', 'Bentos', 'C2U2',
                   'ChTi', 'Crystal', 'Dane', 'Deirdre', 'Doc', 'Draco',

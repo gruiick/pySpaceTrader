@@ -16,6 +16,7 @@ import constants
 import core
 import sgui
 
+from itertools import groupby
 from pprint import pprint
 
 # Globals
@@ -47,7 +48,7 @@ def buy_cargo(facture):
 
     # unpack incoming invoice
     good_type = facture.good_type
-    good_price = facture.good_price
+    good_price = facture.good_value
     qty = facture.quantity
     cargo_value = facture.total_value
 
@@ -68,16 +69,45 @@ def buy_cargo(facture):
             available_cargo -= 1
             captain.location.price_slip[good_type][2] -= 1
         captain.account.log.append(facture)
-        print(f'{captain.account.log}')
+        # print(f'{captain.account.log}')
         captain.account.cash -= cargo_value
         update_trading(window['-LOC-TABLE-'], captain.location)
         update_cargo_board()
         update_docks_board(captain.location)
+        update_bank()
 
 
-def draw_limite(position, rayon=None):
+def buy_ship(idx):
+    """ FIXME replace current ship by new one """
+    new_ship = captain.location.shipyard[idx]
+    old_ship = captain.ship
+    # transfert fuel (only if new.reservoir >= old.reservoir)
+    if old_ship.reservoir <= new_ship.reservoir:
+        new_ship.reservoir = old_ship.reservoir
+    # transfert cargo
+    for index in range(old_ship.model['cargo']):
+        if old_ship.cargo[index]['type'] is not None:
+            new_ship.cargo[index]['type'] = old_ship.cargo[index]['type']
+            new_ship.cargo[index]['value'] = old_ship.cargo[index]['value']
+    # transfert gadget
+    new_ship.gadget = old_ship.gadget
+    # TODO transfert crew(s)
+
+    invoice = core.Transaction('-', new_ship.model['model'], new_ship.model['price'], 1)
+    captain.ship = new_ship
+    captain.location.shipyard[idx] = old_ship
+    captain.account.cash -= invoice.total_value
+    captain.account.log.append(invoice)
+    update_cargo_board()
+    update_docks_board(captain.location)
+    update_bank()
+    update_captain_ship()
+    update_shipyard(captain.location)
+
+
+def draw_limite(point, rayon=None):
     """ erase and redraw the parsec limit
-    position: Position object or attribute
+    point: Point object or position attribute
     rayon: int (or None)
     """
     if rayon is None:
@@ -86,7 +116,7 @@ def draw_limite(position, rayon=None):
         # erase previous circle (if any)
         graph.delete_figure(item)
     limite.clear()
-    limite.append(graph.draw_circle(position.position, rayon, line_color=COLORS['limit']))
+    limite.append(graph.draw_circle(point.position, rayon, line_color=COLORS['limit']))
 
 
 def draw_map(rayon=None):
@@ -126,7 +156,7 @@ def draw_map(rayon=None):
 
 def draw_target(pos):
     """ erase and redraw the target
-    pos: planet or position object (with x, y attributes)
+    pos: Planet or Point object (with x, y attributes)
     """
     for item in target:
         graph.delete_figure(item)
@@ -191,7 +221,7 @@ def next_turn():
             # switch captain position
             captain.location = captain.destination
             captain.destination = None
-            pprint(captain.ship.cargo)
+            # pprint(captain.ship.cargo)
             # update gui
             draw_map(rayon=rayon)
             update_gui()
@@ -202,11 +232,11 @@ def next_turn():
 
 
 def on_click(position):
-    """ redraw graph with new clicked Position or selected Planet"""
+    """ redraw graph with new clicked Point or selected Planet"""
     clicked_position = position
     for planete in planetes:
         if planete.distance(position) <= 5:
-            position = core.Position(planete.x, planete.y)
+            position = core.Point(planete.x, planete.y)
             clicked_position = planete
 
             if clicked_position.distance(captain.location) <= captain.ship.reservoir:
@@ -224,7 +254,7 @@ def refuel():
     """ refuel the captain.ship according to captain.account.cash,
     captain.ship.reservoir and planete.fuel_price
     """
-    capacity = int(captain.ship.model['fuel'] * MAXP)
+    capacity = int(captain.ship.model['efficiency'] * MAXP)
     quantity = captain.location.price_slip['fuel'][2]
     fuel_price = captain.location.price_slip['fuel'][1]
     reserve = captain.ship.reservoir
@@ -235,24 +265,19 @@ def refuel():
         if fuel_deficit > quantity:
             fuel_deficit = quantity
 
-        # TODO make it a Transaction and log it
-        fuel_invoice = fuel_deficit * fuel_price
-        print(f'fuel: {fuel_deficit:.2f}T')
-        print(f'fuel price: {fuel_invoice:.2f} Cr')
+        fuel_invoice = core.Transaction('-', 'fuel', fuel_price, fuel_deficit)
 
-        if fuel_invoice <= captain.account.cash:
-            captain.account.cash = captain.account.cash - fuel_invoice
-            # refuel = reserve + fuel_deficit
-            # captain.ship.reservoir = refuel
+        if fuel_invoice.total_value <= captain.account.cash:
+            captain.account.cash -= fuel_invoice.total_value
             captain.ship.reservoir = reserve + fuel_deficit
-            # rayon = refuel
+            captain.account.log.append(fuel_invoice)
             captain.location.price_slip['fuel'][2] -= fuel_deficit
-            # draw_limite(captain.location, rayon)
             draw_limite(captain.location, captain.ship.reservoir)
             update_trading(window['-LOC-TABLE-'], captain.location)
             update_affiche(captain)
             update_cargo_board()
             update_planet_selector()
+            update_bank()
             window['-REFUEL-'].update(disabled=True)
 
         else:
@@ -283,20 +308,24 @@ def save_as():
 def sell_cargo(pods, dump=False):
     """ sell (or dump) good from list of pods """
 
-    pprint(pods)
-    # TODO use Transaction(), but separate by good_type to log
-    # into bankaccount
-    for goods in pods:
-        index, good_type, good_value = goods
-
-        captain.location.price_slip[good_type][2] += 1
-        # TODO update planet(prices)
-        captain.ship.unload_cargo(index)
-        # captain.ship.cargo[index]['type'] = None
-        # captain.ship.cargo[index]['value'] = None
-
+    # pprint(pods)
+    ordlist = sorted(pods, key=lambda x: x[1])  # sort on good_type
+    for key, value in groupby(ordlist, lambda x: [x[1], x[2]]):  # sort on [good_type, good_value]
+        idx = []
+        valeurs = list(value)
+        for items in valeurs:
+            idx.append(items[0])
+        good_type = key[0]
+        good_price = captain.location.price_slip[good_type][0]
+        qty = len(idx)
+        facture = core.Transaction('+', good_type, good_price, qty)
         if not dump:
-            captain.account.cash += captain.location.price_slip[good_type][0]
+            captain.account.log.append(facture)
+            captain.account.cash += facture.total_value
+
+        captain.location.price_slip[good_type][2] += qty
+        for index in idx:
+            captain.ship.unload_cargo(index)
 
     update_gui()
 
@@ -383,6 +412,11 @@ def update_affiche(objet):
         window['-IN-RESERVE-'].update(value=f'{_reserve:.2f}')
 
 
+def update_bank():
+    """ update bank table with account.log """
+    window['-BANK-TABLE-'].update(values=captain.account.display())
+
+
 def update_buy_goods(planet):
     """ update values in combo's goods Cargo frame """
     _key_list = []
@@ -417,6 +451,17 @@ def update_buy_qty(good=None):
             _value_list = ''
 
     window['-IN-QTY-'].update(values=_value_list)
+
+
+def update_captain_ship():
+    """ display ship characteristics """
+    window['-CPTN-SHIP-MODEL-'].update(value=f"Ship: {captain.ship.model['model']} ")
+    window['-CPTN-SHIP-PODS-'].update(value=f"{captain.ship.model['cargo']}")
+    window['-CPTN-SHIP-WPNS-'].update(value=f"{captain.ship.model['weapon']}")
+    window['-CPTN-SHIP-SHLDS-'].update(value=f"{captain.ship.model['shield']}")
+    window['-CPTN-SHIP-GDGT-'].update(value=f"{captain.ship.model['gadget']}")
+    window['-CPTN-SHIP-CREW-'].update(value=f"{captain.ship.model['crew']}")
+    window['-CPTN-SHIP-HULL-'].update(value=f"{captain.ship.model['hull']}")
 
 
 def update_cargo_board():
@@ -456,7 +501,7 @@ def update_gui():
     update_affiche(captain)
     update_affiche(captain.location)
 
-    capacity = int(captain.ship.model['fuel'] * MAXP)
+    capacity = int(captain.ship.model['efficiency'] * MAXP)
     if (captain.ship.reservoir < capacity) and (captain.location.price_slip['fuel'][2] != 0):
         window['-REFUEL-'].update(disabled=False)
     else:
@@ -481,6 +526,10 @@ def update_gui():
     update_trading(window['-LOC-TABLE-'], captain.location)
     update_buy_goods(captain.location)
     update_cargo_board()
+    # pprint(captain.account.log)
+    update_bank()
+    update_captain_ship()
+    update_shipyard(captain.location)
 
 
 def update_invoice(good_type, qty):
@@ -489,8 +538,7 @@ def update_invoice(good_type, qty):
     return a core.Transaction() object
     """
     good_price = captain.location.price_slip[good_type][1]
-    # cargo_value = good_price * qty
-    invoice = core.Transaction(good_type, good_price, qty)
+    invoice = core.Transaction('-', good_type, good_price, qty)
     cargo_value = invoice.total_value
 
     if cargo_value > captain.account.cash:
@@ -500,7 +548,7 @@ def update_invoice(good_type, qty):
         window['-IN-INVOICE-'].update(value=f'{cargo_value:.2f}', text_color='black')
         window['-BUY-CARGO-'].update(disabled=False)
 
-    print(f'{invoice}')
+    # print(f'{invoice}')
     return invoice
 
 
@@ -528,6 +576,20 @@ def update_profit(planet=None):
     else:
         valeurs = core.calculate_profit_pod(captain.location, planet)
         window['-PROFIT-TABLE-'].update(values=valeurs)
+
+
+def update_shipyard(planete):
+    """ update shipyard tab: if there is any ship in planete.shipyard,
+    show them, else 'None'
+    """
+    if planete.tech_level < 5:
+        window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
+    else:
+        if planete.shipyard:
+            liste = []
+            for item in planete.shipyard:
+                liste.append(item.display())
+            window['-SHIP-TABLE-'].update(values=liste)
 
 
 def update_trading(element, planet=None):
@@ -566,7 +628,7 @@ if __name__ == '__main__':
                 sg.popup_error(f'No game loaded!')
             else:
                 x, y = values['-GRAPH-']
-                position = core.Position(x, y)
+                position = core.Point(x, y)
                 on_click(position)
 
         elif event == '-HOMEWORLD-':
@@ -632,6 +694,16 @@ if __name__ == '__main__':
 
         elif event == '-DUMP-':
             sell_cargo(values['-MANIFEST-'], dump=True)
+
+        elif event == '-SHIP-TABLE-':
+            idx = int(values['-SHIP-TABLE-'][0])
+            ship_price = captain.location.shipyard[idx].model['price']
+            print(f'{idx}: {ship_price}')
+            if ship_price <= captain.account.cash:
+                window['-BUY-SHIP-'].update(disabled=False)
+
+        elif event == '-BUY-SHIP-':
+            buy_ship(int(values['-SHIP-TABLE-'][0]))
 
         elif event == 'About':
             sg.popup(f'{msg_overview}')

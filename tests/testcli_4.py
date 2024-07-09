@@ -63,10 +63,11 @@ def convert(dic):
 
 
 def sell_cargo(pods):
-    """ FIXME use Transaction() """
+    """ use Transaction() """
 
-    # ça marche pour transaction, mais il manque les indices des pods
+    # avec une transaction, et les indices des pods
     # pour les vidanger...
+    # /!\ groupby est un générateur -> purge à l'appel
 
     a = sorted(pods, key=lambda x: x[1])  # tri sur good_type
     for key, value in groupby(a, lambda x: [x[1], x[2]]):  # tri sur good_type, good_value
@@ -76,7 +77,7 @@ def sell_cargo(pods):
         for items in valeurs:
             idx.append(items[0])
         print(f'key: {key[0]}, {key[1]}, {list(valeurs)}')
-        print(f'len: {[len(list(valeurs)), key]}')
+        print(f'len: {len(list(valeurs))}')
         print(f'idx: {idx}')
         captain.account.log.append(core.Transaction(key[0], key[1], len(list(valeurs))))
 
