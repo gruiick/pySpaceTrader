@@ -513,11 +513,11 @@ def save_game(univers, fname=None):
     """
     # TODO use try/except
     if not fname:
-        fname = 'savegame.db'
-    else:
-        # TODO gérer proprement l'extension
-        fname = f"{fname}.db"
-    with shelve.open(fname, 'n') as savefile:
+        fname = 'savegame'
+    # else:
+        # shelve/dbm ajoute deja proprement l'extension
+        # fname = f"{fname}.db"
+    with shelve.open(fname, 'cs') as savefile:
         savefile['univers'] = univers
         savefile.close()
 
