@@ -290,8 +290,10 @@ def refuel():
 
 
 def save():
-    """ save into the previously open/selected file """
-    pass
+    """ save into the previously open/selected file: fname? """
+    # where is fname stored? constant? 'savegame' as default?
+    print(fname)
+    core.save_game(univers, fname=fname)
 
 
 def save_as():
