@@ -31,6 +31,7 @@ msg_overview = '\n'.join(['pySpaceTrader', constants.VERSION, overview])
 univers = []            # global container for game objects
 target = []             # items composing the 'target'
 limite = []             # item composing the limit circle
+fname = 'savegame'      # we need a default filename
 
 # define GUI, using sgui.py layout
 # create window
@@ -171,7 +172,7 @@ def draw_target(pos):
 
 def load_file():
     """ load saved game """
-    global univers, planetes, captain
+    global univers, planetes, captain, fname
     fname = sg.popup_get_file('Saved game to open',
                               default_extension='.db',
                               file_types=(('saved game(s)', '*.db'),
@@ -188,7 +189,7 @@ def load_file():
 
 def new_game():
     """ new game """
-    global univers, planetes, captain
+    global univers, planetes, captain, fname
     # create universe
     univers = core.create_universe()
     # set planets apart
@@ -197,6 +198,7 @@ def new_game():
     # set Captain apart too
     _toto = [x for x in univers if isinstance(x, core.Captain)]
     captain = _toto[0]
+    fname = captain.homeworld.name
     # pprint(captain.__dict__)
     draw_map()
     update_gui()
@@ -292,19 +294,22 @@ def refuel():
 def save():
     """ save into the previously open/selected file: fname? """
     # where is fname stored? constant? 'savegame' as default?
+    global univers, fname
     print(fname)
     core.save_game(univers, fname=fname)
 
 
 def save_as():
     """ save to a new file """
+    global univers, captain
     fname = sg.popup_get_file('Save game to file',
                               save_as=True,
                               default_extension='',
                               file_types=(('saved game(s)', '*.db'),
                                           ('all files', '*.*')),
                               ).replace('.db', '')
-    # print(fname)
+    if not fname:
+        fname = captain.homeworld.name
     core.save_game(univers, fname=fname)
 
 
@@ -621,6 +626,9 @@ if __name__ == '__main__':
 
         elif event == 'Load':
             load_file()
+
+        elif event == 'Save':
+            save()
 
         elif event == 'Save_as':
             # TODO: SaveAs vs 'Save to existing'

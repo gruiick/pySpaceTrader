@@ -32,10 +32,11 @@ sg.theme('SystemDefaultForReal')
 menu_layout = [['&Game',
                 ['&New',
                  '&Load',
-                 '&Save_as',
+                 '&Save',
+                 'S&ave_as',
                  'E&xit']],
-                ['Help',
-                 '&About'],
+                ['&Help',
+                 'A&bout'],
                 ]
 
 # Common UI

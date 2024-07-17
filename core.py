@@ -430,15 +430,13 @@ def create_universe():
     return univers
 
 
-def load_game(fname=None):
+def load_game(fname):
     """ open the previously saved shelve and load the game data """
     # TODO use try/except
     poney = []
-    if not fname:
-        fname = 'savegame'
-    with shelve.open(fname, 'r') as savefile:
-        poney = savefile['univers']
-        savefile.close()
+    with shelve.open(fname, 'r') as loadfile:
+        poney = loadfile['univers']
+        loadfile.close()
 
     return poney
 
@@ -500,23 +498,20 @@ def print_universe(univers):
                 pprint(item.__dict__)
 
         elif isinstance(truc, Captain):
-            print(f'{truc.name}: {truc.homeworld.name}, {truc.ship.model}')
+            print(f'{truc.name}, {truc.homeworld.name}, {truc.ship.model}')
             pprint(truc.ship.__dict__)
             pprint(truc.__dict__)
             print(f'Distance: {truc.homeworld.distance(bidule):.2f}\n')
             print(f'{truc.account.display()}')
+    pprint(univers)
 
 
-def save_game(univers, fname=None):
+def save_game(univers, fname):
     """ open a new empty shelve (or overwrite previous one)
         to write the game data
     """
     # TODO use try/except
-    if not fname:
-        fname = 'savegame'
-    # else:
-        # shelve/dbm ajoute deja proprement l'extension
-        # fname = f"{fname}.db"
+
     with shelve.open(fname, 'c') as savefile:
         savefile['univers'] = univers
         savefile.close()
