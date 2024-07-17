@@ -517,7 +517,7 @@ def save_game(univers, fname=None):
     # else:
         # shelve/dbm ajoute deja proprement l'extension
         # fname = f"{fname}.db"
-    with shelve.open(fname, 'cs') as savefile:
+    with shelve.open(fname, 'c') as savefile:
         savefile['univers'] = univers
         savefile.close()
 
