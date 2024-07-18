@@ -7,7 +7,7 @@ Althought this is a toy project, I do accept contributions of any kind (except m
 
 * You can play and test, and open issues,
 
-* You can fork and propose your modifications via Pull Requests (PR),
+* You can fork and propose your modifications via Pull Requests (PR) against 'develop' branch,
 
 * You can also write any kind of documentation,
 

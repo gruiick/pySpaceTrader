@@ -23,11 +23,6 @@ TODO
     (re)compute prices & stocks on planets each turn, but not in "sub-turn"
 
 * Shipyard tab
-    only on Industrial to Hi-tech level [5-7]   -> OK
-    display Planet.Shipyard(), which contain Ship()  -> OK
-    show available ships, caracteristics and prices  -> OK
-    buy/replace current ship                        -> OK
-    transfert elements to new ship                  -> OK
     weapons avail if 'firearms' in location.stocks
     shields avail if 'robots'  in location.stocks + progress bar on damages
     hull: progress bar on damages
@@ -73,6 +68,14 @@ Later:
 Done:
 =====
 
+* Shipyard tab
+    only on Industrial to Hi-tech level [5-7]   -> OK
+    only on Industrial to Hi-tech level [5-7]   -> OK
+    display Planet.Shipyard(), which contain Ship()  -> OK
+    show available ships, caracteristics and prices  -> OK
+    buy/replace current ship                        -> OK
+    transfert elements to new ship                  -> OK
+
 * Bank tab
     * transactions log -> OK
     * display transactions log -> OK
@@ -88,12 +91,13 @@ cash != balance
 achat = purchase, buy -> cargo qty, cargo value
 vente = sale, sell (vendre)
 
-* séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py ?
+* séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py
 
 
 * sGUI :
     tester PySimpleGUI  -> OK
-    bascule *en cours*  -> OK
+    switch to PySimpleGUI-4-foss  -> OK
+    * https://github.com/gruiick/PySimpleGUI-4-foss/tree/foss/docs
     * https://pysimplegui.readthedocs.io/en/latest/
     * https://pysimplegui.readthedocs.io/en/latest/cookbook/
 
