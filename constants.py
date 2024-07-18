@@ -25,6 +25,7 @@ MAXPARSEC = 120  # must be dividable by 15
 CASH = 15000
 MAXPLANET = 120
 MIN_DISTANCE = 12
+FILENAME = 'savegame'  # we need a default filename
 
 COLORS = {'default': 'brown',
           'limit': 'red',

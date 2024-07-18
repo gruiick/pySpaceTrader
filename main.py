@@ -24,6 +24,7 @@ MAXW = constants.MAXWIDTH
 MAXH = constants.MAXHEIGHT
 MAXP = constants.MAXPARSEC
 COLORS = constants.COLORS
+fname = constants.FILENAME  # needed for blind save
 
 overview = ' '.join(constants.OVERVIEW)
 msg_overview = '\n'.join(['pySpaceTrader', constants.VERSION, overview])
@@ -31,7 +32,6 @@ msg_overview = '\n'.join(['pySpaceTrader', constants.VERSION, overview])
 univers = []            # global container for game objects
 target = []             # items composing the 'target'
 limite = []             # item composing the limit circle
-fname = 'savegame'      # we need a default filename
 
 # define GUI, using sgui.py layout
 # create window
