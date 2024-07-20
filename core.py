@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.4 $
+# $Id: core.py 1565.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -430,14 +430,14 @@ def create_universe():
     return univers
 
 
-def load_game(fname):
+def load_file(fname):
     """ open the previously saved shelve and load the game data """
-    # TODO use try/except
+    # FIXME use try/except may not work here, go upstairs
     poney = []
+
     with shelve.open(fname, 'r') as loadfile:
         poney = loadfile['univers']
         loadfile.close()
-
     return poney
 
 
@@ -506,12 +506,11 @@ def print_universe(univers):
     pprint(univers)
 
 
-def save_game(univers, fname):
+def save_file(univers, fname):
     """ open a new empty shelve (or overwrite previous one)
         to write the game data
     """
     # TODO use try/except
-
     with shelve.open(fname, 'c') as savefile:
         savefile['univers'] = univers
         savefile.close()

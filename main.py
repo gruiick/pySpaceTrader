@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.3 $
+# $Id: main.py 1571.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -90,8 +90,8 @@ def buy_ship(idx):
         if old_ship.cargo[index]['type'] is not None:
             new_ship.cargo[index]['type'] = old_ship.cargo[index]['type']
             new_ship.cargo[index]['value'] = old_ship.cargo[index]['value']
-    # transfert gadget
-    new_ship.gadget = old_ship.gadget
+    # transfert gadgets
+    new_ship.gadgets = old_ship.gadgets
     # TODO transfert crew(s)
 
     invoice = core.Transaction('-', new_ship.model['model'], new_ship.model['price'], 1)
@@ -170,16 +170,30 @@ def draw_target(pos):
                                   color=COLORS['target']))
 
 
-def load_file():
+def load_game():
     """ load saved game """
     global univers, planetes, captain, fname
-    fname = sg.popup_get_file('Saved game to open',
-                              default_extension='.db',
-                              file_types=(('saved game(s)', '*.db'),
-                                          ('all files', '*.*')),
-                              ).replace('.db', '')
-    # print(fname)
-    univers = core.load_game(fname=fname)
+    # TODO: use try/except
+    # replace -> AttributeError
+    # empty -> error? OSError?
+    # if ".db" TypeError?
+    try:
+        fname = sg.popup_get_file('Saved game to open',
+                                   default_extension='.db',
+                                   file_types=(('saved game(s)', '*.db'),
+                                               ('all files', '*.*')),
+                                  )  # .replace('.db', '')
+    except AttributeError:
+        pass
+
+    if fname == "":
+        print("empty filename!")
+        load_game()
+
+    if ".db" not in fname:
+        fname = fname + ".db"
+
+    univers = core.load_file(fname=fname)
     planetes = [x for x in univers if isinstance(x, core.Planet)]
     _toto = [x for x in univers if isinstance(x, core.Captain)]
     captain = _toto[0]
@@ -296,21 +310,28 @@ def save():
     # where is fname stored? constant? 'savegame' as default?
     global univers, fname
     print(fname)
-    core.save_game(univers, fname=fname)
+    if ".db" not in fname:
+        fname = fname + ".db"
+
+    core.save_file(univers, fname=fname)
 
 
 def save_as():
     """ save to a new file """
-    global univers, captain
-    fname = sg.popup_get_file('Save game to file',
-                              save_as=True,
-                              default_extension='',
-                              file_types=(('saved game(s)', '*.db'),
-                                          ('all files', '*.*')),
-                              ).replace('.db', '')
+    global univers, captain, fname
+    try:
+        fname = sg.popup_get_file('Save game to file',
+                                  save_as=True,
+                                  default_extension='',
+                                  file_types=(('saved game(s)', '*.db'),
+                                              ('all files', '*.*')),
+                                  ).replace('.db', '')
+    except AttributeError:
+        pass
+
     if not fname:
         fname = captain.homeworld.name
-    core.save_game(univers, fname=fname)
+    core.save_file(univers, fname=fname)
 
 
 def sell_cargo(pods, dump=False):
@@ -596,6 +617,7 @@ def update_shipyard(planete):
         window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
     else:
         if planete.shipyard:
+            window['-PLNT-SHIPYD-LOC-'].update(planete.name)
             liste = []
             for item in planete.shipyard:
                 liste.append(item.display())
@@ -625,7 +647,7 @@ if __name__ == '__main__':
             new_game()
 
         elif event == 'Load':
-            load_file()
+            load_game()
 
         elif event == 'Save':
             save()

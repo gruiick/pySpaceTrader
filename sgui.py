@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.3 $
+# $Id: sgui.py 1566.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -399,7 +399,8 @@ tab_bank = [[bank_table],
 # Shipyard tab layouts
 # FIXME gadgets, weapons, shields and crew will be lists -> "ship details msg box"?
 captain_ship = sg.Frame(
-    layout=[[sg.Text('Pods:',
+    layout=[
+            [sg.Text('Pods:',
                      justification='left'),
              sg.Text('',
                      key='-CPTN-SHIP-PODS-',
@@ -572,7 +573,8 @@ fuel_mngt = sg.Frame(
     )
 
 ship_list = sg.Frame(
-    layout=[[sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
+    layout=[
+            [sg.Table(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]],
                       headings=['Model',
                                 'Pod(s)',
                                 'Weapon(s)',
@@ -601,6 +603,7 @@ ship_list = sg.Frame(
                        disabled=True)]
     ],
     title='',
+    key='-PLNT-SHIPYD-LOC-',
     element_justification='left',
     )
 
