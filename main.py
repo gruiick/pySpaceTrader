@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.4 $
+# $Id: main.py 1571.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -90,7 +90,7 @@ def buy_ship(idx):
         if old_ship.cargo[index]['type'] is not None:
             new_ship.cargo[index]['type'] = old_ship.cargo[index]['type']
             new_ship.cargo[index]['value'] = old_ship.cargo[index]['value']
-    # transfert gadgets
+    # FIXME transfert gadgets properly (vice-versa)
     new_ship.gadgets = old_ship.gadgets
     # TODO transfert crew(s)
 
@@ -98,6 +98,7 @@ def buy_ship(idx):
     captain.ship = new_ship
     captain.location.shipyard[idx] = old_ship
     captain.account.cash -= invoice.total_value
+    # old ship should be selled at a second hand price
     captain.account.log.append(invoice)
     update_cargo_board()
     update_docks_board(captain.location)
@@ -617,11 +618,11 @@ def update_shipyard(planete):
         window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
     else:
         if planete.shipyard:
-            window['-PLNT-SHIPYD-LOC-'].update(planete.name)
-            liste = []
+            ships_list = []
             for item in planete.shipyard:
-                liste.append(item.display())
-            window['-SHIP-TABLE-'].update(values=liste)
+                ships_list.append(item.display())
+            window['-SHIP-TABLE-'].update(values=ships_list)
+            window['-PLNT-SHIPYD-LOC-'].update(planete.name)
 
 
 def update_trading(element, planet=None):
@@ -731,11 +732,16 @@ if __name__ == '__main__':
             sell_cargo(values['-MANIFEST-'], dump=True)
 
         elif event == '-SHIP-TABLE-':
-            idx = int(values['-SHIP-TABLE-'][0])
+            # event cleared after or in update_shipyard()
+            try:
+                idx = int(values['-SHIP-TABLE-'][0])
+            except IndexError:
+                idx = 0
             ship_price = captain.location.shipyard[idx].model['price']
-            print(f'{idx}: {ship_price}')
             if ship_price <= captain.account.cash:
                 window['-BUY-SHIP-'].update(disabled=False)
+            else:
+                window['-BUY-SHIP-'].update(disabled=True)
 
         elif event == '-BUY-SHIP-':
             buy_ship(int(values['-SHIP-TABLE-'][0]))
