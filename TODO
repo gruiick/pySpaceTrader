@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.6 $
+# $Id: TODO 1544.develop.7 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -7,6 +7,9 @@ TODO
 
 * update_stocks() within next_turn()
     - update_shipyard() with progressive completion
+
+* Tradin tab
+    * selecting on item should highlight the whole line(s) on "profit expectation"
 
 * Bank tab
     * ? credit (pour rembourser le ship) ?
