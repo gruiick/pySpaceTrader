@@ -18,6 +18,7 @@ import sgui
 
 from itertools import groupby
 from pprint import pprint
+from platform import python_version
 
 # Globals
 MAXW = constants.MAXWIDTH
@@ -178,21 +179,32 @@ def load_game():
     # replace -> AttributeError
     # empty -> error? OSError?
     # if ".db" TypeError?
-    try:
-        fname = sg.popup_get_file('Saved game to open',
+    if "3.9" in python_version():
+        try:
+            fname = sg.popup_get_file('Saved game to open',
                                    default_extension='.db',
                                    file_types=(('saved game(s)', '*.db'),
                                                ('all files', '*.*')),
                                   )  # .replace('.db', '')
-    except AttributeError:
-        pass
+        except AttributeError:
+            pass
+    else:
+        try:
+            fname = sg.popup_get_file('Saved game to open',
+                                   default_extension='.db',
+                                   file_types=(('saved game(s)', '*.db'),
+                                               ('all files', '*.*')),
+                                  ).replace('.db', '')
+        except AttributeError:
+            pass
 
     if fname == "":
         print("empty filename!")
         load_game()
 
-    if ".db" not in fname:
-        fname = fname + ".db"
+    if "3.9" in python_version():
+        if ".db" not in fname:
+            fname = fname + ".db"
 
     univers = core.load_file(fname=fname)
     planetes = [x for x in univers if isinstance(x, core.Planet)]
@@ -311,8 +323,13 @@ def save():
     # where is fname stored? constant? 'savegame' as default?
     global univers, fname
     print(fname)
-    if ".db" not in fname:
-        fname = fname + ".db"
+
+    if "3.9" in python_version():
+        if ".db" not in fname:
+            fname = fname + ".db"
+    else:
+        if ".db" in fname:
+            fname = fname.rstrip('.db')
 
     core.save_file(univers, fname=fname)
 
