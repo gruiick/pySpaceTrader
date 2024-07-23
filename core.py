@@ -434,7 +434,7 @@ def load_file(fname):
     """ open the previously saved shelve and load the game data """
     # FIXME use try/except may not work here, go upstairs
     poney = []
-
+    print(f"{fname}")
     with shelve.open(fname, 'r') as loadfile:
         poney = loadfile['univers']
         loadfile.close()
