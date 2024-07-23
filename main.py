@@ -322,7 +322,7 @@ def save():
     """ save into the previously open/selected file: fname? """
     # where is fname stored? constant? 'savegame' as default?
     global univers, fname
-    print(fname)
+    print(f"{fname}")
 
     if "3.9" in python_version():
         if ".db" not in fname:
@@ -337,6 +337,8 @@ def save():
 def save_as():
     """ save to a new file """
     global univers, captain, fname
+    print(f"{fname}")
+
     try:
         fname = sg.popup_get_file('Save game to file',
                                   save_as=True,

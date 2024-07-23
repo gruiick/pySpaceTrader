@@ -511,6 +511,7 @@ def save_file(univers, fname):
         to write the game data
     """
     # TODO use try/except
+    print(f"{fname}")
     with shelve.open(fname, 'c') as savefile:
         savefile['univers'] = univers
         savefile.close()
