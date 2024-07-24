@@ -18,7 +18,9 @@ import sgui
 
 from itertools import groupby
 from pprint import pprint
+# because of '.db' between p3.7 and newer:
 from platform import python_version
+from packaging.version import Version
 
 # Globals
 MAXW = constants.MAXWIDTH
@@ -179,7 +181,7 @@ def load_game():
     # replace -> AttributeError
     # empty -> error? OSError?
     # if ".db" TypeError?
-    if "3.9" in python_version():
+    if Version(python_version()) >= Version('3.9'):
         try:
             fname = sg.popup_get_file('Saved game to open',
                                    default_extension='.db',
@@ -202,7 +204,7 @@ def load_game():
         print("empty filename!")
         load_game()
 
-    if "3.9" in python_version():
+    if Version(python_version()) >= Version('3.9'):
         if ".db" not in fname:
             fname = fname + ".db"
 
@@ -324,7 +326,7 @@ def save():
     global univers, fname
     print(f"{fname}")
 
-    if "3.9" in python_version():
+    if Version(python_version()) >= Version('3.9'):
         if ".db" not in fname:
             fname = fname + ".db"
     else:
