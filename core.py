@@ -430,17 +430,6 @@ def create_universe():
     return univers
 
 
-def load_file(fname):
-    """ open the previously saved shelve and load the game data """
-    # FIXME use try/except may not work here, go upstairs
-    poney = []
-    print(f"{fname}")
-    with shelve.open(fname, 'r') as loadfile:
-        poney = loadfile['univers']
-        loadfile.close()
-    return poney
-
-
 def make_planet():
     """ initialize a Planet()
     return a Planet object
@@ -477,6 +466,7 @@ def populate_shipyard():
 
     return inliste
 
+
 def print_universe(univers):
     """ print the current universe (debug purpose) """
 
@@ -504,6 +494,17 @@ def print_universe(univers):
             print(f'Distance: {truc.homeworld.distance(bidule):.2f}\n')
             print(f'{truc.account.display()}')
     pprint(univers)
+
+
+def load_file(fname):
+    """ open the previously saved shelve and load the game data """
+    # FIXME use try/except may not work here, go upstairs
+    poney = []
+    print(f"{fname}")
+    with shelve.open(fname, 'r') as loadfile:
+        poney = loadfile['univers']
+        loadfile.close()
+    return poney
 
 
 def save_file(univers, fname):
