@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.5 $
+# $Id: main.py 1571.develop.6 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -643,6 +643,10 @@ def update_shipyard(planete):
                 ships_list.append(item.display())
             window['-SHIP-TABLE-'].update(values=ships_list)
             window['-PLNT-SHIPYD-LOC-'].update(planete.name)
+        else:
+            # no shipyard
+            window['-SHIP-TABLE-'].update(values=[['None', 0, 0, 0, 0, 0, 0, 0, 0, None, 0]])
+            window['-PLNT-SHIPYD-LOC-'].update(planete.name)
 
 
 def update_trading(element, planet=None):
@@ -757,11 +761,12 @@ if __name__ == '__main__':
                 idx = int(values['-SHIP-TABLE-'][0])
             except IndexError:
                 idx = 0
-            ship_price = captain.location.shipyard[idx].model['price']
-            if ship_price <= captain.account.cash:
-                window['-BUY-SHIP-'].update(disabled=False)
-            else:
-                window['-BUY-SHIP-'].update(disabled=True)
+            if captain.location.shipyard:
+                ship_price = captain.location.shipyard[idx].model['price']
+                if ship_price <= captain.account.cash:
+                    window['-BUY-SHIP-'].update(disabled=False)
+                else:
+                    window['-BUY-SHIP-'].update(disabled=True)
 
         elif event == '-BUY-SHIP-':
             buy_ship(int(values['-SHIP-TABLE-'][0]))
