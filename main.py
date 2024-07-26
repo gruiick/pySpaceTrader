@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.6 $
+# $Id: main.py 1571.develop.7 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -65,7 +65,7 @@ def buy_cargo(facture):
     # print(f'avail: {available_cargo}')
 
     if qty > available_cargo:
-        sg.popup_error(f'Cannot buy, not enought cargo space!')
+        sg.popup_error("Cannot buy, not enought cargo space!")
     else:
         for index in range(empty_pod[0], empty_pod[0] + qty):
             captain.ship.cargo[index]['type'] = good_type
@@ -259,7 +259,7 @@ def next_turn():
 
     # if there is no destination set ->AttributeError
     except AttributeError:
-        sg.popup(f'Set a destination first.')
+        sg.popup("'Set a destination first.")
 
 
 def on_click(position):
@@ -315,9 +315,9 @@ def refuel():
         else:
             # FIXME/TODO: how much can I buy?
             # and buy only that much or else 'not enought Cr'
-            sg.popup(f'Cannot buy fuel: not enought credit')
+            sg.popup("Cannot buy fuel: not enought credit")
     else:
-        sg.popup(f'Cannot buy fuel: full capacity')
+        sg.popup("Cannot buy fuel: full capacity")
 
 
 def save():
@@ -387,7 +387,7 @@ def set_destination(pos):
         distance = captain.location.distance(pos)
 
         if distance == 0:
-            sg.popup(f'Cannot set destination: Same as current location.')
+            sg.popup("Cannot set destination: Same as current location.")
 
         elif distance < captain.ship.reservoir:
             captain.destination = pos
@@ -400,12 +400,12 @@ def set_destination(pos):
             window['-NEXT-TURN-'].update(disabled=False)
 
         elif distance > int(captain.ship.model['fuel'] * MAXP):
-            sg.popup(f'Cannot set destination: Too far.')
+            sg.popup("Cannot set destination: Too far.")
         else:
-            sg.popup(f'Cannot set destination: Not enought fuel.')
+            sg.popup("Cannot set destination: Not enought fuel.")
 
     except AttributeError:
-        sg.popup(f'Cannot set destination: Same as current location.')
+        sg.popup("Cannot set destination: Same as current location.")
 
 
 def show_destination():
@@ -416,7 +416,7 @@ def show_destination():
         update_affiche(planete)
         # update_gui()
     else:
-        sg.popup(f'Cannot show destination: None set.')
+        sg.popup("Cannot show destination: None set.")
 
 
 def show_homeworld():
@@ -628,6 +628,18 @@ def update_profit(planet=None):
         window['-PROFIT-TABLE-'].update(values=valeurs)
 
 
+def update_profit_row_color(index):
+    """ ~invert~ colors on all 3 row of trading layout
+        -LOC-TABLE-, -PROFIT-TABLE-, -DEST-TABLE-
+        default_colors = bg='white', fg='black'
+        selected_colors = COLORS['target'], 'white'
+    """
+    #window['-LOC-TABLE-'].update(row_colors=((index, COLORS['target'], 'white'),))
+    window['-LOC-TABLE-'].update(select_rows=list(index))
+    window['-PROFIT-TABLE-'].update(select_rows=list(index))
+    window['-DEST-TABLE-'].update(select_rows=list(index))
+
+
 def update_shipyard(planete):
     """ update shipyard tab: if there is any ship in planete.shipyard,
     show them, else 'None'
@@ -685,7 +697,7 @@ if __name__ == '__main__':
 
         elif event == '-GRAPH-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 x, y = values['-GRAPH-']
                 position = core.Point(x, y)
@@ -693,25 +705,25 @@ if __name__ == '__main__':
 
         elif event == '-HOMEWORLD-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 show_homeworld()
 
         elif event == '-LOCATION-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 show_location()
 
         elif event == '-DESTINATION-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 show_destination()
 
         # elif event == '-SETDEST-':
             # if not univers:
-                # sg.popup_error(f'No game loaded!')
+                # sg.popup_error("No game loaded!")
             # else:
                 # set_map_destination()
 
@@ -723,13 +735,13 @@ if __name__ == '__main__':
 
         elif event == '-REFUEL-' or event == '-REFILL-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 refuel()
 
         elif event == '-NEXT-TURN-':
             if not univers:
-                sg.popup_error(f'No game loaded!')
+                sg.popup_error("No game loaded!")
             else:
                 next_turn()
 
@@ -742,6 +754,14 @@ if __name__ == '__main__':
                 window['-BUY-CARGO-'].update(disabled=True)
             else:
                 invoice = update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
+
+        # update color of selected row on all 3 trading tables
+        elif event == '-LOC-TABLE-':
+            update_profit_row_color(values['-LOC-TABLE-'])
+        elif event == '-PROFIT-TABLE-':
+            update_profit_row_color(values['-PROFIT-TABLE-'])
+        elif event == '-DEST-TABLE-':
+            update_profit_row_color(values['-DEST-TABLE-'])
 
         elif event == '-BUY-CARGO-':
             buy_cargo(invoice)

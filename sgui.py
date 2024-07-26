@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.4 $
+# $Id: sgui.py 1566.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -161,7 +161,10 @@ location_layout = sg.Frame(
                       num_rows=numrow,
                       justification='right',
                       hide_vertical_scroll=True,
-                      selected_row_colors=(COLORS['default'], 'white'),
+                      enable_events=True,
+                      # enable_click_events=True,
+                      # alternating_row_color='lightblue',
+                      selected_row_colors=(COLORS['target'], 'white'),
                       key='-LOC-TABLE-',
                       ),
     ]],
@@ -178,7 +181,10 @@ profit_layout = sg.Frame(
                       num_rows=numrow,
                       justification='right',
                       hide_vertical_scroll=True,
-                      selected_row_colors=(COLORS['default'], 'white'),
+                      enable_events=True,
+                      # enable_click_events=True,
+                      # alternating_row_color='lightblue',
+                      selected_row_colors=(COLORS['target'], 'white'),
                       key='-PROFIT-TABLE-',
                       ),
     ]],
@@ -193,7 +199,10 @@ destination_layout = sg.Frame(
                       num_rows=numrow,
                       justification='right',
                       hide_vertical_scroll=True,
-                      selected_row_colors=(COLORS['default'], 'white'),
+                      enable_events=True,
+                      # enable_click_events=True,
+                      # alternating_row_color='lightblue',
+                      selected_row_colors=(COLORS['target'], 'white'),
                       key='-DEST-TABLE-',
                       ),
     ]],
@@ -325,6 +334,7 @@ trading_board_col = sg.Column([[planet_selector],
                              element_justification='right',
                              vertical_alignment='top')
 
+# 3 cols in a row
 trading_loc_col = sg.Column([[location_layout]],
                             justification='left',
                             # element_justification='left',
