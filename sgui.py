@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.6 $
+# $Id: sgui.py 1566.develop.7 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -163,7 +163,7 @@ location_layout = sg.Frame(
                       hide_vertical_scroll=True,
                       # enable_events=True,
                       enable_click_events=True,
-                      # alternating_row_color='lightblue',
+                      alternating_row_color='lightblue',
                       selected_row_colors=(COLORS['target'], 'white'),
                       key='-LOC-TABLE-',
                       ),
@@ -183,7 +183,7 @@ profit_layout = sg.Frame(
                       hide_vertical_scroll=True,
                       # enable_events=True,
                       enable_click_events=True,
-                      # alternating_row_color='lightblue',
+                      alternating_row_color='lightblue',
                       selected_row_colors=(COLORS['target'], 'white'),
                       key='-PROFIT-TABLE-',
                       ),
@@ -201,7 +201,7 @@ destination_layout = sg.Frame(
                       hide_vertical_scroll=True,
                       # enable_events=True,
                       enable_click_events=True,
-                      # alternating_row_color='lightblue',
+                      alternating_row_color='lightblue',
                       selected_row_colors=(COLORS['target'], 'white'),
                       key='-DEST-TABLE-',
                       ),
@@ -604,7 +604,9 @@ ship_list = sg.Frame(
                       num_rows=8,
                       justification='right',
                       hide_vertical_scroll=True,
-                      enable_events=True,
+                      # enable_events=True,
+                      enable_click_events=True,
+                      alternating_row_color='lightblue',
                       selected_row_colors=(COLORS['selected'], 'white'),
                       key='-SHIP-TABLE-',
                       ), ],

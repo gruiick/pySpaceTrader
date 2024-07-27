@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.8 $
+# $Id: main.py 1571.develop.9 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -693,9 +693,6 @@ if __name__ == '__main__':
             save()
 
         elif event == 'Save_as':
-            # TODO: SaveAs vs 'Save to existing'
-            # if not fname -> Save_as
-            # else save in fname
             save_as()
 
         elif event == '-GRAPH-':
@@ -723,12 +720,6 @@ if __name__ == '__main__':
                 sg.popup_error("No game loaded!")
             else:
                 show_destination()
-
-        # elif event == '-SETDEST-':
-            # if not univers:
-                # sg.popup_error("No game loaded!")
-            # else:
-                # set_map_destination()
 
         elif event == '-IN-PLNT-SELECTOR-':
             name_planet = values['-IN-PLNT-SELECTOR-']
@@ -758,18 +749,6 @@ if __name__ == '__main__':
             else:
                 invoice = update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
 
-        # update color of selected row on all 3 trading tables
-        elif isinstance(event, tuple):
-            if event[0] == '-LOC-TABLE-' and event[1] == '+CLICKED+':
-                idx = values['-LOC-TABLE-']
-                update_profit_row_color(idx)
-            elif event[0] == '-PROFIT-TABLE-' and event[1] == '+CLICKED+':
-                idx = values['-PROFIT-TABLE-']
-                update_profit_row_color(idx)
-            elif event[0] == '-DEST-TABLE-' and event[1] == '+CLICKED+':
-                idx = values['-DEST-TABLE-']
-                update_profit_row_color(idx)
-
         elif event == '-BUY-CARGO-':
             buy_cargo(invoice)
 
@@ -797,6 +776,32 @@ if __name__ == '__main__':
 
         elif event == '-BUY-SHIP-':
             buy_ship(int(values['-SHIP-TABLE-'][0]))
+
+        # composed events (clicked ones)
+        elif isinstance(event, tuple):
+            # update color of selected row on all 3 trading tables
+            if event[0] == '-LOC-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-LOC-TABLE-']
+                update_profit_row_color(idx)
+            elif event[0] == '-PROFIT-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-PROFIT-TABLE-']
+                update_profit_row_color(idx)
+            elif event[0] == '-DEST-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-DEST-TABLE-']
+                update_profit_row_color(idx)
+
+            elif event[0] == '-SHIP-TABLE-' and event[1] == '+CLICKED+':
+                # event cleared after or in update_shipyard()
+                try:
+                    idx = int(values['-SHIP-TABLE-'][0])
+                except IndexError:
+                    idx = 0
+                if captain.location.shipyard:
+                    ship_price = captain.location.shipyard[idx].model['price']
+                    if ship_price <= captain.account.cash:
+                        window['-BUY-SHIP-'].update(disabled=False)
+                    else:
+                        window['-BUY-SHIP-'].update(disabled=True)
 
         elif event == 'About':
             sg.popup(f'{msg_overview}')
