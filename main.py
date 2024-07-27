@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.7 $
+# $Id: main.py 1571.develop.8 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -571,6 +571,7 @@ def update_gui():
         window['-DEST-TITLE-'].update(value='Destination:')
         update_trading(window['-DEST-TABLE-'])
         update_profit()
+        update_profit_row_color(None)
 
     window['-LOC-TITLE-'].update(value=f'Current location: {captain.location.name}')
     update_trading(window['-LOC-TABLE-'], captain.location)
@@ -628,16 +629,18 @@ def update_profit(planet=None):
         window['-PROFIT-TABLE-'].update(values=valeurs)
 
 
-def update_profit_row_color(index):
-    """ ~invert~ colors on all 3 row of trading layout
+def update_profit_row_color(selected=None):
+    """ show 'selected' colors on all 3 row of trading layout
         -LOC-TABLE-, -PROFIT-TABLE-, -DEST-TABLE-
-        default_colors = bg='white', fg='black'
-        selected_colors = COLORS['target'], 'white'
     """
-    #window['-LOC-TABLE-'].update(row_colors=((index, COLORS['target'], 'white'),))
-    window['-LOC-TABLE-'].update(select_rows=list(index))
-    window['-PROFIT-TABLE-'].update(select_rows=list(index))
-    window['-DEST-TABLE-'].update(select_rows=list(index))
+    if selected is None:
+        window['-LOC-TABLE-'].update(select_rows=None)
+        window['-PROFIT-TABLE-'].update(select_rows=None)
+        window['-DEST-TABLE-'].update(select_rows=None)
+    else:
+        window['-LOC-TABLE-'].update(select_rows=selected)
+        window['-PROFIT-TABLE-'].update(select_rows=selected)
+        window['-DEST-TABLE-'].update(select_rows=selected)
 
 
 def update_shipyard(planete):
@@ -756,12 +759,16 @@ if __name__ == '__main__':
                 invoice = update_invoice(values['-IN-GOODS-'], values['-IN-QTY-'])
 
         # update color of selected row on all 3 trading tables
-        elif event == '-LOC-TABLE-':
-            update_profit_row_color(values['-LOC-TABLE-'])
-        elif event == '-PROFIT-TABLE-':
-            update_profit_row_color(values['-PROFIT-TABLE-'])
-        elif event == '-DEST-TABLE-':
-            update_profit_row_color(values['-DEST-TABLE-'])
+        elif isinstance(event, tuple):
+            if event[0] == '-LOC-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-LOC-TABLE-']
+                update_profit_row_color(idx)
+            elif event[0] == '-PROFIT-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-PROFIT-TABLE-']
+                update_profit_row_color(idx)
+            elif event[0] == '-DEST-TABLE-' and event[1] == '+CLICKED+':
+                idx = values['-DEST-TABLE-']
+                update_profit_row_color(idx)
 
         elif event == '-BUY-CARGO-':
             buy_cargo(invoice)
