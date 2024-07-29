@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.8 $
+# $Id: TODO 1544.develop.9 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -9,11 +9,12 @@ TODO
     - update_shipyard() with progressive completion
 
 * Trading tab
-    * selecting on item should highlight the whole line(s) on "profit expectation"
+    * selecting on item should highlight the whole line(s) on "profit expectation" <- DONE, but see #13
 
 * Bank tab
     * ? credit (pour rembourser le ship) ?
     crédit = loan (+compute interests every turn)
+    loan payments every turn?
 
 * Universe as an object? <- a list is OK for now
     which turn are we? (in case of saved game)

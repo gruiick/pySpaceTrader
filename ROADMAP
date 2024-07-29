@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1550.develop.3 $
+# $Id: ROADMAP 1550.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -38,7 +38,7 @@ mostly playable:
     go from planet to planet    OK
     refueling system            OK
     refresh Trading tab         OK
-    Trading tab GUI             NOOK (but it work...)
+    Trading tab GUI/UIX        NOOK (but it work...)
 
 
 === 0.2
@@ -71,6 +71,7 @@ News tab (informations about universe, quests)
     -> but not functional, first
 
 Winning finish: you buy a private moon and retire on it.
+    need moon (and display)     <-
 
 === 0.4
 
