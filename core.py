@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.6 $
+# $Id: core.py 1565.develop.8 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -24,7 +24,7 @@
     inside_circle (ex-collision code)
 
     save game objects
-    open previously saved  objects
+    open previously saved objects
 
     some debug (CLI)
 
@@ -84,6 +84,7 @@ class Captain:
     destination: () = None
     ship: () = None
     account: () = None
+    # FIXME need a proper init(), cannot do with simple @dataclass
     # status: {'Pilot': int (random, ?/10),
     #          'Fighter': int (random, ?/10),
     #          'Trader': int (random, ?/10),
@@ -109,7 +110,7 @@ class Captain:
         return balance
 
 
-@dataclass
+# @dataclass
 class Planet:
     name: str
     x: int
@@ -118,12 +119,30 @@ class Planet:
     tech_level: int
     regim: int
     special: str
-    status: str
+    status: str = 'nopressure'
     homeworld: bool = False
     visited: bool = False
     moon: bool = False
     price_slip: {} = None
     shipyard: [] = None
+
+    def __init__(self):
+        """ initialize Planet object with random stuff """
+        dice = random.randint(0, 100)
+
+        self.name = random.choice(constants.NAMES)
+        self.x = random.randint(constants.XMIN, constants.MAXWIDTH - 1)
+        self.y = random.randint(constants.YMIN, constants.MAXHEIGHT - 1)
+        self.system_size = random.choice(list(constants.SYSTEMSIZE.keys()))
+        self.tech_level = random.choice(list(constants.TECHLEVEL.keys()))
+        self.regim = random.choice(list(constants.REGIM.keys()))
+        self.special = random.choice(list(constants.SPECIALRESOURCES.keys()))
+        self.price_slip = {}
+        self.shipyard = []
+        if dice >= 60:
+            self.status = random.choice(list(constants.STATUS.keys()))
+        if 42 <= dice <= 61:
+            self.moon = True
 
     @property
     def position(self):
@@ -135,7 +154,7 @@ class Planet:
         if self.moon:
             moon_status = "has moon(s)"
         else:
-            moon_status = "no moon(s)"
+            moon_status = "no moon"
 
         return (constants.SYSTEMSIZE[self.system_size],
                 constants.SPECIALRESOURCES[self.special],
@@ -149,6 +168,7 @@ class Planet:
 
     @property
     def ships(self):
+        """ return None or nb of ships available, for display """
         if self.shipyard is not None:
             if self.tech_level > 5:
                 return len(self.shipyard)
@@ -399,10 +419,10 @@ def create_planetes():
     planetes = {}
     for i in range(constants.MAXPLANET):
         while True:
-            planete = make_planet()
+            planete = Planet()
             # planets must not be too close to each other
             if (planete.name not in planetes and all(planete.distance(p) >= constants.MIN_DISTANCE for p in planetes.values())):
-                PriceSlip(planete)
+                PriceSlip(planete)  # attach a PriceSlip to planet object
                 planetes[planete.name] = planete
 
                 break
@@ -436,29 +456,6 @@ def create_universe():
     univers.extend(planetes)
 
     return univers
-
-
-def make_planet():
-    """ initialize a Planet()
-    return a Planet object
-    """
-    dice = random.randint(0, 100)
-    if dice < 60:
-        status = 'nopressure'
-    else:
-        status = random.choice(list(constants.STATUS.keys()))
-
-    return Planet(
-        name=random.choice(constants.NAMES),
-        x=random.randint(constants.XMIN, constants.MAXWIDTH - 1),
-        y=random.randint(constants.YMIN, constants.MAXHEIGHT - 1),
-        system_size=random.choice(list(constants.SYSTEMSIZE.keys())),
-        tech_level=random.choice(list(constants.TECHLEVEL.keys())),
-        regim=random.choice(list(constants.REGIM.keys())),
-        special=random.choice(list(constants.SPECIALRESOURCES.keys())),
-        status=status,
-        price_slip={},
-        shipyard=[])
 
 
 def populate_shipyard():
@@ -501,7 +498,6 @@ def print_universe(univers):
             pprint(truc.__dict__)
             print(f'Distance: {truc.homeworld.distance(bidule):.2f}\n')
             print(f'{truc.account.display()}')
-    pprint(univers)
 
 
 def load_file(fname):
