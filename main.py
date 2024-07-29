@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.10 $
+# $Id: main.py 1571.develop.11 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -141,6 +141,10 @@ def draw_map(rayon=None):
                 graph.draw_circle((x+3, y+3),
                               1,
                               line_color=COLORS['shipyard'])
+            if planete.moon is not False:
+                graph.draw_circle((x-3, y+3),
+                              1,
+                              line_color=COLORS['moon'])
         elif planete.visited:
             graph.draw_circle((x, y),
                               2,
@@ -150,6 +154,10 @@ def draw_map(rayon=None):
                 graph.draw_circle((x+3, y+3),
                               1,
                               line_color=COLORS['shipyard'])
+            if planete.moon is not False:
+                graph.draw_circle((x-3, y+3),
+                              1,
+                              line_color=COLORS['moon'])
         else:
             graph.draw_circle((x, y),
                               2,

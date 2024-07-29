@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1546.develop.4 $
+# $Id: constants.py 1546.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -31,6 +31,7 @@ COLORS = {'default': 'grey10',
           'limit': 'red',
           'homeworld': 'blue',
           'shipyard': 'darkblue',
+          'moon': 'yellow',
           'visited': 'green',
           'target': 'grey',
           'selected': 'brown',
