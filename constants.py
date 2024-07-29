@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1546.develop.3 $
+# $Id: constants.py 1546.develop.4 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -27,9 +27,10 @@ MAXPLANET = 120
 MIN_DISTANCE = 12
 FILENAME = 'savegame'  # we need a default filename
 
-COLORS = {'default': 'brown',
+COLORS = {'default': 'grey10',
           'limit': 'red',
           'homeworld': 'blue',
+          'shipyard': 'darkblue',
           'visited': 'green',
           'target': 'grey',
           'selected': 'brown',

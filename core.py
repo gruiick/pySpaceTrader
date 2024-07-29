@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.5 $
+# $Id: core.py 1565.develop.6 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -146,6 +146,14 @@ class Planet:
 
     def distance(self, other):
         return math.hypot((self.x - other.x), (self.y - other.y))
+
+    @property
+    def ships(self):
+        if self.shipyard is not None:
+            if self.tech_level > 5:
+                return len(self.shipyard)
+        else:
+            return None
 
 
 @dataclass
