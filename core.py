@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.8 $
+# $Id: core.py 1565.develop.9 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -340,8 +340,13 @@ class Ship:
         # default ship is always a flea
         if not modele:
             self.__type = 'flea'
+            self.gadgets = ['escapepod']
+            self.weapons = ['pulse']
         else:
             self.__type = modele
+            self.gadgets = ['escapepod']
+            self.weapons = []
+
         self.model = constants.SHIPTYPES[self.__type]
         # FIXME quick & dirty price ship
         self.model['price'] = self.model['hull'] * self.model['efficiency']
@@ -350,11 +355,10 @@ class Ship:
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
+
         # TODO/FIXME equipments management: gadgets, weapons, shields and crews
         # there should be an auto-max depending on range(self.model['gadget|shield|weapon|crew'])
-        self.gadgets = ['escapepod']
         self.shields = []
-        self.weapons = []
         self.crews = []
 
     def __getitem__(self, key):
