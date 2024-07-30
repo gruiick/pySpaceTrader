@@ -1,4 +1,4 @@
-# $Id: ROADMAP 1550.develop.4 $
+# $Id: ROADMAP 1550.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 SpaceTrader and beyond
@@ -53,12 +53,13 @@ Bank tab:
 === 0.3     <- I'm there
 
 Shipyard tab
-    new ships           <-
+    new ships
+        buy             <-          OK
+        sell
+        repair
     not-cargo pods
-        gadgets
-        weapons
-        shields
-        crew
+        gadgets, weapons, shields -> Gadgets(object)? ShipItem(object)?
+        crew -> use Captain(object)? New Class?
 
 Trading tab:
     planet.update_production()
@@ -67,15 +68,15 @@ Trading tab:
     -> planet.update_shipyard() depending on TechLevel
     -> planet.update_prices() depending on stocks and planet.status
 
-News tab (informations about universe, quests)
-    -> but not functional, first
-
 Winning finish: you buy a private moon and retire on it.
     need moon (and display)     <-
 
 === 0.4
 
 More from spacetrader/DataTypes
+
+News tab (informations about universe, quests)
+    -> but not functional, first
 
 functional quests (-> tribbles!)
 add NPJ (mercenaries, Space Police, pirates)

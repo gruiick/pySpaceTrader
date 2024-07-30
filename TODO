@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.9 $
+# $Id: TODO 1544.develop.10 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -19,7 +19,7 @@ TODO
 * Universe as an object? <- a list is OK for now
     which turn are we? (in case of saved game)
         where to save it? universe or captain?
-        why? is turn that important?
+        why? *is turn that important?*
         -> each travel is, at minimum, one turn
         -> each encounter will be at least one "sub-turn"
         -> each combat might be several "sub-turn"
@@ -32,7 +32,7 @@ TODO
     hull: progress bar on damages
     repair button (and costs?)
     fuel buttons (refill, buy, dump)                -> READY
-    show available shipyards on GalacticMap (option on/off? only on visited planets?)
+
 
 * News tab (3 frames)
     - show local news (plague, war, etc)
@@ -79,6 +79,7 @@ Done:
     show available ships, caracteristics and prices  -> OK
     buy/replace current ship                        -> OK
     transfert elements to new ship                  -> OK
+    show on GalacticMap                             -> OK
 
 * Bank tab
     * transactions log -> OK
@@ -90,13 +91,17 @@ Done:
 
 * Captain Board
     -> different from bank account (See Bank Tab)
-solde = balance (+gain, -loss)
-cash != balance
-achat = purchase, buy -> cargo qty, cargo value
-vente = sale, sell (vendre)
+    solde = balance (+gain, -loss)
+    cash != balance
+    achat = purchase, buy -> cargo qty, cargo value
+    vente = sale, sell (vendre)
+
+* Galactic Map
+    show available shipyards on GalacticMap (option on/off? <- NO
+    only on visited planets? <- YES)
+    show moon, only on visited planets
 
 * séparer la définition de l'UI de l'usage de l'UI -> gui.py / main.py
-
 
 * sGUI :
     tester PySimpleGUI  -> OK
@@ -118,7 +123,7 @@ vente = sale, sell (vendre)
 W E
  S
 
-* sauver, ouvrir : shelve OK
+* sauver, ouvrir : shelve, OK for now
 
 * si set.destination = False, next_turn = button.state='disabled'
     tkGUI, sGUI: OK
