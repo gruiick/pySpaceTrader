@@ -64,9 +64,9 @@ class Ship:
         self.pods = []  # make it a list of objects
 
     def add_item(self, item):
-        if self.capacity >= item.price:
+        if self.capacity >= 1:
             self.pods.append(item)
-            self.capacity -= item.price
+            self.capacity -= 1
         else:
             print(f"Pas assez de place pour {item}")
 
@@ -82,13 +82,13 @@ class Ship:
 
 if __name__ == "__main__":
     """ """
-    # déplacer, c'est au vaisseau de créer/remplir ses pods
-    pulse = Weapon("Pulse laser", 1, 20)
-    shield = Shield("Bouclier", 1, 15)
-    gadget = Item("autorepair", 1)
+    # déplacer, c'est au vaisseau de créer/remplir ses pods par défaut
+    pulse = Weapon("Pulse laser", 20, 20)
+    shield = Shield("Bouclier", 15, 15)
+    gadget = Item("autorepair", 50)
 
-    #ship = Ship('flea')
-    ship = Ship()
+    ship = Ship('firefly')
+    #ship = Ship()
 
     ship.add_item(pulse)
     ship.add_item(shield)
