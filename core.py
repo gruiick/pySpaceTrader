@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.9 $
+# $Id: core.py 1565.develop.10 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -77,6 +77,8 @@ class BankAccount:
 class Captain:
     """
     This is captain speaking
+        FIXME/TODO refactor with a Crew class, handling other crew members
+        keep status board (or only skills?) in the Crew class
     """
     name: str = 'Speaking'  # As in "This is Captain speaking...", got it?
     homeworld: () = None
@@ -85,15 +87,15 @@ class Captain:
     ship: () = None
     account: () = None
     # FIXME need a proper init(), cannot do with simple @dataclass
-    # status: {'Pilot': int (random, ?/10),
+    # skills: {'Pilot': int (random, ?/10),
     #          'Fighter': int (random, ?/10),
     #          'Trader': int (random, ?/10),
-    #          'Engineer': int (random, ?/10),
-    #          'Kills': int,
+    #          'Engineer': int (random, ?/10)}
+    # status: {'Kills': int,
     #          'Reputation': str,
     #          'Police Record': str,
-    #          'Difficulty': str,
-    #          'Turn': int,
+    #          'Difficulty': str,?
+    #          'Turn': int,?
     #         }
 
     @property
@@ -110,7 +112,7 @@ class Captain:
         return balance
 
 
-# @dataclass
+@dataclass
 class Planet:
     name: str
     x: int
@@ -332,6 +334,55 @@ class PriceSlip:  # pour le plaisir de mettre slip dans un nom de Class
         return int(base_price)
 
 
+class Item:
+    """ items are define in constants.EQUIPEMENTS
+    """
+    def __init__(self, name, price):
+        self.name = name # constants.EQUIPEMENTS[name] ?
+        self.price = price  # price depends on planet{PriceSlip}
+
+    def __str__(self):
+        return f"{self.name} ({self.price} Cr)"
+
+    def __repr__(self):
+        return f"{self.name}"
+
+
+class Weapon(Item):
+    def __init__(self, name, price, damage):
+        super().__init__(name, price)
+        self.damage = damage
+
+    def attack(self):
+        print(f"Attacking with {self.name} for {self.damage} points!")
+
+
+class Shield(Item):
+    def __init__(self, name, price, defense):
+        super().__init__(name, price)
+        self.defense = defense
+
+    def block(self):
+        print(f"Defending with {self.name} for {self.defense} points!")
+
+
+class Gadget(Item):
+    def __init__(self, name, price, fonction):
+        super().__init__(name, price)
+        self.fonction = fonction
+
+    def action(self):
+        print(f"Doing stuff with {self.name}...")
+
+
+class Crew(Item):
+    def __init__(self, name, price, fonction):
+        # TODO/FIXME from/same as Captain() object?
+        # price become salary, to pay each turn
+        super().__init__(name, price)
+        self.fonction = fonction
+
+
 class Ship:
     """ a ship
         simplest for now
@@ -340,26 +391,56 @@ class Ship:
         # default ship is always a flea
         if not modele:
             self.__type = 'flea'
-            self.gadgets = ['escapepod']
-            self.weapons = ['pulse']
+            # self.gadgets = ['escapepod']
+            # self.weapons = ['pulse']
         else:
             self.__type = modele
-            self.gadgets = ['escapepod']
-            self.weapons = []
+            # self.gadgets = ['escapepod']
+            # self.weapons = []
 
         self.model = constants.SHIPTYPES[self.__type]
         # FIXME quick & dirty price ship
         self.model['price'] = self.model['hull'] * self.model['efficiency']
         self.reservoir = self.model['efficiency'] * constants.MAXPARSEC
-        # pods management
+
+        # cargo pods management
         self.cargo = {}
         for i in range(self.model['cargo']):
             self.cargo.update({i: {'type': None, 'value': None}})
 
-        # TODO/FIXME equipments management: gadgets, weapons, shields and crews
-        # there should be an auto-max depending on range(self.model['gadget|shield|weapon|crew'])
+        # special pods (extra pods)
+        self.capacity_weapon = self.model['weapon']
+        self.capacity_shield = self.model['shield']
+        self.capacity_gadget = self.model['gadget']
+        self.capacity_crew = self.model['crew']
+
+        self.weapons = []
         self.shields = []
+        self.gadgets = []
         self.crews = []
+        self.xtrapods = [self.weapons, self.shields, self.gadgets, self.crews]
+
+        # by default, add equipment type using key from constants (simpliest)
+        for equipement_type in self.model.keys():
+            # print(equipement_type)
+            if equipement_type in constants.EQUIPEMENTS.keys():
+                for k, v in constants.EQUIPEMENTS[equipement_type].items():
+                    if self.model[equipement_type] == v:
+                        # print(f'adding: {k}, {v}')
+                        if equipement_type == 'weapon':
+                            if len(self.weapons) <= self.capacity_weapon:
+                                self.weapons.append(Weapon(k, v, 20))
+                        if equipement_type == 'shield':
+                            if len(self.shields) <= self.capacity_shield:
+                                self.shields.append(Shield(k, v, 20))
+                        if equipement_type == 'gadget':
+                            if len(self.gadgets) <= self.capacity_gadget:
+                                self.gadgets.append(Gadget(k, v, 'escapepod'))
+                        # by default, there's never a crew in a brand new ship
+                        # you have to find and hire them
+                        # if equipement_type == 'crew':
+                        #     if len(self.crews) <= self.capacity_crew:
+                        #         self.crews.append(Crew(k, v, 'pilote'))
 
     def __getitem__(self, key):
         """ make Ship subscriptable """
@@ -370,7 +451,7 @@ class Ship:
         self.cargo.update({idx: {'type': None, 'value': None}})
 
     def display(self):
-        """ display ship specifications for GUI
+        """ display ship specifications for SimpleGUI
         return a list of list
         """
         new_list = []
@@ -383,6 +464,28 @@ class Ship:
                 interne.extend([f'{value}'])
             new_list.append(list(interne))
         return new_list
+
+    @property
+    def capacity(self):
+        """ capacity is sum of all xtrapods (gadgets + weapons + shields + crews) """
+        return sum([self.capacity_weapon,
+                    self.capacity_shield,
+                    self.capacity_gadget,
+                    self.capacity_crew])
+
+    def add_xtrapod(self, item):
+        if isinstance(item, Weapon):
+            if len(self.weapons) < self.capacity_weapon:
+                self.weapons.append(item)
+        elif isinstance(item, Shield):
+            if len(self.shields) < self.capacity_shield:
+                self.shields.append(item)
+        elif isinstance(item, Gadget):
+            if len(self.gadgets) < self.capacity_gadget:
+                self.gadgets.append(item)
+        elif isinstance(item, Crew):
+            if len(self.crews) < self.capacity_crew:
+                self.crews.append(item)
 
 
 @dataclass
