@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: test_ship+items.py 1.develop.2 $
+# $Id: test_ship+items.py 1.develop.3 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ experimentations around Ship() and Item() """
@@ -11,11 +11,11 @@ import core
 
 
 class Item:
-    """ les items sont définit dans constants.EQUIPEMENTS
+    """ items are define in constants.EQUIPEMENTS
     """
     def __init__(self, name, price):
         self.name = name # constants.EQUIPEMENTS[name] ?
-        self.price = price  # le prix dépends de la planète (PriceSlip)
+        self.price = price  # price depends on planet{PriceSlip}
 
     def __str__(self):
         return f"{self.name} ({self.price} Cr)"
