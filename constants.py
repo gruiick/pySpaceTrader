@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: constants.py 1546.develop.5 $
+# $Id: constants.py 1546.develop.6 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -164,19 +164,20 @@ SHIPTYPES = {'escapepod': {'model': 'escapepod', 'cargo': 0, 'weapon': 0, 'shiel
              }
 
 # TODO/FIXME better to separate?
-EQUIPEMENTS = {'weapons': {'pulse': 1,
+EQUIPEMENTS = {'weapon': {'pulse': 1,
                            'beam': 2,
                            'military': 3},
-               'shields': {'energy': 1,
+               'shield': {'energy': 1,
                            'reflective': 2,
                            'lightning': 3},
-               'gadgets': {'autorepair': 1,
-                           'navigating': 1,
-                           'targeting': 1,
-                           'cloacking': 1,
-                           'escape': 1},
-               'compactor': 1,
-               'cargopod': 5}
+               'gadget': {'escapepod': 1,
+                           'navigating': 2,
+                           'targeting': 3,
+                           'cloacking': 4,
+                           'autorepair': 5,
+                           'compactor': 6,},
+               'crew': {'pod': 5}
+               }
 
 REPUTATION = ['Harmless', 'Mostly harmless', 'Poor', 'Average', 'Above average', 'Competent', 'Dangerous', 'Deadly', 'Elite']
 
