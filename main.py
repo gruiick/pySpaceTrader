@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.11 $
+# $Id: main.py 1571.develop.12 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -339,7 +339,7 @@ def refuel():
 def save():
     """ save into the previously open/selected file: fname """
     global univers, fname
-    print(f"{fname}")
+    # print(f"{fname}")
 
     if Version(python_version()) >= Version('3.9'):
         if ".db" not in fname:
@@ -354,7 +354,7 @@ def save():
 def save_as():
     """ save to a new file """
     global univers, captain, fname
-    print(f"{fname}")
+    # print(f"{fname}")
 
     try:
         fname = sg.popup_get_file('Save game to file',
