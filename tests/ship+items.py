@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: ship+items.py 1.develop.5 $
+# $Id: ship+items.py 1.develop.6 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ experimentations around Ship() and Item() """
 
-import constants
-import core
 import random
 from dataclasses import dataclass
+
+import constants
 
 
 class Item:
@@ -171,7 +171,7 @@ class Ship:
 
     @property
     def capacity(self):
-        """ capacity is sum of alld xtrapods (gadgets + weapons + shields + crews) """
+        """ capacity is sum of all xtrapods (gadgets + weapons + shields + crews) """
         return sum([self.capacity_weapon,
                     self.capacity_shield,
                     self.capacity_gadget,
@@ -181,15 +181,23 @@ class Ship:
         if isinstance(item, Weapon):
             if len(self.weapons) < self.capacity_weapon:
                 self.weapons.append(item)
+            else:
+                print(f"cannot add {item}, not enough xtrapods left.")
         elif isinstance(item, Shield):
             if len(self.shields) < self.capacity_shield:
                 self.shields.append(item)
+            else:
+                print(f"cannot add {item}, not enough xtrapods left.")
         elif isinstance(item, Gadget):
             if len(self.gadgets) < self.capacity_gadget:
                 self.gadgets.append(item)
+            else:
+                print(f"cannot add {item}, not enough xtrapods left.")
         elif isinstance(item, Crew):
             if len(self.crews) < self.capacity_crew:
                 self.crews.append(item)
+            else:
+                print(f"cannot hire {item}, not enough crew pods left.")
 
     def use_item(self, item):
         if isinstance(item, Weapon):
@@ -199,7 +207,7 @@ class Ship:
         elif isinstance(item, Gadget):
             item.action()
         else:
-            print(f"Vous ne pouvez pas utiliser un {item} de cette façon")
+            print(f"You cannot use an {item} that way")
 
     def remove_item(self, item):
         pass
@@ -227,7 +235,7 @@ if __name__ == "__main__":
     ship.add_item(gadget)
     ship.add_item(crew)
 
-    print(f"Contenu du {ship.model['model']}:")
+    print(f"Contents of {ship.model['model']}:")
     for item in ship.cargo:
         print(f'cargo; {item}')
     print(f'Capacity: {ship.capacity}')
