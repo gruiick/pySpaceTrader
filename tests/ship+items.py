@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: ship+items.py 1.develop.4 $
+# $Id: ship+items.py 1.develop.5 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ experimentations around Ship() and Item() """
@@ -52,7 +52,7 @@ class Gadget(Item):
     def action(self):
         print(f"Doing stuff with {self.name}...")
 
-@dataclass
+
 class Crew():
     def __init__(self, name, wage):
         self.name = name
@@ -74,7 +74,6 @@ class Crew():
         return f"{self.name}, {self.skills}"
 
 
-@dataclass
 class Captain(Crew):
     """
     This is captain speaking
@@ -89,11 +88,15 @@ class Captain(Crew):
         self.ship = None
         self.account = None
 
-        self.status: {'Kills': 0,
+        self.status = {'Kills': 0,
                       'Reputation': '',
                       'Police Record': None,
                       'Difficulty': None,
                       }
+
+    @property
+    def show_status(self):
+        return f"{self.name}, {self.status}"
 
     @property
     def balance(self):
@@ -162,6 +165,10 @@ class Ship:
     def __str__(self):
         return f"{self.model[model]}: ({self.cargo}), ({self.xtrapods})"
 
+    def __getitem__(self, key):
+        """ make Ship subscriptable """
+        return getattr(self, key)
+
     @property
     def capacity(self):
         """ capacity is sum of alld xtrapods (gadgets + weapons + shields + crews) """
@@ -220,13 +227,15 @@ if __name__ == "__main__":
     ship.add_item(gadget)
     ship.add_item(crew)
 
-    print(f"Contenu du cargo du {ship.model}:")
+    print(f"Contenu du {ship.model['model']}:")
     for item in ship.cargo:
         print(f'cargo; {item}')
     print(f'Capacity: {ship.capacity}')
     print(f'Pods: {ship.xtrapods}')
 
-    print(crew.show_skills)
+    print(captain.show_skills)
+    print(captain.show_status)
+    #print(captain.ship)
 
 
     # print("\nUtilisation des objets:")
