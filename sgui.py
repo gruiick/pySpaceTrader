@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.7 $
+# $Id: sgui.py 1566.develop.8 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -525,6 +525,10 @@ gadget_clmn = sg.Column([
              size=(18, 1),
              justification='left',
              relief='sunken')],
+    [sg.Text('Compactor',
+             size=(18, 1),
+             justification='left',
+             relief='sunken')],
     [sg.Text('Escape Pod',
              size=(18, 1),
              justification='left',
@@ -546,7 +550,7 @@ xtra_cargo_pods = sg.Column([
              size=(2,1),
              ),],
     ],
-    justification='left',
+    justification='right',
     # element_justification='right',
     vertical_alignment='bottom'
     )

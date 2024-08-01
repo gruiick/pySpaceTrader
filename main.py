@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.12 $
+# $Id: main.py 1571.develop.13 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -93,7 +93,7 @@ def buy_ship(idx):
         if old_ship.cargo[index]['type'] is not None:
             new_ship.cargo[index]['type'] = old_ship.cargo[index]['type']
             new_ship.cargo[index]['value'] = old_ship.cargo[index]['value']
-    # FIXME transfert gadgets properly (vice-versa)
+    # transfert gadgets properly (vice-versa)
     new_ship.gadgets = old_ship.gadgets
     # TODO transfert crew(s)
 
@@ -101,7 +101,7 @@ def buy_ship(idx):
     captain.ship = new_ship
     captain.location.shipyard[idx] = old_ship
     captain.account.cash -= invoice.total_value
-    # old ship should be selled at a second hand price
+    # TODO/FIXME old ship should be selled at a second hand price
     captain.account.log.append(invoice)
     update_cargo_board()
     update_docks_board(captain.location)

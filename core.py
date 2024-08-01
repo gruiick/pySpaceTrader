@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.10 $
+# $Id: core.py 1565.develop.11 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -73,30 +73,50 @@ class BankAccount:
         return new_list
 
 
-@dataclass
-class Captain:
+class Crew():
+    def __init__(self, name, wage):
+        self.name = name
+        self.wage = wage
+        self.skills = {'Pilot': random.randint(0, 10),
+                       'Fighter': random.randint(0, 10),
+                       'Trader': random.randint(0, 10),
+                       'Engineer': random.randint(0, 10),
+                       }
+
+    def __str__(self):
+        return f"{self.name} ({self.wage} Cr)"
+
+    def __repr__(self):
+        return f"{self.name}"
+
+    @property
+    def show_skills(self):
+        return f"{self.name}, {self.skills}"
+
+
+class Captain(Crew):
     """
     This is captain speaking
-        FIXME/TODO refactor with a Crew class, handling other crew members
-        keep status board (or only skills?) in the Crew class
     """
-    name: str = 'Speaking'  # As in "This is Captain speaking...", got it?
-    homeworld: () = None
-    location: () = None
-    destination: () = None
-    ship: () = None
-    account: () = None
-    # FIXME need a proper init(), cannot do with simple @dataclass
-    # skills: {'Pilot': int (random, ?/10),
-    #          'Fighter': int (random, ?/10),
-    #          'Trader': int (random, ?/10),
-    #          'Engineer': int (random, ?/10)}
-    # status: {'Kills': int,
-    #          'Reputation': str,
-    #          'Police Record': str,
-    #          'Difficulty': str,?
-    #          'Turn': int,?
-    #         }
+    def __init__(self):
+        self.name = 'Speaking'  # As in "This is Captain speaking...", got it?
+        super().__init__(self.name, None)
+
+        self.homeworld = None
+        self.location = None
+        self.destination = None
+        self.ship = None
+        self.account = None
+
+        self.status = {'Kills': 0,
+                      'Reputation': '',
+                      'Police Record': None,
+                      'Difficulty': None,
+                      }
+
+    @property
+    def show_status(self):
+        return f"{self.name}, {self.status}"
 
     @property
     def balance(self):
@@ -375,14 +395,6 @@ class Gadget(Item):
         print(f"Doing stuff with {self.name}...")
 
 
-class Crew(Item):
-    def __init__(self, name, price, fonction):
-        # TODO/FIXME from/same as Captain() object?
-        # price become salary, to pay each turn
-        super().__init__(name, price)
-        self.fonction = fonction
-
-
 class Ship:
     """ a ship
         simplest for now
@@ -391,12 +403,8 @@ class Ship:
         # default ship is always a flea
         if not modele:
             self.__type = 'flea'
-            # self.gadgets = ['escapepod']
-            # self.weapons = ['pulse']
         else:
             self.__type = modele
-            # self.gadgets = ['escapepod']
-            # self.weapons = []
 
         self.model = constants.SHIPTYPES[self.__type]
         # FIXME quick & dirty price ship
@@ -418,15 +426,13 @@ class Ship:
         self.shields = []
         self.gadgets = []
         self.crews = []
-        self.xtrapods = [self.weapons, self.shields, self.gadgets, self.crews]
+        self.xtrapods = [self.weapons, self.shields, self.gadgets, self.crews]  # @property?
 
         # by default, add equipment type using key from constants (simpliest)
         for equipement_type in self.model.keys():
-            # print(equipement_type)
             if equipement_type in constants.EQUIPEMENTS.keys():
                 for k, v in constants.EQUIPEMENTS[equipement_type].items():
                     if self.model[equipement_type] == v:
-                        # print(f'adding: {k}, {v}')
                         if equipement_type == 'weapon':
                             if len(self.weapons) <= self.capacity_weapon:
                                 self.weapons.append(Weapon(k, v, 20))
@@ -438,9 +444,6 @@ class Ship:
                                 self.gadgets.append(Gadget(k, v, 'escapepod'))
                         # by default, there's never a crew in a brand new ship
                         # you have to find and hire them
-                        # if equipement_type == 'crew':
-                        #     if len(self.crews) <= self.capacity_crew:
-                        #         self.crews.append(Crew(k, v, 'pilote'))
 
     def __getitem__(self, key):
         """ make Ship subscriptable """
@@ -473,7 +476,7 @@ class Ship:
                     self.capacity_gadget,
                     self.capacity_crew])
 
-    def add_xtrapod(self, item):
+    def add_item(self, item):
         if isinstance(item, Weapon):
             if len(self.weapons) < self.capacity_weapon:
                 self.weapons.append(item)
@@ -486,6 +489,15 @@ class Ship:
         elif isinstance(item, Crew):
             if len(self.crews) < self.capacity_crew:
                 self.crews.append(item)
+
+    def use_item(self, item):
+        pass
+
+    def remove_item(self, item):
+        pass
+
+    def drop_item(self, item):
+        pass
 
 
 @dataclass
