@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: ship+items.py 1.develop.6 $
+# $Id: ship+items.py 1.develop.7 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ experimentations around Ship() and Item() """
 
 import random
 from dataclasses import dataclass
+
+from pprint import pprint
 
 import constants
 
@@ -20,7 +22,7 @@ class Item:
         self.price = price  # price depends on planet{PriceSlip}
 
     def __str__(self):
-        return f"{self.name} ({self.price} Cr)"
+        return f"{self.name}"
 
     def __repr__(self):
         return f"{self.name}"
@@ -63,11 +65,15 @@ class Crew():
                        'Engineer': random.randint(0, 10),
                        }
 
-    def __str__(self):
-        return f"{self.name} ({self.wage} Cr)"
+    # def __str__(self):
+    #     return f"{self.name} ({self.wage} Cr)"
 
     def __repr__(self):
         return f"{self.name}"
+
+    def __getitem__(self, key):
+        """ make Ship subscriptable """
+        return getattr(self, key)
 
     @property
     def show_skills(self):
@@ -182,17 +188,17 @@ class Ship:
             if len(self.weapons) < self.capacity_weapon:
                 self.weapons.append(item)
             else:
-                print(f"cannot add {item}, not enough xtrapods left.")
+                print(f"cannot add {item}, not enough weapon pods left.")
         elif isinstance(item, Shield):
             if len(self.shields) < self.capacity_shield:
                 self.shields.append(item)
             else:
-                print(f"cannot add {item}, not enough xtrapods left.")
+                print(f"cannot add {item}, not enough shield pods left.")
         elif isinstance(item, Gadget):
             if len(self.gadgets) < self.capacity_gadget:
                 self.gadgets.append(item)
             else:
-                print(f"cannot add {item}, not enough xtrapods left.")
+                print(f"cannot add {item}, not enough gadget pods left.")
         elif isinstance(item, Crew):
             if len(self.crews) < self.capacity_crew:
                 self.crews.append(item)
@@ -216,14 +222,15 @@ class Ship:
         pass
 
 
+
 if __name__ == "__main__":
     """ """
-    ship = Ship('hornet')
     #ship = Ship()
+    ship = Ship('hornet')
 
-    # déplacer, c'est au vaisseau de créer/remplir ses xtrapods par défaut
-    pulse = Weapon("Pulse laser", 20, 20)
-    shield = Shield("Bouclier", 15, 15)
+    # test, buy or sell an xtrapod
+    pulse = Weapon("beam", 20, 20)
+    shield = Shield("energy", 15, 15)
     gadget = Gadget("autorepair", 50, 'autorepair')
     crew = Crew('nemo', 500)
 
@@ -232,21 +239,35 @@ if __name__ == "__main__":
 
     ship.add_item(pulse)
     ship.add_item(shield)
+    ship.remove_item(shield)  # pass, for now
     ship.add_item(gadget)
     ship.add_item(crew)
 
+    print("\nShip & Captain:")
     print(f"Contents of {ship.model['model']}:")
     for item in ship.cargo:
         print(f'cargo; {item}')
     print(f'Capacity: {ship.capacity}')
     print(f'Pods: {ship.xtrapods}')
 
+    pprint(captain)
     print(captain.show_skills)
+    print(f"Pilot: {captain.skills['Pilot']}")
     print(captain.show_status)
-    #print(captain.ship)
+    print(captain.ship['xtrapods'])
+    print(captain.ship.weapons)
 
 
-    # print("\nUtilisation des objets:")
-    # ship.use_item(pulse)
+    print("\nUse of items:")
+    for item in captain.ship.weapons:
+        print(f"{item}, {captain.ship.weapons.index(item)}")
+        captain.ship.use_item(captain.ship.weapons[captain.ship.weapons.index(item)])
+
+    # if (x for x in captain.ship.weapons if isinstance(Weapon, x)):
+    #     captain.ship.use_item(captain.ship.weapons)
+
+    for item in captain.ship.shields:
+        captain.ship.use_item(captain.ship.shields[captain.ship.shields.index(item)])
     # ship.use_item(shield)
     # ship.use_item(gadget)
+
