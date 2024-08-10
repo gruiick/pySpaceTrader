@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: core.py 1565.develop.11 $
+# $Id: core.py 1565.develop.12 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
@@ -480,18 +480,33 @@ class Ship:
         if isinstance(item, Weapon):
             if len(self.weapons) < self.capacity_weapon:
                 self.weapons.append(item)
+            else:
+                print(f"cannot add {item}, not enough weapon pods left.")
         elif isinstance(item, Shield):
             if len(self.shields) < self.capacity_shield:
                 self.shields.append(item)
+            else:
+                print(f"cannot add {item}, not enough shield pods left.")
         elif isinstance(item, Gadget):
             if len(self.gadgets) < self.capacity_gadget:
                 self.gadgets.append(item)
+            else:
+                print(f"cannot add {item}, not enough gadget pods left.")
         elif isinstance(item, Crew):
             if len(self.crews) < self.capacity_crew:
                 self.crews.append(item)
+            else:
+                print(f"cannot hire {item}, not enough crew pods left.")
 
     def use_item(self, item):
-        pass
+        if isinstance(item, Weapon):
+            item.attack()
+        elif isinstance(item, Shield):
+            item.block()
+        elif isinstance(item, Gadget):
+            item.action()
+        else:
+            print(f"You cannot use an {item} that way")
 
     def remove_item(self, item):
         pass

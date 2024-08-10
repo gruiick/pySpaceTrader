@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: ship+items.py 1.develop.7 $
+# $Id: ship+items.py 1.develop.8 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ experimentations around Ship() and Item() """
@@ -72,7 +72,7 @@ class Crew():
         return f"{self.name}"
 
     def __getitem__(self, key):
-        """ make Ship subscriptable """
+        """ make subscriptable """
         return getattr(self, key)
 
     @property
