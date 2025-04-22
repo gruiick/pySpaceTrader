@@ -1,4 +1,4 @@
-# $Id: TODO 1544.develop.10 $
+# $Id: TODO 1544.develop.11 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 ====
@@ -67,6 +67,9 @@ Later:
     * buy a moon -> "victory!"
 
     * tribbles will reproduce a lot, filling empty cargo pod, eating (emptying) food, medecine, narcotics, even furs, if there is nothing else. They are a plague. The only ways to get rid of it are to sell the ship, or destroy it in a space fight.
+    * as well as merchants/pirates/police (within turns interactions), there should be minefield around some planets (hi-tech at war, for examples)
+    * when running out of fuel (shit happens), Engine scoop 0,5T / turn
+        * short range map, circle = fuel capacity, full speed ?
 
 
 Done:
