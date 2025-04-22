@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: main.py 1571.develop.13 $
+# $Id: main.py 1571.develop.14 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
-même GUI que tk_mockup02, mais avec PySimpleGUI
+même GUI que tk_mockup02, mais avec SimpleGUI
 python3 >= 3.7
 
 """
 
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 
 import constants
 import core

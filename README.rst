@@ -5,7 +5,7 @@ python3 SpaceTrader
 .. meta::
     :date: 2018-12-19
     :status: work in progress
-    :version: $Id: README.rst 1552.develop.6 $
+    :version: $Id: README.rst 1552.develop.7 $
     :licence: SPDX-License-Identifier: BSD-2-Clause
 
 
@@ -45,8 +45,8 @@ I try to use as less additionnal python3 modules as possible, but you will need 
 
 .. code-block:: python
 
-    PySimpleGUI-4-foss>=4.41.2
-    python3 -m pip install PySimpleGUI-4-foss
+    FreeSimpleGUI>=5.2.0
+    python3 -m pip install FreeSimpleGUI
 
 
 You may also need to install Tkinter:

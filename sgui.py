@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # coding: utf-8
 #
-# $Id: sgui.py 1566.develop.8 $
+# $Id: sgui.py 1566.develop.9 $
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
-PySimpleGUI layout for pySpaceTrader
+SimpleGUI layout for pySpaceTrader
 """
 
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 
 import constants
 
